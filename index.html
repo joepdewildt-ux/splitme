@@ -111,7 +111,7 @@ input.simple-input::placeholder { color: var(--text3); }
 .btn-full { width: 100%; }
 .btn:active { transform: scale(0.98); opacity: 0.85; }
 .btn-primary { background: var(--accent); color: #fff; transition: background 0.1s; }
-.btn-primary:active { background: #172F0B !important; transform: none !important; opacity: 1 !important; }
+.btn-primary:active { background: #172F0B; }
 .btn-secondary { background: var(--bg3); color: var(--text); }
 .btn:disabled { opacity: 0.35; pointer-events: none; }
 .btn-spinner { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
@@ -137,7 +137,7 @@ input.simple-input::placeholder { color: var(--text3); }
 .page-title { font-size: 24px; line-height: 36px; font-weight: 700; color: var(--accent); }
 
 /* ── HOME ── */
-#screen-home { height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+#screen-home { height: 100vh; overflow: hidden; }
 .home-scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: 120px; }
 .rekening-list { display: flex; flex-direction: column; gap: 12px; padding: 12px var(--px) 0; max-width: var(--max-w); margin: 0 auto; }
 
@@ -220,7 +220,7 @@ input.simple-input::placeholder { color: var(--text3); }
 .upload-delete { position: absolute; top: 8px; right: 8px; width: 36px; height: 36px; background: rgba(0,0,0,0.5); border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
 /* ── REKENING CONTROLEREN ── */
-#screen-controleren { height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+#screen-controleren { height: 100vh; overflow: hidden; }
 .controleren-topbar { padding: 44px var(--px) 0; background: var(--bg); position: sticky; top: 0; z-index: 10; }
 .controleren-topbar-inner { max-width: var(--max-w); margin: 0 auto; display: flex; align-items: center; }
 .controleren-scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: 100px; }
@@ -256,7 +256,7 @@ input.simple-input::placeholder { color: var(--text3); }
 .controleer-fab:disabled { opacity: 0.35; pointer-events: none; }
 
 /* ── DETAIL ── */
-#screen-detail { height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+#screen-detail { height: 100vh; overflow: hidden; }
 .detail-topbar { padding: 44px var(--px) 0; background: var(--bg); position: sticky; top: 0; z-index: 10; }
 .detail-topbar-inner { max-width: var(--max-w); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
 .detail-topbar-actions { display: flex; gap: 8px; }
@@ -288,7 +288,7 @@ input.simple-input::placeholder { color: var(--text3); }
   cursor: pointer; transition: opacity 0.12s;
   box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 }
-.item-row:active { background: #D2D2D2; opacity: 1; }
+.item-row:active { background: #D2D2D2; }
 .item-row.geselecteerd { background: var(--accent-light); }
 .item-row.van-ander { opacity: 0.4; pointer-events: none; }
 .item-info { flex: 1; min-width: 0; overflow: hidden; }
@@ -1036,7 +1036,11 @@ function slaSettingOp() {
 }
 
 document.querySelectorAll('.sheet-overlay').forEach(overlay => {
-  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('open'); });
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) {
+      overlay.classList.remove('open');
+    }
+  });
 });
 
 init();
