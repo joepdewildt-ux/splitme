@@ -42,7 +42,7 @@ body {
 }
 
 #app { min-height: 100vh; }
-.screen { display: none; flex-direction: column; min-height: 100vh; }
+.screen { display: none; flex-direction: column; height: 100vh; overflow: hidden; position: fixed; width: 100%; max-width: var(--max-w); left: 50%; transform: translateX(-50%); }
 .screen.active { display: flex; }
 
 /* ── TYPOGRAPHY ── */
