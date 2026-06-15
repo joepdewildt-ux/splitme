@@ -41,8 +41,8 @@ body {
   overflow-x: hidden;
 }
 
-#app { min-height: 100vh; }
-.screen { display: none; flex-direction: column; height: 100vh; overflow: hidden; position: fixed; width: 100%; max-width: var(--max-w); left: 50%; transform: translateX(-50%); }
+#app { height: 100vh; overflow: hidden; max-width: var(--max-w); margin: 0 auto; }
+.screen { display: none; flex-direction: column; height: 100vh; overflow: hidden; }
 .screen.active { display: flex; }
 
 /* ── TYPOGRAPHY ── */
@@ -110,7 +110,8 @@ input.simple-input::placeholder { color: var(--text3); }
 }
 .btn-full { width: 100%; }
 .btn:active { transform: scale(0.98); opacity: 0.85; }
-.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary { background: var(--accent); color: #fff; transition: background 0.1s; }
+.btn-primary:active { background: #172F0B !important; transform: none !important; opacity: 1 !important; }
 .btn-secondary { background: var(--bg3); color: var(--text); }
 .btn:disabled { opacity: 0.35; pointer-events: none; }
 .btn-spinner { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
@@ -119,9 +120,10 @@ input.simple-input::placeholder { color: var(--text3); }
 .icon-btn {
   width: 44px; height: 44px; background: var(--bg2); border-radius: 50%; border: none;
   display: flex; align-items: center; justify-content: center; cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.10), 0 1px 3px rgba(0,0,0,0.08);
-  flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.05);
+  flex-shrink: 0; transition: background 0.1s;
 }
+.icon-btn:active { background: #D2D2D2; }
 .icon-btn svg { width: 28px; height: 28px; }
 
 /* ── TOPBAR ── */
@@ -243,15 +245,14 @@ input.simple-input::placeholder { color: var(--text3); }
 .split-icon-btn svg { width: 22px; height: 22px; }
 
 .controleer-fab {
-  position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
   height: 48px; padding: 0 24px;
   background: var(--accent); border-radius: 100px; border: none;
   font-size: 16px; font-weight: 700; font-family: 'Public Sans', sans-serif;
-  color: #fff; cursor: pointer; box-shadow: 0 4px 16px rgba(44,76,27,0.3);
+  color: #fff; cursor: pointer; box-shadow: 0 2px 10px rgba(44,76,27,0.22), 0 1px 4px rgba(0,0,0,0.10);
   display: flex; align-items: center; justify-content: center;
-  white-space: nowrap; z-index: 50; transition: transform 0.15s;
+  white-space: nowrap; transition: background 0.1s, transform 0.1s;
 }
-.controleer-fab:active { transform: translateX(-50%) scale(0.97); }
+.controleer-fab:active { background: #172F0B; transform: scale(0.97); }
 .controleer-fab:disabled { opacity: 0.35; pointer-events: none; }
 
 /* ── DETAIL ── */
@@ -287,7 +288,7 @@ input.simple-input::placeholder { color: var(--text3); }
   cursor: pointer; transition: opacity 0.12s;
   box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 }
-.item-row:active { opacity: 0.75; }
+.item-row:active { background: #D2D2D2; opacity: 1; }
 .item-row.geselecteerd { background: var(--accent-light); }
 .item-row.van-ander { opacity: 0.4; pointer-events: none; }
 .item-info { flex: 1; min-width: 0; overflow: hidden; }
@@ -380,9 +381,9 @@ input.simple-input::placeholder { color: var(--text3); }
   <div class="home-scroll" id="home-scroll">
     <div id="home-content"><div class="loading-state"><div class="spinner"></div></div></div>
   </div>
-  <button class="fab" onclick="openUpload()">
+  <div class="fab-wrap" style="display:flex;justify-content:center;padding:16px 0 40px;flex-shrink:0;"><button class="fab" onclick="openUpload()">
     <svg viewBox="0 0 24 24" fill="none"><path d="M10.9374 13.0626L6.4552 13.0626C6.17 13.0626 5.92 12.95 5.70 12.73C5.48 12.52 5.37 12.26 5.37 11.98C5.37 11.70 5.48 11.45 5.70 11.23C5.92 11.01 6.17 10.90 6.46 10.90L10.94 10.90L10.92 6.44C10.92 6.15 11.03 5.90 11.25 5.68C11.47 5.46 11.72 5.35 12 5.35C12.28 5.35 12.53 5.46 12.75 5.68C12.97 5.90 13.08 6.15 13.08 6.44L13.08 10.92L17.54 10.90C17.83 10.90 18.08 11.01 18.30 11.23C18.52 11.45 18.63 11.70 18.63 11.98C18.63 12.29 18.52 12.55 18.31 12.76C18.10 12.98 17.84 13.08 17.54 13.06L13.08 13.04L13.08 17.53C13.08 17.81 12.97 18.06 12.75 18.28C12.53 18.50 12.28 18.61 12 18.61C11.69 18.61 11.43 18.50 11.22 18.29C11.01 18.08 10.91 17.82 10.92 17.53L10.9374 13.0626Z" fill="white"/></svg>
-  </button>
+  </button></div>
 </div>
 
 <!-- SETTINGS -->
@@ -416,7 +417,7 @@ input.simple-input::placeholder { color: var(--text3); }
   <div class="controleren-scroll">
     <div class="controleer-list" id="controleer-list"></div>
   </div>
-  <button class="controleer-fab" id="maak-rekening-btn" onclick="maakRekening()">Rekening maken</button>
+  <div style="display:flex;justify-content:center;padding:16px 0 40px;flex-shrink:0;"><button class="controleer-fab" id="maak-rekening-btn" onclick="maakRekening()">Rekening maken</button></div>
 </div>
 
 <!-- DETAIL -->
