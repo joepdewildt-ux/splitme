@@ -53,12 +53,9 @@ body {
 /* ── INPUTS ── */
 input[type="text"], input[type="number"], input[type="url"] {
   width: 100%; padding: 12px 16px;
-  background: var(--bg3);
-  border: 1px solid var(--border2);
-  border-radius: var(--radius-sm);
+  background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--radius-sm);
   color: var(--text); font-size: 16px; line-height: 24px;
-  font-family: 'Poppins', sans-serif;
-  outline: none; transition: border-color 0.15s;
+  font-family: 'Poppins', sans-serif; outline: none; transition: border-color 0.15s;
   -webkit-appearance: none; height: 48px;
 }
 input:focus { border-color: rgba(255,255,255,0.35); }
@@ -70,8 +67,7 @@ input:disabled { opacity: 0.4; }
 
 /* ── BUTTONS ── */
 .btn {
-  height: 48px; padding: 0 16px;
-  border-radius: 100px; border: none;
+  height: 48px; padding: 0 16px; border-radius: 100px; border: none;
   font-size: 16px; font-weight: 600; font-family: 'Poppins', sans-serif;
   cursor: pointer; transition: opacity 0.15s, transform 0.1s;
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
@@ -84,26 +80,20 @@ input:disabled { opacity: 0.4; }
 .btn-spinner { width: 18px; height: 18px; border: 2px solid rgba(0,0,0,0.25); border-top-color: var(--bg); border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
 
 /* ── TOPBAR ── */
-.topbar {
-  padding: 52px var(--px) 16px;
-  position: sticky; top: 0; background: var(--bg); z-index: 10;
-}
-.topbar-inner {
-  max-width: var(--max-w); width: 100%; margin: 0 auto;
-  display: flex; align-items: center; justify-content: space-between;
-}
+.topbar { padding: 44px var(--px) 12px; position: sticky; top: 0; background: var(--bg); z-index: 10; }
+.topbar-inner { max-width: var(--max-w); width: 100%; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
 .topbar-logo { font-size: 20px; font-weight: 700; }
 .topbar-title { font-size: 20px; font-weight: 700; line-height: 32px; }
-
 .icon-btn {
-  width: 40px; height: 40px; background: var(--bg3);
-  border: 1px solid var(--border); border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px; background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
   cursor: pointer; flex-shrink: 0;
 }
 .back-btn {
-  width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
-  cursor: pointer; background: none; border: none; padding: 0; flex-shrink: 0;
+  width: 40px; height: 40px; background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; flex-shrink: 0; padding: 0;
+  background: var(--bg3); border: none;
 }
 .topbar-actions { display: flex; gap: 8px; }
 
@@ -140,7 +130,6 @@ input:disabled { opacity: 0.4; }
   align-items: center; justify-content: center;
   gap: 8px; padding: 60px 32px; text-align: center;
 }
-.empty-icon { font-size: 40px; opacity: 0.15; margin-bottom: 4px; }
 .empty-title { font-size: 16px; font-weight: 600; color: var(--text2); }
 .empty-sub { font-size: 14px; color: var(--text3); line-height: 22px; }
 
@@ -158,9 +147,9 @@ input:disabled { opacity: 0.4; }
   animation: slideUp 0.28s cubic-bezier(0.32,0.72,0,1);
 }
 @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-.sheet-handle { width: 36px; height: 4px; background: var(--bg4); border-radius: 2px; margin: 12px auto 20px; }
+.sheet-handle { width: 36px; height: 4px; background: var(--bg4); border-radius: 2px; margin: 12px auto 16px; }
 .sheet-header {
-  padding: 0 var(--px) 16px; border-bottom: 1px solid var(--border); margin-bottom: 20px;
+  padding: 0 var(--px) 12px;
   display: flex; align-items: center; justify-content: space-between;
 }
 .sheet-title { font-size: 20px; font-weight: 700; line-height: 32px; }
@@ -169,90 +158,86 @@ input:disabled { opacity: 0.4; }
   display: flex; align-items: center; justify-content: center; cursor: pointer;
 }
 .sheet-body { padding: 0 var(--px); display: flex; flex-direction: column; gap: 14px; }
+.sheet-body-text { font-size: 14px; color: var(--text2); line-height: 22px; margin-top: 4px; }
 .field-hint { font-size: 12px; color: var(--text3); margin-top: 6px; line-height: 18px; }
 
 /* UPLOAD */
 .upload-area {
   background: var(--bg3); border: 1.5px dashed var(--border2); border-radius: var(--radius-sm);
-  padding: 28px 20px; text-align: center; cursor: pointer;
-  transition: border-color 0.15s;
+  padding: 28px 20px; text-align: center; cursor: pointer; transition: border-color 0.15s;
 }
 .upload-area:active { border-color: rgba(255,255,255,0.35); }
 .upload-icon { font-size: 28px; margin-bottom: 8px; opacity: 0.35; }
 .upload-text { font-size: 14px; color: var(--text2); }
 .upload-preview { position: relative; background: var(--bg3); border-radius: var(--radius-sm); overflow: hidden; min-height: 100px; display: flex; align-items: center; justify-content: center; }
 .upload-preview img { max-width: 100%; max-height: 160px; object-fit: contain; display: block; }
-.upload-delete {
-  position: absolute; top: 8px; right: 8px;
-  width: 32px; height: 32px; background: rgba(0,0,0,0.6); border: none; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center; cursor: pointer;
-}
+.upload-delete { position: absolute; top: 8px; right: 8px; width: 32px; height: 32px; background: rgba(0,0,0,0.6); border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
 /* ── REKENING CONTROLEREN ── */
 #screen-controleren { padding-bottom: 100px; }
-.controleer-list { display: flex; flex-direction: column; gap: 8px; padding: 12px var(--px) 0; max-width: var(--max-w); margin: 0 auto; }
+.controleer-list { display: flex; flex-direction: column; gap: 8px; padding: 8px var(--px) 0; max-width: var(--max-w); margin: 0 auto; }
 .controleer-item {
   background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-sm);
   padding: 14px 16px; display: flex; align-items: center; gap: 12px;
 }
-.controleer-item-naam { font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; min-width: 0; }
+.controleer-item-left { flex: 1; min-width: 0; }
+.controleer-item-naam { font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.controleer-item-sub { font-size: 12px; color: var(--text3); margin-top: 0px; }
 .controleer-item-right { text-align: right; flex-shrink: 0; }
 .controleer-item-prijs { font-size: 15px; font-weight: 600; }
-.controleer-item-sub { font-size: 12px; color: var(--text3); margin-top: 2px; }
+.controleer-item-pp { font-size: 12px; color: var(--text3); margin-top: 0px; }
 .split-btn {
   width: 36px; height: 36px; flex-shrink: 0;
   background: var(--bg3); border: 1px solid var(--border2); border-radius: 10px;
-  cursor: pointer; display: flex; align-items: center; justify-content: center;
-  transition: all 0.15s;
+  cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s;
 }
 .split-btn.active { background: var(--text); border-color: var(--text); }
-.split-btn.active svg path { fill: var(--bg); }
 
 .controleer-fab {
   position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
   height: 48px; padding: 0 24px;
   background: var(--text); border-radius: 100px; border: none;
   font-size: 16px; font-weight: 600; font-family: 'Poppins', sans-serif;
-  color: var(--bg); cursor: pointer;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  color: var(--bg); cursor: pointer; box-shadow: 0 4px 20px rgba(0,0,0,0.4);
   display: flex; align-items: center; justify-content: center;
-  white-space: nowrap; z-index: 50;
-  transition: transform 0.15s;
+  white-space: nowrap; z-index: 50; transition: transform 0.15s;
 }
 .controleer-fab:active { transform: translateX(-50%) scale(0.97); }
 .controleer-fab:disabled { opacity: 0.35; pointer-events: none; }
 
 /* ── DETAIL ── */
-#screen-detail { padding-bottom: 0; }
-.detail-header { padding: 8px var(--px) 0; max-width: var(--max-w); margin: 0 auto; }
-.detail-naam { font-size: 20px; font-weight: 700; line-height: 32px; }
-.detail-meta { font-size: 14px; color: var(--text2); margin-top: 4px; }
+#screen-detail { padding-bottom: 0; display: flex; flex-direction: column; }
+.detail-topbar { padding: 44px var(--px) 12px; position: sticky; top: 0; background: var(--bg); z-index: 10; }
+.detail-topbar-inner { max-width: var(--max-w); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+.detail-topbar-actions { display: flex; gap: 8px; }
 
-/* SEGMENTED */
-.segmented-wrap { padding: 16px var(--px) 0; max-width: var(--max-w); margin: 0 auto; }
+.detail-header { padding: 0 var(--px) 0; max-width: var(--max-w); width: 100%; margin: 0 auto; }
+.detail-naam { font-size: 20px; font-weight: 700; line-height: 32px; }
+.detail-meta { font-size: 14px; color: var(--text2); margin-top: 2px; }
+
+.segmented-wrap { padding: 12px var(--px) 0; max-width: var(--max-w); width: 100%; margin: 0 auto; }
 .segmented { display: flex; background: var(--bg3); border-radius: 100px; padding: 3px; width: 100%; }
 .seg-btn {
   flex: 1; width: 50%; padding: 8px 0; border-radius: 100px; border: none;
   font-size: 14px; font-weight: 500; font-family: 'Poppins', sans-serif;
-  cursor: pointer; color: var(--text2); background: transparent; transition: all 0.2s;
-  text-align: center;
+  cursor: pointer; color: var(--text2); background: transparent; transition: all 0.2s; text-align: center;
 }
 .seg-btn.active { background: var(--bg); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.3); }
 
 /* ITEMS */
-.items-list { padding: 12px var(--px) 0; max-width: var(--max-w); margin: 0 auto; display: flex; flex-direction: column; gap: 8px; }
+.items-scroll { flex: 1; overflow-y: auto; }
+.items-list { padding: 12px var(--px) 16px; max-width: var(--max-w); width: 100%; margin: 0 auto; display: flex; flex-direction: column; gap: 8px; }
 .item-row {
   background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-sm);
   padding: 14px 16px; display: flex; align-items: center; gap: 12px;
-  cursor: pointer; transition: background 0.12s;
+  cursor: pointer; transition: background 0.12s; width: 100%;
 }
 .item-row:active { background: var(--bg3); }
 .item-row.geselecteerd { background: var(--bg3); border-color: var(--border2); }
 .item-row.van-ander { opacity: 0.4; pointer-events: none; }
 .item-info { flex: 1; min-width: 0; overflow: hidden; }
 .item-naam { font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.item-persoon { font-size: 12px; color: var(--text3); margin-top: 3px; }
-.item-split-info { font-size: 12px; color: var(--text3); margin-top: 2px; }
+.item-persoon { font-size: 12px; color: var(--text3); margin-top: 0; }
 .item-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
 .item-bedrag { font-size: 15px; font-weight: 600; }
 .item-check {
@@ -263,16 +248,19 @@ input:disabled { opacity: 0.4; }
 .item-check-icon { display: none; }
 .item-row.geselecteerd .item-check-icon { display: block; }
 
-/* FOOI STICKY */
+/* FOOI STICKY - always at bottom */
 .fooi-sticky {
-  position: sticky; bottom: 0; background: var(--bg);
-  border-top: 1px solid var(--border); padding: 16px var(--px) 40px; z-index: 20;
+  background: var(--bg); border-top: 1px solid var(--border);
+  border-radius: 24px 24px 0 0;
+  padding: 16px var(--px) 40px; z-index: 20;
+  flex-shrink: 0;
 }
-.fooi-sticky-inner { max-width: var(--max-w); margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
-.fooi-row { display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: var(--text2); }
-.fooi-totaal { display: flex; justify-content: space-between; align-items: baseline; }
+.fooi-sticky-inner { max-width: var(--max-w); margin: 0 auto; display: flex; flex-direction: column; gap: 0; }
+.fooi-totaal-row { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 0; }
 .fooi-totaal-label { font-size: 16px; font-weight: 600; }
 .fooi-totaal-bedrag { font-size: 20px; font-weight: 700; }
+.fooi-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--text2); margin-top: 0; padding: 0; }
+.fooi-betaal-btn { margin-top: 12px; }
 
 /* SETTINGS */
 #screen-settings { padding-bottom: 40px; }
@@ -286,13 +274,12 @@ input:disabled { opacity: 0.4; }
 .settings-row:only-child { border-radius: var(--radius-sm); }
 .settings-key { font-size: 15px; }
 .settings-val { font-size: 14px; color: var(--text3); max-width: 55%; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.section-title { font-size: 12px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.8px; padding: 20px var(--px) 8px; max-width: var(--max-w); margin: 0 auto; display: block; }
+.section-title { font-size: 12px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.8px; padding: 16px var(--px) 8px; max-width: var(--max-w); margin: 0 auto; display: block; }
 
 /* UTILS */
 .spinner { width: 24px; height: 24px; border: 2px solid var(--border2); border-top-color: var(--text); border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .loading-state { padding: 48px 20px; text-align: center; }
-
 .toast {
   position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
   background: var(--bg3); border: 1px solid var(--border2);
@@ -305,11 +292,10 @@ input:disabled { opacity: 0.4; }
   15% { opacity:1; transform:translateX(-50%) translateY(0); }
   75% { opacity:1; } 100% { opacity:0; }
 }
-
 #camera-input { display: none; }
 
-/* SVG icons inherit current color */
-.icon-btn svg, .back-btn svg { display: block; }
+/* SVG icon helpers */
+.icon-svg-white path { fill: white; }
 </style>
 </head>
 <body>
@@ -334,13 +320,13 @@ input:disabled { opacity: 0.4; }
     <div class="topbar-inner">
       <div class="topbar-logo">SplitMe</div>
       <div class="icon-btn" onclick="switchScreen('settings')">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19.99 19.99C19.99 16.35 17.56 13.29 14.24 12.32C15.57 11.55 16.48 10.12 16.48 8.45999C16.48 5.98999 14.48 3.98999 12.01 3.98999C9.54002 3.98999 7.54002 5.98999 7.54002 8.45999C7.54002 10.11 8.45002 11.54 9.78002 12.31C6.45002 13.28 4.02002 16.34 4.02002 19.98H5.58002V19.63C5.58002 17.75 6.47002 16.09 7.85002 15.02C8.98002 14.07 10.43 13.49 12.01 13.49C13.59 13.49 15.02 14.06 16.14 14.99C17.24 15.83 18.03 17.05 18.31 18.45C18.31 18.45 18.31 18.47 18.31 18.48C18.38 18.84 18.42 19.22 18.42 19.6V19.98H19.99V19.99ZM12.01 5.49999C13.65 5.49999 14.98 6.82999 14.98 8.46999C14.98 10.11 13.65 11.44 12.01 11.44C10.37 11.44 9.04002 10.11 9.04002 8.46999C9.04002 6.82999 10.37 5.49999 12.01 5.49999Z" fill="white"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M19.99 19.99C19.99 16.35 17.56 13.29 14.24 12.32C15.57 11.55 16.48 10.12 16.48 8.46C16.48 5.99 14.48 3.99 12.01 3.99C9.54 3.99 7.54 5.99 7.54 8.46C7.54 10.11 8.45 11.54 9.78 12.31C6.45 13.28 4.02 16.34 4.02 19.98H5.58V19.63C5.58 17.75 6.47 16.09 7.85 15.02C8.98 14.07 10.43 13.49 12.01 13.49C13.59 13.49 15.02 14.06 16.14 14.99C17.24 15.83 18.03 17.05 18.31 18.45C18.38 18.84 18.42 19.22 18.42 19.6V19.98H19.99V19.99ZM12.01 5.5C13.65 5.5 14.98 6.83 14.98 8.47C14.98 10.11 13.65 11.44 12.01 11.44C10.37 11.44 9.04 10.11 9.04 8.47C9.04 6.83 10.37 5.5 12.01 5.5Z" fill="white"/></svg>
       </div>
     </div>
   </div>
   <div id="home-content"><div class="loading-state"><div class="spinner"></div></div></div>
   <button class="fab" onclick="openUpload()">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.9374 13.0626L6.4552 13.0626C6.17184 13.0626 5.92068 12.9531 5.70173 12.7341C5.48277 12.5152 5.37329 12.264 5.37329 11.9807C5.37329 11.6973 5.48277 11.4462 5.70173 11.2272C5.92068 11.0082 6.17184 10.8988 6.4552 10.8988L10.9374 10.8988L10.9181 6.43587C10.9181 6.15252 11.0276 5.90136 11.2465 5.6824C11.4655 5.46344 11.7166 5.35396 12 5.35396C12.2834 5.35396 12.5345 5.46344 12.7535 5.6824C12.9724 5.90136 13.0819 6.15252 13.0819 6.43587L13.0819 10.9181L17.5448 10.8988C17.8282 10.8988 18.0793 11.0082 18.2983 11.2272C18.5172 11.4462 18.6267 11.6973 18.6267 11.9807C18.6267 12.2898 18.5205 12.5506 18.3079 12.7631C18.0954 12.9756 17.841 13.0755 17.5448 13.0626L13.0819 13.0433L13.0819 17.5255C13.0819 17.8088 12.9724 18.06 12.7535 18.2789C12.5345 18.4979 12.2834 18.6074 12 18.6074C11.6909 18.6074 11.4301 18.5011 11.2175 18.2886C11.005 18.0761 10.9052 17.8217 10.9181 17.5255L10.9374 13.0626Z" fill="#222222"/></svg>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M10.9374 13.0626L6.4552 13.0626C6.17184 13.0626 5.92068 12.9531 5.70173 12.7341C5.48277 12.5152 5.37329 12.264 5.37329 11.9807C5.37329 11.6973 5.48277 11.4462 5.70173 11.2272C5.92068 11.0082 6.17184 10.8988 6.4552 10.8988L10.9374 10.8988L10.9181 6.43587C10.9181 6.15252 11.0276 5.90136 11.2465 5.6824C11.4655 5.46344 11.7166 5.35396 12 5.35396C12.2834 5.35396 12.5345 5.46344 12.7535 5.6824C12.9724 5.90136 13.0819 6.15252 13.0819 6.43587L13.0819 10.9181L17.5448 10.8988C17.8282 10.8988 18.0793 11.0082 18.2983 11.2272C18.5172 11.4462 18.6267 11.6973 18.6267 11.9807C18.6267 12.2898 18.5205 12.5506 18.3079 12.7631C18.0954 12.9756 17.841 13.0755 17.5448 13.0626L13.0819 13.0433L13.0819 17.5255C13.0819 17.8088 12.9724 18.06 12.7535 18.2789C12.5345 18.4979 12.2834 18.6074 12 18.6074C11.6909 18.6074 11.4301 18.5011 11.2175 18.2886C11.005 18.0761 10.9052 17.8217 10.9181 17.5255L10.9374 13.0626Z" fill="#222222"/></svg>
   </button>
 </div>
 
@@ -348,8 +334,8 @@ input:disabled { opacity: 0.4; }
 <div class="screen" id="screen-settings">
   <div class="topbar">
     <div class="topbar-inner">
-      <button class="back-btn" onclick="switchScreen('home')">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21.475 11.725H4.66495L11.355 5.00501L10.295 3.94501L3.02495 11.245C2.34495 11.925 2.34495 13.035 3.02495 13.725L10.295 21.005L11.355 19.945L4.65495 13.225H21.485V11.725H21.475Z" fill="white"/></svg>
+      <button class="back-btn icon-btn" onclick="switchScreen('home')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M21.475 11.725H4.665L11.355 5.005L10.295 3.945L3.025 11.245C2.345 11.925 2.345 13.035 3.025 13.725L10.295 21.005L11.355 19.945L4.655 13.225H21.485V11.725H21.475Z" fill="white"/></svg>
       </button>
       <span class="topbar-title">Instellingen</span>
       <div style="width:40px;"></div>
@@ -357,14 +343,8 @@ input:disabled { opacity: 0.4; }
   </div>
   <span class="section-title">Profiel</span>
   <div class="settings-list">
-    <div class="settings-row" onclick="editSetting('naam')">
-      <span class="settings-key">Naam</span>
-      <span class="settings-val" id="settings-naam-val">—</span>
-    </div>
-    <div class="settings-row" onclick="editSetting('iban')">
-      <span class="settings-key">IBAN</span>
-      <span class="settings-val" id="settings-iban-val">Toevoegen</span>
-    </div>
+    <div class="settings-row" onclick="editSetting('naam')"><span class="settings-key">Naam</span><span class="settings-val" id="settings-naam-val">—</span></div>
+    <div class="settings-row" onclick="editSetting('iban')"><span class="settings-key">IBAN</span><span class="settings-val" id="settings-iban-val">Toevoegen</span></div>
   </div>
 </div>
 
@@ -372,8 +352,8 @@ input:disabled { opacity: 0.4; }
 <div class="screen" id="screen-controleren">
   <div class="topbar">
     <div class="topbar-inner">
-      <button class="back-btn" onclick="switchScreen('home'); resetUpload();">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21.475 11.725H4.66495L11.355 5.00501L10.295 3.94501L3.02495 11.245C2.34495 11.925 2.34495 13.035 3.02495 13.725L10.295 21.005L11.355 19.945L4.65495 13.225H21.485V11.725H21.475Z" fill="white"/></svg>
+      <button class="back-btn icon-btn" onclick="switchScreen('home'); resetUpload();">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M21.475 11.725H4.665L11.355 5.005L10.295 3.945L3.025 11.245C2.345 11.925 2.345 13.035 3.025 13.725L10.295 21.005L11.355 19.945L4.655 13.225H21.485V11.725H21.475Z" fill="white"/></svg>
       </button>
       <span class="topbar-title">Rekening controleren</span>
       <div style="width:40px;"></div>
@@ -385,22 +365,22 @@ input:disabled { opacity: 0.4; }
 
 <!-- DETAIL -->
 <div class="screen" id="screen-detail">
-  <div class="topbar">
-    <div class="topbar-inner">
-      <button class="back-btn" onclick="goHome()">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21.475 11.725H4.66495L11.355 5.00501L10.295 3.94501L3.02495 11.245C2.34495 11.925 2.34495 13.035 3.02495 13.725L10.295 21.005L11.355 19.945L4.65495 13.225H21.485V11.725H21.475Z" fill="white"/></svg>
+  <div class="detail-topbar">
+    <div class="detail-topbar-inner">
+      <button class="back-btn icon-btn" onclick="goHome()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M21.475 11.725H4.665L11.355 5.005L10.295 3.945L3.025 11.245C2.345 11.925 2.345 13.035 3.025 13.725L10.295 21.005L11.355 19.945L4.655 13.225H21.485V11.725H21.475Z" fill="white"/></svg>
       </button>
-      <div class="topbar-actions">
+      <div class="detail-topbar-actions">
         <div class="icon-btn" onclick="deelHuidigeRekening()">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 15C17.1 15 16.3 15.41 15.75 16.04L8.93 12.63C8.97 12.43 9 12.22 9 12C9 11.78 8.98 11.58 8.93 11.37L15.75 7.96C16.3 8.59 17.1 9 18 9C19.66 9 21 7.66 21 6C21 4.34 19.66 3 18 3C16.34 3 15 4.34 15 6C15 6.22 15.02 6.42 15.07 6.63L8.25 10.04C7.7 9.41 6.9 9 6 9C4.34 9 3 10.34 3 12C3 13.66 4.34 15 6 15C6.9 15 7.7 14.59 8.25 13.96L15.07 17.37C15.03 17.57 15 17.78 15 18C15 19.66 16.34 21 18 21C19.66 21 21 19.66 21 18C21 16.34 19.66 15 18 15Z" fill="white"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M18 15C17.1 15 16.3 15.41 15.75 16.04L8.93 12.63C8.97 12.43 9 12.22 9 12C9 11.78 8.98 11.58 8.93 11.37L15.75 7.96C16.3 8.59 17.1 9 18 9C19.66 9 21 7.66 21 6C21 4.34 19.66 3 18 3C16.34 3 15 4.34 15 6C15 6.22 15.02 6.42 15.07 6.63L8.25 10.04C7.7 9.41 6.9 9 6 9C4.34 9 3 10.34 3 12C3 13.66 4.34 15 6 15C6.9 15 7.7 14.59 8.25 13.96L15.07 17.37C15.03 17.57 15 17.78 15 18C15 19.66 16.34 21 18 21C19.66 21 21 19.66 21 18C21 16.34 19.66 15 18 15Z" fill="white"/></svg>
         </div>
-        <div class="icon-btn" id="verwijder-btn" onclick="verwijderRekening()">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.777 11.5135H11.2333V18.3243H12.777V11.5135Z" fill="white"/><path d="M15.9057 11.5135H14.3516L13.693 18.3243H15.247L15.9057 11.5135Z" fill="white"/><path d="M10.3173 18.3243L9.65866 11.5135H8.11492L8.76329 18.3243H10.3173Z" fill="white"/><path d="M19.7238 5.91892H15.3499V4.21622C15.3499 3.54486 14.7736 3 14.0635 3H9.94683C9.23671 3 8.66038 3.54486 8.66038 4.21622V5.91892H4.28645C3.57633 5.91892 3 6.46378 3 7.13514V9.08108C3 9.75243 3.57633 10.2973 4.28645 10.2973H4.65695L5.85077 19.9103C5.92281 20.533 6.54031 21 7.2813 21H16.7187C17.4597 21 18.0669 20.533 18.1492 19.9103L19.3431 10.2973H19.7136C20.4237 10.2973 21 9.75243 21 9.08108V7.13514C21 6.46378 20.4237 5.91892 19.7136 5.91892H19.7238ZM10.2041 4.45946H13.8062V5.91892H10.2041V4.45946ZM16.6467 19.5405H7.36364L6.21098 10.2973H17.789L16.6364 19.5405H16.6467ZM19.4666 8.83784H4.54374V7.37838H19.4666V8.83784Z" fill="white"/></svg>
+        <div class="icon-btn" onclick="verwijderRekening()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12.777 11.5135H11.2333V18.3243H12.777V11.5135Z" fill="white"/><path d="M15.9057 11.5135H14.3516L13.693 18.3243H15.247L15.9057 11.5135Z" fill="white"/><path d="M10.3173 18.3243L9.65866 11.5135H8.11492L8.76329 18.3243H10.3173Z" fill="white"/><path d="M19.7238 5.91892H15.3499V4.21622C15.3499 3.54486 14.7736 3 14.0635 3H9.94683C9.23671 3 8.66038 3.54486 8.66038 4.21622V5.91892H4.28645C3.57633 5.91892 3 6.46378 3 7.13514V9.08108C3 9.75243 3.57633 10.2973 4.28645 10.2973H4.65695L5.85077 19.9103C5.92281 20.533 6.54031 21 7.2813 21H16.7187C17.4597 21 18.0669 20.533 18.1492 19.9103L19.3431 10.2973H19.7136C20.4237 10.2973 21 9.75243 21 9.08108V7.13514C21 6.46378 20.4237 5.91892 19.7136 5.91892H19.7238ZM10.2041 4.45946H13.8062V5.91892H10.2041V4.45946ZM16.6467 19.5405H7.36364L6.21098 10.2973H17.789L16.6364 19.5405H16.6467ZM19.4666 8.83784H4.54374V7.37838H19.4666V8.83784Z" fill="white"/></svg>
         </div>
       </div>
     </div>
   </div>
-  <div class="detail-header">
+  <div class="detail-header" style="padding-bottom: 0;">
     <div class="detail-naam" id="detail-naam">—</div>
     <div class="detail-meta" id="detail-meta">—</div>
   </div>
@@ -410,18 +390,22 @@ input:disabled { opacity: 0.4; }
       <button class="seg-btn" onclick="switchSeg('mijn')" id="seg-mijn">Mijn lijst</button>
     </div>
   </div>
-  <div class="items-list" id="items-list" style="padding-bottom:16px;"></div>
-  <div class="fooi-sticky" id="fooi-sticky">
+  <div class="items-scroll">
+    <div class="items-list" id="items-list"></div>
+  </div>
+  <div class="fooi-sticky">
     <div class="fooi-sticky-inner">
-      <div class="fooi-row"><span>Fooi</span><span id="fooi-bedrag">—</span></div>
-      <div class="fooi-totaal">
-        <div>
-          <div class="fooi-totaal-label" id="fooi-totaal-label">Jouw totaal</div>
-          <div style="font-size:12px; color:var(--text3);" id="fooi-items-count"></div>
-        </div>
+      <div class="fooi-totaal-row">
+        <div class="fooi-totaal-label" id="fooi-totaal-label">Jouw totaal</div>
         <div class="fooi-totaal-bedrag" id="fooi-totaal-bedrag">€ 0,00</div>
       </div>
-      <button class="btn btn-primary btn-full" id="betaal-btn" onclick="betalen()" style="display:none;">Betalen</button>
+      <div class="fooi-row">
+        <span id="fooi-label-left">+ fooi</span>
+        <span id="fooi-bedrag">—</span>
+      </div>
+      <div class="fooi-betaal-btn">
+        <button class="btn btn-primary btn-full" id="betaal-btn" onclick="betalen()" style="display:none;">Betalen</button>
+      </div>
     </div>
   </div>
 </div>
@@ -435,7 +419,7 @@ input:disabled { opacity: 0.4; }
     <div class="sheet-header">
       <div class="sheet-title">Rekening toevoegen</div>
       <button class="sheet-close" onclick="closeSheet('upload-sheet')">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 13.5027L8.8306 16.6721C8.63024 16.8725 8.37523 16.9727 8.06557 16.9727C7.75592 16.9727 7.50091 16.8725 7.30055 16.6721C7.10018 16.4718 7 16.2168 7 15.9071C7 15.5975 7.10018 15.3424 7.30055 15.1421L10.4699 11.9727L7.30055 8.8306C7.10018 8.63024 7 8.37523 7 8.06557C7 7.75592 7.10018 7.50091 7.30055 7.30055C7.50091 7.10018 7.75592 7 8.06557 7C8.37523 7 8.63024 7.10018 8.8306 7.30055L12 10.4699L15.1421 7.30055C15.3424 7.10018 15.5975 7 15.9071 7C16.2168 7 16.4718 7.10018 16.6721 7.30055C16.8907 7.51913 17 7.77869 17 8.07923C17 8.37978 16.8907 8.63024 16.6721 8.8306L13.5027 11.9727L16.6721 15.1421C16.8725 15.3424 16.9727 15.5975 16.9727 15.9071C16.9727 16.2168 16.8725 16.4718 16.6721 16.6721C16.4536 16.8907 16.194 17 15.8934 17C15.5929 17 15.3424 16.8907 15.1421 16.6721L12 13.5027Z" fill="white"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 13.5027L8.8306 16.6721C8.63024 16.8725 8.37523 16.9727 8.06557 16.9727C7.75592 16.9727 7.50091 16.8725 7.30055 16.6721C7.10018 16.4718 7 16.2168 7 15.9071C7 15.5975 7.10018 15.3424 7.30055 15.1421L10.4699 11.9727L7.30055 8.8306C7.10018 8.63024 7 8.37523 7 8.06557C7 7.75592 7.10018 7.50091 7.30055 7.30055C7.50091 7.10018 7.75592 7 8.06557 7C8.37523 7 8.63024 7.10018 8.8306 7.30055L12 10.4699L15.1421 7.30055C15.3424 7.10018 15.5975 7 15.9071 7C16.2168 7 16.4718 7.10018 16.6721 7.30055C16.8907 7.51913 17 7.77869 17 8.07923C17 8.37978 16.8907 8.63024 16.6721 8.8306L13.5027 11.9727L16.6721 15.1421C16.8725 15.3424 16.9727 15.5975 16.9727 15.9071C16.9727 16.2168 16.8725 16.4718 16.6721 16.6721C16.4536 16.8907 16.194 17 15.8934 17C15.5929 17 15.3424 16.8907 15.1421 16.6721L12 13.5027Z" fill="white"/></svg>
       </button>
     </div>
     <div class="sheet-body">
@@ -454,7 +438,7 @@ input:disabled { opacity: 0.4; }
         <input type="url" id="upload-betaallink" placeholder="Betaallink" autocomplete="off">
         <div class="field-hint">Voeg een betaallink toe zodat iedereen die direct vanuit hier kan betalen</div>
       </div>
-      <button class="btn btn-primary btn-full" id="scan-btn" onclick="scanBon()" disabled>Bon scannen</button>
+      <button class="btn btn-primary btn-full" id="scan-btn" onclick="scanBon()" disabled>Rekening toevoegen</button>
     </div>
     <div style="height:20px;"></div>
   </div>
@@ -467,11 +451,11 @@ input:disabled { opacity: 0.4; }
     <div class="sheet-header">
       <div class="sheet-title" id="split-titel">Item splitsen</div>
       <button class="sheet-close" onclick="closeSheet('split-sheet')">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 13.5027L8.8306 16.6721C8.63024 16.8725 8.37523 16.9727 8.06557 16.9727C7.75592 16.9727 7.50091 16.8725 7.30055 16.6721C7.10018 16.4718 7 16.2168 7 15.9071C7 15.5975 7.10018 15.3424 7.30055 15.1421L10.4699 11.9727L7.30055 8.8306C7.10018 8.63024 7 8.37523 7 8.06557C7 7.75592 7.10018 7.50091 7.30055 7.30055C7.50091 7.10018 7.75592 7 8.06557 7C8.37523 7 8.63024 7.10018 8.8306 7.30055L12 10.4699L15.1421 7.30055C15.3424 7.10018 15.5975 7 15.9071 7C16.2168 7 16.4718 7.10018 16.6721 7.30055C16.8907 7.51913 17 7.77869 17 8.07923C17 8.37978 16.8907 8.63024 16.6721 8.8306L13.5027 11.9727L16.6721 15.1421C16.8725 15.3424 16.9727 15.5975 16.9727 15.9071C16.9727 16.2168 16.8725 16.4718 16.6721 16.6721C16.4536 16.8907 16.194 17 15.8934 17C15.5929 17 15.3424 16.8907 15.1421 16.6721L12 13.5027Z" fill="white"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 13.5027L8.8306 16.6721C8.63024 16.8725 8.37523 16.9727 8.06557 16.9727C7.75592 16.9727 7.50091 16.8725 7.30055 16.6721C7.10018 16.4718 7 16.2168 7 15.9071C7 15.5975 7.10018 15.3424 7.30055 15.1421L10.4699 11.9727L7.30055 8.8306C7.10018 8.63024 7 8.37523 7 8.06557C7 7.75592 7.10018 7.50091 7.30055 7.30055C7.50091 7.10018 7.75592 7 8.06557 7C8.37523 7 8.63024 7.10018 8.8306 7.30055L12 10.4699L15.1421 7.30055C15.3424 7.10018 15.5975 7 15.9071 7C16.2168 7 16.4718 7.10018 16.6721 7.30055C16.8907 7.51913 17 7.77869 17 8.07923C17 8.37978 16.8907 8.63024 16.6721 8.8306L13.5027 11.9727L16.6721 15.1421C16.8725 15.3424 16.9727 15.5975 16.9727 15.9071C16.9727 16.2168 16.8725 16.4718 16.6721 16.6721C16.4536 16.8907 16.194 17 15.8934 17C15.5929 17 15.3424 16.8907 15.1421 16.6721L12 13.5027Z" fill="white"/></svg>
       </button>
     </div>
     <div class="sheet-body">
-      <div style="font-size:14px; color:var(--text2); line-height:22px;" id="split-omschrijving"></div>
+      <div class="sheet-body-text" id="split-omschrijving"></div>
       <input type="number" id="split-input" placeholder="Aantal personen" inputmode="numeric" pattern="[0-9]*" min="1" max="50">
       <button class="btn btn-primary btn-full" onclick="bevestigSplit()">Opslaan</button>
     </div>
@@ -486,7 +470,7 @@ input:disabled { opacity: 0.4; }
     <div class="sheet-header">
       <div class="sheet-title" id="settings-sheet-title">Bewerken</div>
       <button class="sheet-close" onclick="closeSheet('settings-sheet')">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 13.5027L8.8306 16.6721C8.63024 16.8725 8.37523 16.9727 8.06557 16.9727C7.75592 16.9727 7.50091 16.8725 7.30055 16.6721C7.10018 16.4718 7 16.2168 7 15.9071C7 15.5975 7.10018 15.3424 7.30055 15.1421L10.4699 11.9727L7.30055 8.8306C7.10018 8.63024 7 8.37523 7 8.06557C7 7.75592 7.10018 7.50091 7.30055 7.30055C7.50091 7.10018 7.75592 7 8.06557 7C8.37523 7 8.63024 7.10018 8.8306 7.30055L12 10.4699L15.1421 7.30055C15.3424 7.10018 15.5975 7 15.9071 7C16.2168 7 16.4718 7.10018 16.6721 7.30055C16.8907 7.51913 17 7.77869 17 8.07923C17 8.37978 16.8907 8.63024 16.6721 8.8306L13.5027 11.9727L16.6721 15.1421C16.8725 15.3424 16.9727 15.5975 16.9727 15.9071C16.9727 16.2168 16.8725 16.4718 16.6721 16.6721C16.4536 16.8907 16.194 17 15.8934 17C15.5929 17 15.3424 16.8907 15.1421 16.6721L12 13.5027Z" fill="white"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 13.5027L8.8306 16.6721C8.63024 16.8725 8.37523 16.9727 8.06557 16.9727C7.75592 16.9727 7.50091 16.8725 7.30055 16.6721C7.10018 16.4718 7 16.2168 7 15.9071C7 15.5975 7.10018 15.3424 7.30055 15.1421L10.4699 11.9727L7.30055 8.8306C7.10018 8.63024 7 8.37523 7 8.06557C7 7.75592 7.10018 7.50091 7.30055 7.30055C7.50091 7.10018 7.75592 7 8.06557 7C8.37523 7 8.63024 7.10018 8.8306 7.30055L12 10.4699L15.1421 7.30055C15.3424 7.10018 15.5975 7 15.9071 7C16.2168 7 16.4718 7.10018 16.6721 7.30055C16.8907 7.51913 17 7.77869 17 8.07923C17 8.37978 16.8907 8.63024 16.6721 8.8306L13.5027 11.9727L16.6721 15.1421C16.8725 15.3424 16.9727 15.5975 16.9727 15.9071C16.9727 16.2168 16.8725 16.4718 16.6721 16.6721C16.4536 16.8907 16.194 17 15.8934 17C15.5929 17 15.3424 16.8907 15.1421 16.6721L12 13.5027Z" fill="white"/></svg>
       </button>
     </div>
     <div class="sheet-body">
@@ -553,11 +537,7 @@ let scanData = null;
 let huidigSeg = 'heel';
 let verborgenIds = JSON.parse(localStorage.getItem('sm_hidden') || '[]');
 
-function genId() {
-  const id = 'u_' + Math.random().toString(36).substr(2,9);
-  localStorage.setItem('sm_id', id);
-  return id;
-}
+function genId() { const id = 'u_' + Math.random().toString(36).substr(2,9); localStorage.setItem('sm_id', id); return id; }
 function genShareId() { return Math.random().toString(36).substr(2,8).toUpperCase(); }
 function fmt(n) { return '€ ' + parseFloat(n||0).toFixed(2).replace('.',','); }
 function fmtDatum(d) {
@@ -571,10 +551,8 @@ function escHtml(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 function toast(msg) {
-  const el = document.createElement('div');
-  el.className = 'toast'; el.textContent = msg;
-  document.body.appendChild(el);
-  setTimeout(() => el.remove(), 2600);
+  const el = document.createElement('div'); el.className = 'toast'; el.textContent = msg;
+  document.body.appendChild(el); setTimeout(() => el.remove(), 2600);
 }
 function switchScreen(name) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -590,22 +568,15 @@ function init() {
     if (joinId) localStorage.setItem('sm_pending_join', joinId);
     return;
   }
-  switchScreen('home');
-  updateSettingsDisplay();
-  laadHome();
-  if (joinId) {
-    joinRekening(joinId);
-    history.replaceState({}, '', window.location.pathname);
-  }
+  switchScreen('home'); updateSettingsDisplay(); laadHome();
+  if (joinId) { joinRekening(joinId); history.replaceState({}, '', window.location.pathname); }
 }
 
 async function slaaNaamOp() {
   const val = document.getElementById('naam-input').value.trim();
   if (!val) return toast('Vul een naam in');
-  gebruikerNaam = val;
-  localStorage.setItem('sm_naam', val);
-  switchScreen('home');
-  updateSettingsDisplay();
+  gebruikerNaam = val; localStorage.setItem('sm_naam', val);
+  switchScreen('home'); updateSettingsDisplay();
   const pending = localStorage.getItem('sm_pending_join');
   if (pending) { localStorage.removeItem('sm_pending_join'); await joinRekening(pending); }
   laadHome();
@@ -632,14 +603,14 @@ async function laadHome() {
     ].filter(r => !verborgenIds.includes(r.id));
 
     if (!alle.length) {
-      el.innerHTML = `<div class="empty-state"><div class="empty-icon">🧾</div><div class="empty-title">Geen openstaande rekeningen</div><div class="empty-sub">Voeg een bon toe via de + knop</div></div>`;
+      el.innerHTML = `<div class="empty-state"><div class="empty-title">Geen openstaande rekeningen</div><div class="empty-sub">Voeg een bon toe via de + knop</div></div>`;
       return;
     }
     let html = '<div class="rekening-list">';
     for (const r of alle) {
       const items = await sb.query('items', { select: 'prijs,geselecteerd_door,split_van', eq: { rekening_id: r.id } });
       const totaal = items.reduce ? items.reduce((s,i) => s + parseFloat(i.prijs||0), 0) : 0;
-      const mijnTotaal = items.filter ? items.filter(i => i.geselecteerd_door === gebruikerId).reduce((s,i) => s + parseFloat(i.prijs||0)/(i.split_van||1), 0) : 0;
+      const mijnTotaal = items.filter ? items.filter(i => i.geselecteerd_door === gebruikerId).reduce((s,i) => s + parseFloat(i.prijs||0), 0) : 0;
       const emoji = EMOJIS[Math.abs((r.id.charCodeAt(0)||0) + (r.id.charCodeAt(1)||0)) % EMOJIS.length];
       html += `<div class="rekening-card" onclick="openRekening('${r.id}')">
         <div class="rekening-emoji">${emoji}</div>
@@ -666,34 +637,25 @@ function goHome() {
   switchScreen('home'); laadHome();
 }
 
-// ── UPLOAD ──
-function openUpload() {
-  resetUpload();
-  document.getElementById('upload-sheet').classList.add('open');
-}
+function openUpload() { resetUpload(); document.getElementById('upload-sheet').classList.add('open'); }
 
 function resetUpload() {
   huidigeFotoBase64 = null;
-  document.getElementById('upload-naam').value = '';
-  document.getElementById('upload-deelnemers').value = '';
-  document.getElementById('upload-betaallink').value = '';
-  const btn = document.getElementById('scan-btn');
-  btn.disabled = true; btn.innerHTML = 'Bon scannen';
-  document.getElementById('upload-naam').disabled = false;
-  document.getElementById('upload-deelnemers').disabled = false;
-  document.getElementById('upload-betaallink').disabled = false;
+  ['upload-naam','upload-deelnemers','upload-betaallink'].forEach(id => {
+    const el = document.getElementById(id); el.value = ''; el.disabled = false;
+  });
+  const btn = document.getElementById('scan-btn'); btn.disabled = true; btn.innerHTML = 'Rekening toevoegen';
   document.getElementById('upload-area-wrap').innerHTML = `<div class="upload-area" onclick="document.getElementById('camera-input').click()"><div class="upload-icon">📷</div><div class="upload-text">Foto maken of toevoegen</div></div>`;
   document.getElementById('camera-input').value = '';
 }
 
 function fotoGekozen(event) {
-  const file = event.target.files[0];
-  if (!file) return;
+  const file = event.target.files[0]; if (!file) return;
   huidigeFotoType = file.type || 'image/jpeg';
   const reader = new FileReader();
   reader.onload = e => {
     huidigeFotoBase64 = e.target.result.split(',')[1];
-    document.getElementById('upload-area-wrap').innerHTML = `<div class="upload-preview"><img src="${e.target.result}"><button class="upload-delete" onclick="resetFoto()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.777 11.5135H11.2333V18.3243H12.777V11.5135Z" fill="white"/><path d="M15.9057 11.5135H14.3516L13.693 18.3243H15.247L15.9057 11.5135Z" fill="white"/><path d="M10.3173 18.3243L9.65866 11.5135H8.11492L8.76329 18.3243H10.3173Z" fill="white"/><path d="M19.7238 5.91892H15.3499V4.21622C15.3499 3.54486 14.7736 3 14.0635 3H9.94683C9.23671 3 8.66038 3.54486 8.66038 4.21622V5.91892H4.28645C3.57633 5.91892 3 6.46378 3 7.13514V9.08108C3 9.75243 3.57633 10.2973 4.28645 10.2973H4.65695L5.85077 19.9103C5.92281 20.533 6.54031 21 7.2813 21H16.7187C17.4597 21 18.0669 20.533 18.1492 19.9103L19.3431 10.2973H19.7136C20.4237 10.2973 21 9.75243 21 9.08108V7.13514C21 6.46378 20.4237 5.91892 19.7136 5.91892H19.7238ZM10.2041 4.45946H13.8062V5.91892H10.2041V4.45946ZM16.6467 19.5405H7.36364L6.21098 10.2973H17.789L16.6364 19.5405H16.6467ZM19.4666 8.83784H4.54374V7.37838H19.4666V8.83784Z" fill="white"/></svg></button></div>`;
+    document.getElementById('upload-area-wrap').innerHTML = `<div class="upload-preview"><img src="${e.target.result}"><button class="upload-delete" onclick="resetFoto()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12.777 11.5135H11.2333V18.3243H12.777V11.5135Z" fill="white"/><path d="M15.9057 11.5135H14.3516L13.693 18.3243H15.247L15.9057 11.5135Z" fill="white"/><path d="M10.3173 18.3243L9.65866 11.5135H8.11492L8.76329 18.3243H10.3173Z" fill="white"/><path d="M19.7238 5.91892H15.3499V4.21622C15.3499 3.54486 14.7736 3 14.0635 3H9.94683C9.23671 3 8.66038 3.54486 8.66038 4.21622V5.91892H4.28645C3.57633 5.91892 3 6.46378 3 7.13514V9.08108C3 9.75243 3.57633 10.2973 4.28645 10.2973H4.65695L5.85077 19.9103C5.92281 20.533 6.54031 21 7.2813 21H16.7187C17.4597 21 18.0669 20.533 18.1492 19.9103L19.3431 10.2973H19.7136C20.4237 10.2973 21 9.75243 21 9.08108V7.13514C21 6.46378 20.4237 5.91892 19.7136 5.91892H19.7238ZM10.2041 4.45946H13.8062V5.91892H10.2041V4.45946ZM16.6467 19.5405H7.36364L6.21098 10.2973H17.789L16.6364 19.5405H16.6467ZM19.4666 8.83784H4.54374V7.37838H19.4666V8.83784Z" fill="white"/></svg></button></div>`;
     document.getElementById('scan-btn').disabled = false;
   };
   reader.readAsDataURL(file);
@@ -712,16 +674,12 @@ async function scanBon() {
   const deelnemers = parseInt(document.getElementById('upload-deelnemers').value) || 2;
   const betaallink = document.getElementById('upload-betaallink').value.trim();
   const btn = document.getElementById('scan-btn');
-  btn.disabled = true;
-  btn.innerHTML = '<div class="btn-spinner"></div>';
-  document.getElementById('upload-naam').disabled = true;
-  document.getElementById('upload-deelnemers').disabled = true;
-  document.getElementById('upload-betaallink').disabled = true;
+  btn.disabled = true; btn.innerHTML = '<div class="btn-spinner"></div>';
+  ['upload-naam','upload-deelnemers','upload-betaallink'].forEach(id => document.getElementById(id).disabled = true);
 
   try {
     const response = await fetch('/.netlify/functions/scan-bon', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ imageBase64: huidigeFotoBase64, mediaType: huidigeFotoType })
     });
     const data = await response.json();
@@ -733,19 +691,15 @@ async function scanBon() {
     toonControleren(parsed);
   } catch(e) {
     toast('Kon de bon niet lezen: ' + e.message);
-    btn.disabled = false; btn.innerHTML = 'Bon scannen';
-    document.getElementById('upload-naam').disabled = false;
-    document.getElementById('upload-deelnemers').disabled = false;
-    document.getElementById('upload-betaallink').disabled = false;
+    btn.disabled = false; btn.innerHTML = 'Rekening toevoegen';
+    ['upload-naam','upload-deelnemers','upload-betaallink'].forEach(id => document.getElementById(id).disabled = false);
   }
 }
 
 function toonControleren(parsed) {
   controleerItems = parsed.items.map((item, i) => ({
-    id: 'ci_' + i,
-    naam: item.naam,
-    prijs: item.prijs * (item.aantal || 1),
-    split_van: 1
+    id: 'ci_' + i, naam: item.naam,
+    prijs: item.prijs * (item.aantal || 1), split_van: 1
   }));
   renderControleren();
   switchScreen('controleren');
@@ -758,13 +712,16 @@ function renderControleren() {
     const perPersoon = item.prijs / item.split_van;
     const isGesplitst = item.split_van > 1;
     html += `<div class="controleer-item">
-      <div class="controleer-item-naam">${escHtml(item.naam)}</div>
+      <div class="controleer-item-left">
+        <div class="controleer-item-naam">${escHtml(item.naam)}</div>
+        ${isGesplitst ? `<div class="controleer-item-sub">Delen door ${item.split_van}</div>` : ''}
+      </div>
       <div class="controleer-item-right">
         <div class="controleer-item-prijs">${fmt(item.prijs)}</div>
-        ${isGesplitst ? `<div class="controleer-item-sub">${fmt(perPersoon)} p.p. · ÷${item.split_van}</div>` : ''}
+        ${isGesplitst ? `<div class="controleer-item-pp">${fmt(perPersoon)} p.p.</div>` : ''}
       </div>
       <button class="split-btn ${isGesplitst ? 'active' : ''}" onclick="openSplit('${item.id}')">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21.7661 5.57735L18.4327 2.24399C18.2765 2.08776 18.0645 2 17.8436 2C17.6226 2 17.4107 2.08776 17.2544 2.24399L13.9211 5.57735C13.8415 5.65423 13.778 5.74618 13.7343 5.84785C13.6906 5.94952 13.6677 6.05887 13.6667 6.16953C13.6657 6.28018 13.6868 6.38991 13.7287 6.49232C13.7706 6.59474 13.8325 6.68778 13.9107 6.76603C13.989 6.84427 14.082 6.90615 14.1844 6.94805C14.2869 6.98995 14.3966 7.01104 14.5072 7.01008C14.6179 7.00911 14.7272 6.98613 14.8289 6.94245C14.9306 6.89878 15.0225 6.83529 15.0994 6.7557L17.0102 4.84485V8.11904C17.0112 8.4476 16.9469 8.77308 16.8212 9.07663C16.6955 9.38017 16.5107 9.65575 16.2777 9.88739L12.0102 14.1549L7.74274 9.88739C7.50988 9.65564 7.32526 9.38004 7.19953 9.07652C7.07381 8.773 7.00947 8.44757 7.01024 8.11904V4.84485L8.92107 6.7557C9.07824 6.9075 9.28874 6.99149 9.50724 6.98959C9.72574 6.9877 9.93475 6.90005 10.0893 6.74555C10.2438 6.59104 10.3314 6.38203 10.3333 6.16353C10.3352 5.94503 10.2512 5.73452 10.0994 5.57735L6.76607 2.24399C6.6098 2.08776 6.39788 2 6.17691 2C5.95594 2 5.74401 2.08776 5.58774 2.24399L2.25441 5.57735C2.17482 5.65423 2.11133 5.74618 2.06766 5.84785C2.02398 5.94952 2.00099 6.05887 2.00003 6.16953C1.99907 6.28018 2.02015 6.38991 2.06206 6.49232C2.10396 6.59474 2.16583 6.68778 2.24408 6.76603C2.32232 6.84427 2.41536 6.90615 2.51778 6.94805C2.62019 6.98995 2.72993 7.01104 2.84057 7.01008C2.95122 7.00911 3.06057 6.98613 3.16224 6.94245C3.26391 6.89878 3.35587 6.83529 3.43274 6.7557L5.34357 4.84485V8.11904C5.34216 8.66653 5.44934 9.20886 5.65889 9.71465C5.86845 10.2204 6.17622 10.6797 6.56441 11.0657L11.1769 15.6783V21.1667C11.1769 21.3877 11.2647 21.5996 11.421 21.7559C11.5773 21.9122 11.7892 22 12.0102 22C12.2313 22 12.4432 21.9122 12.5995 21.7559C12.7558 21.5996 12.8436 21.3877 12.8436 21.1667V15.6783L17.4561 11.0657C17.8443 10.6797 18.152 10.2204 18.3616 9.71465C18.5711 9.20886 18.6783 8.66653 18.6769 8.11904V4.84485L20.5877 6.7557C20.7449 6.9075 20.9554 6.99149 21.1739 6.98959C21.3924 6.9877 21.6014 6.90005 21.7559 6.74555C21.9104 6.59104 21.9981 6.38203 22 6.16353C22.0019 5.94503 21.9179 5.73452 21.7661 5.57735Z" fill="${isGesplitst ? '#0a0a0a' : 'white'}"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21.7661 5.57735L18.4327 2.24399C18.2765 2.08776 18.0645 2 17.8436 2C17.6226 2 17.4107 2.08776 17.2544 2.24399L13.9211 5.57735C13.8415 5.65423 13.778 5.74618 13.7343 5.84785C13.6906 5.94952 13.6677 6.05887 13.6667 6.16953C13.6657 6.28018 13.6868 6.38991 13.7287 6.49232C13.7706 6.59474 13.8325 6.68778 13.9107 6.76603C13.989 6.84427 14.082 6.90615 14.1844 6.94805C14.2869 6.98995 14.3966 7.01104 14.5072 7.01008C14.6179 7.00911 14.7272 6.98613 14.8289 6.94245C14.9306 6.89878 15.0225 6.83529 15.0994 6.7557L17.0102 4.84485V8.11904C17.0112 8.4476 16.9469 8.77308 16.8212 9.07663C16.6955 9.38017 16.5107 9.65575 16.2777 9.88739L12.0102 14.1549L7.74274 9.88739C7.50988 9.65564 7.32526 9.38004 7.19953 9.07652C7.07381 8.773 7.00947 8.44757 7.01024 8.11904V4.84485L8.92107 6.7557C9.07824 6.9075 9.28874 6.99149 9.50724 6.98959C9.72574 6.9877 9.93475 6.90005 10.0893 6.74555C10.2438 6.59104 10.3314 6.38203 10.3333 6.16353C10.3352 5.94503 10.2512 5.73452 10.0994 5.57735L6.76607 2.24399C6.6098 2.08776 6.39788 2 6.17691 2C5.95594 2 5.74401 2.08776 5.58774 2.24399L2.25441 5.57735C2.17482 5.65423 2.11133 5.74618 2.06766 5.84785C2.02398 5.94952 2.00099 6.05887 2.00003 6.16953C1.99907 6.28018 2.02015 6.38991 2.06206 6.49232C2.10396 6.59474 2.16583 6.68778 2.24408 6.76603C2.32232 6.84427 2.41536 6.90615 2.51778 6.94805C2.62019 6.98995 2.72993 7.01104 2.84057 7.01008C2.95122 7.00911 3.06057 6.98613 3.16224 6.94245C3.26391 6.89878 3.35587 6.83529 3.43274 6.7557L5.34357 4.84485V8.11904C5.34216 8.66653 5.44934 9.20886 5.65889 9.71465C5.86845 10.2204 6.17622 10.6797 6.56441 11.0657L11.1769 15.6783V21.1667C11.1769 21.3877 11.2647 21.5996 11.421 21.7559C11.5773 21.9122 11.7892 22 12.0102 22C12.2313 22 12.4432 21.9122 12.5995 21.7559C12.7558 21.5996 12.8436 21.3877 12.8436 21.1667V15.6783L17.4561 11.0657C17.8443 10.6797 18.152 10.2204 18.3616 9.71465C18.5711 9.20886 18.6783 8.66653 18.6769 8.11904V4.84485L20.5877 6.7557C20.7449 6.9075 20.9554 6.99149 21.1739 6.98959C21.3924 6.9877 21.6014 6.90005 21.7559 6.74555C21.9104 6.59104 21.9981 6.38203 22 6.16353C22.0019 5.94503 21.9179 5.73452 21.7661 5.57735Z" fill="${isGesplitst ? '#0a0a0a' : 'white'}"/></svg>
       </button>
     </div>`;
   }
@@ -773,8 +730,7 @@ function renderControleren() {
 
 function openSplit(itemId) {
   splitItemId = itemId;
-  const item = controleerItems.find(i => i.id === itemId);
-  if (!item) return;
+  const item = controleerItems.find(i => i.id === itemId); if (!item) return;
   document.getElementById('split-titel').textContent = 'Item splitsen';
   document.getElementById('split-omschrijving').innerHTML = `Hoeveel mensen wil je laten meebetalen aan <strong>${escHtml(item.naam)}</strong> van <strong>${fmt(item.prijs)}</strong>?`;
   document.getElementById('split-input').value = item.split_van > 1 ? item.split_van : '';
@@ -785,8 +741,7 @@ function bevestigSplit() {
   const n = parseInt(document.getElementById('split-input').value) || 1;
   const item = controleerItems.find(i => i.id === splitItemId);
   if (item) item.split_van = Math.max(1, n);
-  closeSheet('split-sheet');
-  renderControleren();
+  closeSheet('split-sheet'); renderControleren();
 }
 
 async function maakRekening() {
@@ -794,51 +749,34 @@ async function maakRekening() {
   const { parsed, naam, deelnemers, betaallink } = scanData;
   const btn = document.getElementById('maak-rekening-btn');
   btn.disabled = true;
-
   try {
     const fooi = parsed.totaal_betaald > parsed.subtotaal ? parsed.totaal_betaald - parsed.subtotaal : 0;
     const shareId = genShareId();
     const rekRes = await sb.insert('rekeningen', {
-      naam: naam || 'Rekening',
-      uploader_id: gebruikerId,
-      uploader_naam: gebruikerNaam,
-      uploader_iban: gebruikerIBAN || null,
-      subtotaal: parsed.subtotaal,
-      totaal_betaald: parsed.totaal_betaald,
-      fooi, deelnemers,
-      betaallink: betaallink || null,
-      datum: parsed.datum || null,
-      share_id: shareId
+      naam: naam || 'Rekening', uploader_id: gebruikerId, uploader_naam: gebruikerNaam,
+      uploader_iban: gebruikerIBAN || null, subtotaal: parsed.subtotaal,
+      totaal_betaald: parsed.totaal_betaald, fooi, deelnemers,
+      betaallink: betaallink || null, datum: parsed.datum || null, share_id: shareId
     });
     if (!rekRes || !rekRes[0]) throw new Error('Aanmaken mislukt');
     const rekeningId = rekRes[0].id;
 
-    // Items met split_van > 1 worden meerdere keren ingevoerd als losse items
     for (const item of controleerItems) {
       const n = item.split_van || 1;
       const prijsPerItem = item.prijs / n;
       for (let k = 0; k < n; k++) {
-        await sb.insert('items', {
-          rekening_id: rekeningId,
-          naam: item.naam,
-          prijs: prijsPerItem,
-          split_van: 1
-        });
+        await sb.insert('items', { rekening_id: rekeningId, naam: item.naam, prijs: prijsPerItem, split_van: 1 });
       }
     }
-
     await sb.insert('deelnames', { rekening_id: rekeningId, gebruiker_id: gebruikerId, gebruiker_naam: gebruikerNaam });
     openRekening(rekeningId);
   } catch(e) {
-    toast('Fout: ' + e.message);
-    btn.disabled = false;
+    toast('Fout: ' + e.message); btn.disabled = false;
   }
 }
 
-// ── DETAIL ──
 async function openRekening(id) {
-  huidigeRekeningId = id;
-  huidigSeg = 'heel';
+  huidigeRekeningId = id; huidigSeg = 'heel';
   switchScreen('detail');
   document.getElementById('items-list').innerHTML = '<div class="loading-state"><div class="spinner"></div></div>';
   document.getElementById('seg-heel').classList.add('active');
@@ -849,21 +787,23 @@ async function openRekening(id) {
     huidigeRekening = rekeningen[0];
     if (!huidigeRekening) { toast('Niet gevonden'); goHome(); return; }
     const r = huidigeRekening;
-    document.getElementById('detail-naam').textContent = r.naam;
+
+    const totaalItems = await sb.query('items', { select: 'prijs', eq: { rekening_id: id } });
+    const totaalBedrag = totaalItems.reduce ? totaalItems.reduce((s,i) => s + parseFloat(i.prijs||0), 0) : 0;
+
+    document.getElementById('detail-naam').textContent = r.naam + ' — ' + fmt(totaalBedrag);
     const metaParts = [`Betaald door ${r.uploader_naam}`];
     if (r.datum) metaParts.push(fmtDatum(r.datum));
     document.getElementById('detail-meta').textContent = metaParts.join(' op ');
 
     const fooi = parseFloat(r.fooi || 0);
     const fooiPP = r.deelnemers > 0 ? fooi / r.deelnemers : 0;
-    document.getElementById('fooi-bedrag').textContent = fooi > 0 ? `${fmt(fooi)} (${fmt(fooiPP)} p.p.)` : '—';
+    document.getElementById('fooi-bedrag').textContent = fooi > 0 ? `${fmt(fooiPP)} p.p.` : '—';
     document.getElementById('betaal-btn').style.display = r.betaallink ? 'flex' : 'none';
 
     const items = await sb.query('items', { select: '*', eq: { rekening_id: id }, order: 'created_at.asc' });
     huidigeItems = items || [];
-    renderItems();
-    herbereken();
-    startPolling(id);
+    renderItems(); herbereken(); startPolling(id);
   } catch(e) {
     document.getElementById('items-list').innerHTML = `<div class="empty-state"><div class="empty-title">Fout</div><div class="empty-sub">${e.message}</div></div>`;
   }
@@ -876,8 +816,8 @@ function renderItems() {
 
   if (!gefilterd.length) {
     el.innerHTML = huidigSeg === 'mijn'
-      ? `<div class="empty-state"><div class="empty-icon">☑️</div><div class="empty-title">Je hebt nog geen dingen geselecteerd</div></div>`
-      : `<div class="empty-state"><div class="empty-icon">🧾</div><div class="empty-title">Geen items</div></div>`;
+      ? `<div style="padding: 32px var(--px); color: var(--text2); font-size: 15px; font-weight: 500; max-width: var(--max-w); margin: 0 auto; width: 100%;">Je hebt nog geen dingen geselecteerd</div>`
+      : `<div class="empty-state"><div class="empty-title">Geen items</div></div>`;
     return;
   }
 
@@ -916,18 +856,14 @@ function switchSeg(seg) {
 function herbereken() {
   let totaal = 0; let count = 0;
   for (const item of huidigeItems) {
-    if (item.geselecteerd_door === gebruikerId) {
-      totaal += parseFloat(item.prijs);
-      count++;
-    }
+    if (item.geselecteerd_door === gebruikerId) { totaal += parseFloat(item.prijs); count++; }
   }
   document.getElementById('fooi-totaal-bedrag').textContent = fmt(totaal);
-  document.getElementById('fooi-items-count').textContent = count > 0 ? `${count} item${count !== 1 ? 's' : ''} geselecteerd` : '';
+  document.getElementById('fooi-totaal-label').textContent = count > 0 ? `Jouw totaal (${count} item${count !== 1 ? 's' : ''})` : 'Jouw totaal';
 }
 
 async function toggleItem(itemId) {
-  const item = huidigeItems.find(i => i.id === itemId);
-  if (!item) return;
+  const item = huidigeItems.find(i => i.id === itemId); if (!item) return;
   if (item.geselecteerd_door && item.geselecteerd_door !== gebruikerId) return;
   const wasGeselecteerd = item.geselecteerd_door === gebruikerId;
   item.geselecteerd_door = wasGeselecteerd ? null : gebruikerId;
@@ -937,8 +873,7 @@ async function toggleItem(itemId) {
     await sb.update('items', { geselecteerd_door: item.geselecteerd_door, geselecteerd_naam: item.geselecteerd_naam }, { id: itemId });
   } catch(e) {
     item.geselecteerd_door = wasGeselecteerd ? gebruikerId : null;
-    renderItems(); herbereken();
-    toast('Fout bij opslaan');
+    renderItems(); herbereken(); toast('Fout bij opslaan');
   }
 }
 
@@ -957,11 +892,9 @@ function startPolling(id) {
       const items = await sb.query('items', { select: '*', eq: { rekening_id: id }, order: 'created_at.asc' });
       if (!items) return;
       let changed = items.length !== huidigeItems.length;
-      if (!changed) {
-        for (const item of items) {
-          const old = huidigeItems.find(i => i.id === item.id);
-          if (!old || old.geselecteerd_door !== item.geselecteerd_door) { changed = true; break; }
-        }
+      if (!changed) for (const item of items) {
+        const old = huidigeItems.find(i => i.id === item.id);
+        if (!old || old.geselecteerd_door !== item.geselecteerd_door) { changed = true; break; }
       }
       if (changed) { huidigeItems = items; renderItems(); herbereken(); }
     } catch(e) {}
@@ -989,12 +922,8 @@ async function verwijderRekening() {
 async function deelHuidigeRekening() {
   if (!huidigeRekening) return;
   const shareUrl = `${window.location.origin}${window.location.pathname}?join=${huidigeRekening.share_id}`;
-  if (navigator.share) {
-    navigator.share({ title: huidigeRekening.naam, url: shareUrl }).catch(() => {});
-  } else {
-    await navigator.clipboard?.writeText(shareUrl);
-    toast('Link gekopieerd!');
-  }
+  if (navigator.share) { navigator.share({ title: huidigeRekening.naam, url: shareUrl }).catch(() => {}); }
+  else { await navigator.clipboard?.writeText(shareUrl); toast('Link gekopieerd!'); }
 }
 
 async function joinRekening(shareId) {
@@ -1003,14 +932,11 @@ async function joinRekening(shareId) {
     if (!results || !results[0]) return toast('Rekening niet gevonden');
     const rek = results[0];
     const bestaand = await sb.query('deelnames', { select: 'id', eq: { rekening_id: rek.id, gebruiker_id: gebruikerId } });
-    if (!bestaand || !bestaand[0]) {
-      await sb.insert('deelnames', { rekening_id: rek.id, gebruiker_id: gebruikerId, gebruiker_naam: gebruikerNaam });
-    }
+    if (!bestaand || !bestaand[0]) await sb.insert('deelnames', { rekening_id: rek.id, gebruiker_id: gebruikerId, gebruiker_naam: gebruikerNaam });
     verborgenIds = verborgenIds.filter(id => id !== rek.id);
     localStorage.setItem('sm_hidden', JSON.stringify(verborgenIds));
     history.replaceState({}, '', window.location.pathname);
-    await laadHome();
-    openRekening(rek.id);
+    await laadHome(); openRekening(rek.id);
   } catch(e) { toast('Kon niet joinen: ' + e.message); }
 }
 
@@ -1029,12 +955,8 @@ function slaSettingOp() {
   if (currentEditKey === 'naam') {
     if (!val) return toast('Naam mag niet leeg zijn');
     gebruikerNaam = val; localStorage.setItem('sm_naam', val);
-  } else {
-    gebruikerIBAN = val; localStorage.setItem('sm_iban', val);
-  }
-  updateSettingsDisplay();
-  closeSheet('settings-sheet');
-  toast('Opgeslagen');
+  } else { gebruikerIBAN = val; localStorage.setItem('sm_iban', val); }
+  updateSettingsDisplay(); closeSheet('settings-sheet'); toast('Opgeslagen');
 }
 
 document.querySelectorAll('.sheet-overlay').forEach(overlay => {
