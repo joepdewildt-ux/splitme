@@ -5,466 +5,590 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#0f0f0f">
-<title>Splitsie</title>
+<meta name="theme-color" content="#0a0a0a">
+<title>SplitMe</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  
-  :root {
-    --bg: #0f0f0f;
-    --bg2: #1a1a1a;
-    --bg3: #242424;
-    --surface: #2a2a2a;
-    --border: rgba(255,255,255,0.08);
-    --border2: rgba(255,255,255,0.15);
-    --text: #f0f0f0;
-    --text2: #a0a0a0;
-    --text3: #666;
-    --accent: #c8f564;
-    --accent-dim: rgba(200,245,100,0.12);
-    --accent-text: #0f0f0f;
-    --danger: #ff5e5e;
-    --danger-dim: rgba(255,94,94,0.12);
-    --info: #5eaaff;
-    --info-dim: rgba(94,170,255,0.10);
-    --radius: 12px;
-    --radius-sm: 8px;
-    --bottom-nav: 64px;
-  }
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    max-width: 430px;
-    margin: 0 auto;
-    position: relative;
-    overflow-x: hidden;
-  }
+:root {
+  --bg: #0a0a0a;
+  --bg2: #141414;
+  --bg3: #1e1e1e;
+  --bg4: #282828;
+  --border: rgba(255,255,255,0.08);
+  --border2: rgba(255,255,255,0.14);
+  --text: #ffffff;
+  --text2: #999999;
+  --text3: #555555;
+  --accent: #ffffff;
+  --radius: 16px;
+  --radius-sm: 12px;
+  --max-w: 600px;
+  --px: 16px;
+}
 
-  #app { min-height: 100vh; display: flex; flex-direction: column; }
+body {
+  font-family: 'Poppins', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 24px;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 
-  .screen { display: none; flex-direction: column; flex: 1; padding-bottom: calc(var(--bottom-nav) + 16px); }
-  .screen.active { display: flex; }
+#app { min-height: 100vh; display: flex; flex-direction: column; }
 
-  .topbar {
-    padding: 52px 20px 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    background: var(--bg);
-    z-index: 10;
-    border-bottom: 0.5px solid var(--border);
-  }
-  .topbar h1 { font-size: 22px; font-weight: 600; letter-spacing: -0.3px; }
-  .topbar-logo { font-size: 20px; font-weight: 700; color: var(--accent); letter-spacing: -0.5px; }
-  .icon-btn {
-    width: 36px; height: 36px;
-    background: var(--bg3);
-    border: 0.5px solid var(--border);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; color: var(--text);
-    font-size: 18px;
-  }
+.screen { display: none; flex-direction: column; min-height: 100vh; }
+.screen.active { display: flex; }
 
-  .bottom-nav {
-    position: fixed;
-    bottom: 0; left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    max-width: 430px;
-    height: var(--bottom-nav);
-    background: var(--bg2);
-    border-top: 0.5px solid var(--border);
-    display: flex;
-    z-index: 100;
-  }
-  .nav-item {
-    flex: 1; display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    gap: 4px; cursor: pointer;
-    color: var(--text3);
-    font-size: 10px; font-weight: 500;
-    transition: color 0.15s;
-    border: none; background: none;
-  }
-  .nav-item .nav-icon { font-size: 22px; line-height: 1; }
-  .nav-item.active { color: var(--accent); }
-  .nav-fab {
-    flex: 1; display: flex; align-items: center; justify-content: center;
-    cursor: pointer; border: none; background: none;
-  }
-  .nav-fab-inner {
-    width: 52px; height: 52px;
-    background: var(--accent);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 26px; color: var(--accent-text);
-    margin-top: -18px;
-    box-shadow: 0 0 0 4px var(--bg2);
-  }
+.inner { max-width: var(--max-w); width: 100%; margin: 0 auto; padding: 0 var(--px); }
 
-  .card {
-    background: var(--bg2);
-    border: 0.5px solid var(--border);
-    border-radius: var(--radius);
-    padding: 16px;
-    margin: 0 16px 12px;
-  }
-  .card-tap { cursor: pointer; transition: background 0.12s; }
-  .card-tap:active { background: var(--bg3); }
+/* ── ONBOARDING ── */
+#screen-onboarding {
+  justify-content: space-between;
+  padding: 0 var(--px);
+}
+.onboarding-top {
+  padding-top: 72px;
+}
+.onboarding-logo {
+  font-size: 32px;
+  line-height: 48px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.onboarding-sub {
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--text2);
+}
+.onboarding-bottom {
+  padding-bottom: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.onboarding-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text2);
+  margin-bottom: 4px;
+}
 
-  .section-title {
-    font-size: 12px; font-weight: 600;
-    color: var(--text3); text-transform: uppercase;
-    letter-spacing: 0.8px;
-    padding: 16px 20px 8px;
-  }
+/* ── INPUTS ── */
+.input-wrap { position: relative; }
+input[type="text"], input[type="number"], input[type="url"] {
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 24px;
+  font-family: 'Poppins', sans-serif;
+  outline: none;
+  transition: border-color 0.15s;
+  -webkit-appearance: none;
+}
+input:focus { border-color: rgba(255,255,255,0.4); }
+input::placeholder { color: var(--text3); }
+input[type="number"] { -moz-appearance: textfield; }
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
 
-  .rekening-card { display: flex; flex-direction: column; gap: 8px; }
-  .rekening-header { display: flex; align-items: center; justify-content: space-between; }
-  .rekening-naam { font-size: 15px; font-weight: 600; }
-  .rekening-badge { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 20px; }
-  .badge-open { background: var(--accent-dim); color: var(--accent); }
-  .badge-afgerond { background: var(--bg3); color: var(--text3); }
-  .rekening-meta { font-size: 12px; color: var(--text2); }
-  .rekening-progress { height: 3px; background: var(--bg3); border-radius: 2px; overflow: hidden; margin-top: 4px; }
-  .rekening-progress-bar { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.3s; }
+/* ── BUTTONS ── */
+.btn {
+  width: 100%;
+  padding: 16px;
+  border-radius: 100px;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn:active { transform: scale(0.98); opacity: 0.85; }
+.btn-primary { background: var(--text); color: var(--bg); }
+.btn-secondary { background: var(--bg3); color: var(--text); border: 1px solid var(--border2); }
+.btn-ghost { background: transparent; color: var(--text2); }
+.btn:disabled { opacity: 0.35; pointer-events: none; }
+.btn-spinner { width: 18px; height: 18px; border: 2px solid rgba(0,0,0,0.2); border-top-color: var(--bg); border-radius: 50%; animation: spin 0.7s linear infinite; }
 
-  .empty-state {
-    flex: 1; display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    gap: 12px; padding: 40px 32px; text-align: center;
-  }
-  .empty-icon { font-size: 48px; opacity: 0.2; }
-  .empty-title { font-size: 17px; font-weight: 600; color: var(--text2); }
-  .empty-sub { font-size: 14px; color: var(--text3); line-height: 1.5; }
+/* ── TOPBAR ── */
+.topbar {
+  padding: 52px var(--px) 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 10;
+  max-width: 100%;
+}
+.topbar-inner {
+  max-width: var(--max-w);
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.topbar-logo {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+}
+.icon-btn {
+  width: 40px; height: 40px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--text2);
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.back-btn {
+  display: flex; align-items: center; gap: 6px;
+  color: var(--text); font-size: 20px;
+  cursor: pointer; background: none; border: none;
+  font-family: 'Poppins', sans-serif; padding: 0;
+  font-weight: 500;
+}
 
-  .sheet-overlay {
-    display: none; position: fixed; inset: 0;
-    background: rgba(0,0,0,0.65);
-    z-index: 200; align-items: flex-end; justify-content: center;
-  }
-  .sheet-overlay.open { display: flex; }
-  .sheet {
-    background: var(--bg2);
-    border-radius: 20px 20px 0 0;
-    width: 100%; max-width: 430px;
-    max-height: 92vh;
-    overflow-y: auto;
-    padding: 8px 0 40px;
-    animation: slideUp 0.25s ease;
-  }
-  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-  .sheet-handle { width: 36px; height: 4px; background: var(--border2); border-radius: 2px; margin: 8px auto 20px; }
-  .sheet-title { font-size: 17px; font-weight: 600; padding: 0 20px 16px; border-bottom: 0.5px solid var(--border); margin-bottom: 16px; }
-  .sheet-section { padding: 0 20px; margin-bottom: 20px; }
-  .sheet-label { font-size: 12px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+/* ── HOME ── */
+#screen-home { padding-bottom: 100px; }
+.home-content { padding-top: 8px; }
+.rekening-list { display: flex; flex-direction: column; gap: 10px; padding: 0 var(--px); max-width: var(--max-w); margin: 0 auto; }
 
-  input[type="text"], input[type="number"], input[type="tel"] {
-    width: 100%; padding: 13px 14px;
-    background: var(--bg3);
-    border: 0.5px solid var(--border2);
-    border-radius: var(--radius-sm);
-    color: var(--text); font-size: 15px;
-    outline: none; font-family: inherit;
-    transition: border-color 0.15s;
-  }
-  input:focus { border-color: var(--accent); }
-  input::placeholder { color: var(--text3); }
+.rekening-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.rekening-card:active { background: var(--bg3); }
+.rekening-emoji {
+  width: 44px; height: 44px;
+  background: var(--bg3);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.rekening-info { flex: 1; min-width: 0; }
+.rekening-naam {
+  font-size: 15px; font-weight: 600;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.rekening-datum { font-size: 13px; color: var(--text3); margin-top: 2px; }
+.rekening-bedragen { text-align: right; flex-shrink: 0; }
+.rekening-totaal { font-size: 15px; font-weight: 600; }
+.rekening-mijn { font-size: 13px; color: var(--text2); margin-top: 2px; }
 
-  .btn {
-    width: 100%; padding: 15px;
-    border-radius: var(--radius-sm);
-    border: none; font-size: 15px; font-weight: 600;
-    cursor: pointer; font-family: inherit;
-    transition: opacity 0.15s, transform 0.1s;
-  }
-  .btn:active { transform: scale(0.98); }
-  .btn-primary { background: var(--accent); color: var(--accent-text); }
-  .btn-secondary { background: var(--bg3); color: var(--text); border: 0.5px solid var(--border2); }
-  .btn:disabled { opacity: 0.4; pointer-events: none; }
+/* FAB */
+.fab {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 48px; height: 48px;
+  background: var(--text);
+  border-radius: 50%;
+  border: none;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; color: var(--bg);
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.3);
+  z-index: 50;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.fab:active { transform: translateX(-50%) scale(0.93); }
 
-  .detail-header {
-    padding: 52px 20px 20px;
-    border-bottom: 0.5px solid var(--border);
-    position: sticky; top: 0;
-    background: var(--bg); z-index: 10;
-  }
-  .back-btn {
-    display: flex; align-items: center; gap: 6px;
-    color: var(--accent); font-size: 14px; font-weight: 500;
-    cursor: pointer; margin-bottom: 12px;
-    background: none; border: none; font-family: inherit; padding: 0;
-  }
-  .detail-titel { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
-  .detail-meta { font-size: 13px; color: var(--text2); }
+/* EMPTY STATE */
+.empty-state {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 10px; padding: 60px 32px; text-align: center;
+}
+.empty-icon { font-size: 40px; opacity: 0.15; margin-bottom: 4px; }
+.empty-title { font-size: 16px; font-weight: 600; color: var(--text2); }
+.empty-sub { font-size: 14px; color: var(--text3); line-height: 22px; }
 
-  .totaal-bar {
-    margin: 0 16px 12px;
-    background: var(--accent-dim);
-    border: 0.5px solid rgba(200,245,100,0.2);
-    border-radius: var(--radius);
-    padding: 14px 16px;
-    display: flex; justify-content: space-between; align-items: center;
-  }
-  .totaal-label { font-size: 13px; color: var(--accent); font-weight: 500; }
-  .totaal-bedrag { font-size: 22px; font-weight: 700; color: var(--accent); }
+/* ── SHEETS ── */
+.sheet-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 200; align-items: flex-end; justify-content: center;
+}
+.sheet-overlay.open { display: flex; }
+.sheet {
+  background: var(--bg2);
+  border-radius: 24px 24px 0 0;
+  width: 100%; max-width: var(--max-w);
+  max-height: 94vh;
+  overflow-y: auto;
+  padding: 0 0 40px;
+  animation: slideUp 0.28s cubic-bezier(0.32,0.72,0,1);
+}
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.sheet-handle { width: 36px; height: 4px; background: var(--bg4); border-radius: 2px; margin: 12px auto 20px; }
+.sheet-header {
+  padding: 0 var(--px) 16px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 20px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.sheet-title { font-size: 20px; font-weight: 700; line-height: 32px; }
+.sheet-close {
+  width: 32px; height: 32px;
+  background: var(--bg3); border: none; border-radius: 50%;
+  color: var(--text2); font-size: 16px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Poppins', sans-serif;
+}
+.sheet-body { padding: 0 var(--px); display: flex; flex-direction: column; gap: 14px; }
+.field-label { font-size: 13px; font-weight: 500; color: var(--text2); margin-bottom: 6px; }
+.field-hint { font-size: 12px; color: var(--text3); margin-top: 6px; }
 
-  .item-row {
-    background: var(--bg2);
-    border: 0.5px solid var(--border);
-    border-radius: var(--radius-sm);
-    margin: 0 16px 8px;
-    padding: 14px;
-    display: flex; align-items: flex-start; gap: 12px;
-    cursor: pointer; transition: background 0.12s;
-  }
-  .item-row:active { background: var(--bg3); }
-  .item-row.geselecteerd { background: var(--accent-dim); border-color: rgba(200,245,100,0.25); }
-  .item-row.van-ander { opacity: 0.5; pointer-events: none; }
-  .item-row.van-ander .item-naam { text-decoration: line-through; }
+/* UPLOAD AREA */
+.upload-area {
+  background: var(--bg3);
+  border: 1.5px dashed var(--border2);
+  border-radius: var(--radius-sm);
+  padding: 24px 20px;
+  text-align: center; cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  position: relative;
+}
+.upload-area:active { border-color: rgba(255,255,255,0.4); }
+.upload-icon { font-size: 28px; margin-bottom: 8px; opacity: 0.4; }
+.upload-text { font-size: 14px; color: var(--text2); }
+.upload-preview {
+  position: relative;
+  background: var(--bg3);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  min-height: 100px;
+  display: flex; align-items: center; justify-content: center;
+}
+.upload-preview img {
+  max-width: 100%; max-height: 160px;
+  object-fit: contain; display: block;
+}
+.upload-delete {
+  position: absolute; top: 8px; right: 8px;
+  width: 32px; height: 32px;
+  background: rgba(0,0,0,0.6); border: none; border-radius: 50%;
+  color: white; font-size: 16px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
 
-  .item-check {
-    width: 22px; height: 22px;
-    border: 1.5px solid var(--border2);
-    border-radius: 50%; flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    margin-top: 1px; transition: all 0.15s;
-  }
-  .item-row.geselecteerd .item-check { background: var(--accent); border-color: var(--accent); color: var(--accent-text); font-size: 13px; }
-  .item-info { flex: 1; min-width: 0; }
-  .item-naam { font-size: 14px; font-weight: 500; margin-bottom: 2px; }
-  .item-sub { font-size: 12px; color: var(--text2); }
-  .item-persoon { font-size: 11px; font-weight: 600; color: var(--accent); margin-top: 4px; }
-  .item-bedrag { font-size: 15px; font-weight: 600; flex-shrink: 0; }
-  .item-split-btn {
-    font-size: 11px; color: var(--info);
-    background: var(--info-dim); border: none;
-    border-radius: 4px; padding: 2px 6px;
-    cursor: pointer; margin-top: 4px;
-    font-family: inherit; font-weight: 500;
-  }
+/* ── REKENING CONTROLEREN ── */
+#screen-controleren { padding-bottom: 100px; }
+.controleer-list { display: flex; flex-direction: column; gap: 8px; padding: 12px var(--px) 0; max-width: var(--max-w); margin: 0 auto; }
+.controleer-item {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.controleer-item-left { flex: 1; min-width: 0; }
+.controleer-item-naam {
+  font-size: 15px; font-weight: 600;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.controleer-item-sub { font-size: 12px; color: var(--text3); margin-top: 2px; }
+.controleer-item-right { text-align: right; flex-shrink: 0; }
+.controleer-item-prijs { font-size: 15px; font-weight: 600; }
+.controleer-item-pp { font-size: 12px; color: var(--text3); margin-top: 2px; }
+.split-btn {
+  width: 32px; height: 32px;
+  background: var(--bg3); border: 1px solid var(--border2);
+  border-radius: 8px; cursor: pointer; color: var(--text2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; flex-shrink: 0;
+}
+.split-btn.active { background: var(--text); color: var(--bg); border-color: var(--text); }
 
-  .fooi-bar {
-    margin: 4px 16px 12px;
-    background: var(--bg2); border: 0.5px solid var(--border);
-    border-radius: var(--radius); padding: 12px 16px;
-  }
-  .fooi-row { display: flex; justify-content: space-between; align-items: center; }
-  .fooi-label { font-size: 13px; color: var(--text2); }
-  .fooi-val { font-size: 14px; font-weight: 600; color: var(--text); }
-  .fooi-per { font-size: 12px; color: var(--text3); margin-top: 4px; text-align: right; }
+/* ── DETAIL ── */
+#screen-detail { padding-bottom: 0; }
+.detail-topbar {
+  padding: 52px var(--px) 16px;
+  position: sticky; top: 0;
+  background: var(--bg); z-index: 10;
+}
+.detail-topbar-inner {
+  max-width: var(--max-w); margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.detail-topbar-actions { display: flex; gap: 8px; }
+.detail-header { padding: 16px var(--px) 0; max-width: var(--max-w); margin: 0 auto; }
+.detail-naam { font-size: 20px; font-weight: 700; line-height: 32px; }
+.detail-meta { font-size: 14px; color: var(--text2); margin-top: 4px; }
 
-  .samenvatting-item {
-    display: flex; justify-content: space-between;
-    align-items: center; padding: 10px 0;
-    border-bottom: 0.5px solid var(--border);
-    font-size: 14px;
-  }
-  .samenvatting-item:last-child { border-bottom: none; }
-  .samenvatting-naam { color: var(--text2); }
-  .samenvatting-bedrag { font-weight: 600; }
+/* SEGMENTED */
+.segmented {
+  display: flex; background: var(--bg3);
+  border-radius: 100px; padding: 3px;
+  margin: 16px var(--px) 0;
+  max-width: var(--max-w); margin-left: auto; margin-right: auto;
+}
+.seg-btn {
+  flex: 1; padding: 8px 16px;
+  border-radius: 100px; border: none;
+  font-size: 14px; font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer; color: var(--text2);
+  background: transparent; transition: all 0.2s;
+}
+.seg-btn.active { background: var(--bg); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.3); }
 
-  .settings-section { margin: 0 16px 20px; }
-  .settings-row {
-    background: var(--bg2); border: 0.5px solid var(--border);
-    border-radius: var(--radius-sm); padding: 14px 16px;
-    display: flex; justify-content: space-between; align-items: center;
-  }
-  .settings-row + .settings-row { margin-top: 1px; border-radius: 0; }
-  .settings-row:first-child { border-radius: var(--radius-sm) var(--radius-sm) 0 0; }
-  .settings-row:last-child { border-radius: 0 0 var(--radius-sm) var(--radius-sm); }
-  .settings-row:only-child { border-radius: var(--radius-sm); }
-  .settings-key { font-size: 14px; color: var(--text); }
-  .settings-val { font-size: 14px; color: var(--text3); max-width: 55%; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* ITEMS */
+.items-list { padding: 12px var(--px) 0; max-width: var(--max-w); margin: 0 auto; display: flex; flex-direction: column; gap: 8px; }
+.item-row {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  display: flex; align-items: center; gap: 12px;
+  cursor: pointer; transition: background 0.12s;
+}
+.item-row.geselecteerd { background: var(--bg3); border-color: var(--border2); }
+.item-row.van-ander { opacity: 0.45; pointer-events: none; }
+.item-check {
+  width: 24px; height: 24px;
+  border: 1.5px solid var(--border2);
+  border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+}
+.item-row.geselecteerd .item-check { background: var(--text); border-color: var(--text); }
+.item-check-icon { display: none; }
+.item-row.geselecteerd .item-check-icon { display: block; }
+.item-info { flex: 1; min-width: 0; }
+.item-naam { font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.item-persoon { font-size: 12px; color: var(--text3); margin-top: 3px; }
+.item-split-info { font-size: 12px; color: var(--text3); margin-top: 2px; }
+.item-bedrag { font-size: 15px; font-weight: 600; flex-shrink: 0; }
 
-  .upload-area {
-    margin: 0;
-    background: var(--bg2);
-    border: 1.5px dashed var(--border2);
-    border-radius: var(--radius);
-    padding: 32px 20px;
-    text-align: center; cursor: pointer;
-    transition: border-color 0.15s, background 0.15s;
-  }
-  .upload-area:active { border-color: var(--accent); background: var(--accent-dim); }
-  .upload-icon { font-size: 36px; margin-bottom: 10px; opacity: 0.5; }
-  .upload-text { font-size: 14px; color: var(--text2); line-height: 1.5; }
+/* FOOI STICKY */
+.fooi-sticky {
+  position: sticky; bottom: 0;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  padding: 16px var(--px) 32px;
+  z-index: 20;
+}
+.fooi-sticky-inner { max-width: var(--max-w); margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+.fooi-row { display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: var(--text2); }
+.fooi-totaal { display: flex; justify-content: space-between; align-items: baseline; }
+.fooi-totaal-label { font-size: 16px; font-weight: 600; }
+.fooi-totaal-bedrag { font-size: 20px; font-weight: 700; }
 
-  .spinner {
-    width: 24px; height: 24px;
-    border: 2px solid var(--border2);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-    margin: 0 auto;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .loading-state { padding: 32px 20px; text-align: center; }
-  .loading-state p { margin-top: 12px; color: var(--text2); font-size: 14px; }
+/* SETTINGS */
+#screen-settings { padding-bottom: 40px; }
+.settings-list { padding: 8px var(--px); max-width: var(--max-w); margin: 0 auto; display: flex; flex-direction: column; gap: 2px; }
+.settings-row {
+  background: var(--bg2); border: 1px solid var(--border);
+  padding: 14px 16px; display: flex; justify-content: space-between; align-items: center;
+  cursor: pointer;
+}
+.settings-row:first-child { border-radius: var(--radius-sm) var(--radius-sm) 0 0; }
+.settings-row:last-child { border-radius: 0 0 var(--radius-sm) var(--radius-sm); }
+.settings-row:only-child { border-radius: var(--radius-sm); }
+.settings-key { font-size: 15px; }
+.settings-val { font-size: 14px; color: var(--text3); max-width: 55%; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.section-title { font-size: 12px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.8px; padding: 20px var(--px) 8px; max-width: var(--max-w); margin: 0 auto; }
 
-  .naam-setup {
-    position: fixed; inset: 0;
-    background: var(--bg);
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    padding: 40px 32px; z-index: 999;
-  }
-  .naam-setup h2 { font-size: 26px; font-weight: 700; margin-bottom: 8px; }
-  .naam-setup p { font-size: 15px; color: var(--text2); margin-bottom: 32px; text-align: center; line-height: 1.5; }
-  .logo-big { font-size: 32px; font-weight: 800; color: var(--accent); letter-spacing: -1px; margin-bottom: 24px; }
+/* SPINNER */
+.spinner {
+  width: 24px; height: 24px;
+  border: 2px solid var(--border2);
+  border-top-color: var(--text);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin: 0 auto;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-state { padding: 48px 20px; text-align: center; }
+.loading-state p { margin-top: 12px; color: var(--text2); font-size: 14px; }
 
-  .toast {
-    position: fixed; bottom: 80px; left: 50%;
-    transform: translateX(-50%);
-    background: var(--bg3); border: 0.5px solid var(--border2);
-    color: var(--text); padding: 10px 18px;
-    border-radius: 20px; font-size: 13px; font-weight: 500;
-    z-index: 9999; white-space: nowrap;
-    animation: fadeInOut 2.5s ease forwards;
-  }
-  @keyframes fadeInOut {
-    0% { opacity: 0; transform: translateX(-50%) translateY(8px); }
-    15% { opacity: 1; transform: translateX(-50%) translateY(0); }
-    75% { opacity: 1; }
-    100% { opacity: 0; }
-  }
+/* TOAST */
+.toast {
+  position: fixed; bottom: 80px; left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg3); border: 1px solid var(--border2);
+  color: var(--text); padding: 10px 18px;
+  border-radius: 100px; font-size: 13px; font-weight: 500;
+  z-index: 9999; white-space: nowrap;
+  animation: fadeInOut 2.5s ease forwards;
+}
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateX(-50%) translateY(8px); }
+  15% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  75% { opacity: 1; }
+  100% { opacity: 0; }
+}
 
-  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; }
-  .pill {
-    padding: 6px 14px; border-radius: 20px;
-    background: var(--bg3); border: 0.5px solid var(--border2);
-    color: var(--text2); font-size: 13px; font-weight: 500;
-    cursor: pointer; font-family: inherit; transition: all 0.12s;
-  }
-  .pill.active { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
-
-  #camera-input { display: none; }
-  .gap-8 { display: flex; flex-direction: column; gap: 8px; }
+#camera-input { display: none; }
 </style>
 </head>
 <body>
 <div id="app">
 
-  <div class="naam-setup" id="naam-setup">
-    <div class="logo-big">splitsie</div>
-    <h2>Welkom 👋</h2>
-    <p>Hoe wil je dat anderen je zien als je items selecteert?</p>
-    <div style="width:100%; display:flex; flex-direction:column; gap:12px;">
-      <input type="text" id="naam-input" placeholder="Jouw naam" maxlength="30">
-      <button class="btn btn-primary" onclick="slaaNaamOp()">Doorgaan</button>
+<!-- ONBOARDING -->
+<div class="screen active" id="screen-onboarding">
+  <div class="onboarding-top">
+    <div class="onboarding-logo">SplitMe</div>
+    <div class="onboarding-sub">Gemakkelijk je rekeningen splitsen</div>
+  </div>
+  <div class="onboarding-bottom">
+    <div class="onboarding-label">Vul je naam in zodat anderen kunnen zien wat jij gesplitst hebt</div>
+    <input type="text" id="naam-input" placeholder="Naam" maxlength="30">
+    <button class="btn btn-primary" onclick="slaaNaamOp()">Volgende</button>
+  </div>
+</div>
+
+<!-- HOME -->
+<div class="screen" id="screen-home">
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="topbar-logo">SplitMe</div>
+      <div class="icon-btn" onclick="switchScreen('settings')" title="Instellingen">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      </div>
     </div>
   </div>
+  <div class="home-content" id="home-content">
+    <div class="loading-state"><div class="spinner"></div></div>
+  </div>
+  <button class="fab" onclick="openUpload()">+</button>
+</div>
 
-  <div class="screen active" id="screen-home">
-    <div class="topbar">
-      <div class="topbar-logo">splitsie</div>
-      <div class="icon-btn" onclick="refreshHome()" title="Vernieuwen">↻</div>
-    </div>
-    <div id="home-content">
-      <div class="loading-state"><div class="spinner"></div><p>Rekeningen laden...</p></div>
+<!-- SETTINGS -->
+<div class="screen" id="screen-settings">
+  <div class="topbar">
+    <div class="topbar-inner">
+      <button class="back-btn" onclick="switchScreen('home')">←</button>
+      <span style="font-size:17px; font-weight:600;">Instellingen</span>
+      <div style="width:40px;"></div>
     </div>
   </div>
-
-  <div class="screen" id="screen-detail" style="padding-bottom:0;">
-    <div class="detail-header">
-      <button class="back-btn" onclick="goHome()">← Terug</button>
-      <div class="detail-titel" id="detail-titel">—</div>
-      <div class="detail-meta" id="detail-meta">—</div>
+  <div class="section-title">Profiel</div>
+  <div class="settings-list">
+    <div class="settings-row" onclick="editSetting('naam')">
+      <span class="settings-key">Naam</span>
+      <span class="settings-val" id="settings-naam-val">—</span>
     </div>
-    <div id="detail-content" style="overflow-y:auto; flex:1; padding-bottom:140px;"></div>
-    <div style="position:fixed; bottom: var(--bottom-nav); left:50%; transform:translateX(-50%); width:100%; max-width:430px; background:var(--bg); border-top:0.5px solid var(--border); padding:12px 16px; z-index:50;">
-      <div id="mijn-totaal-bar" style="display:none; margin-bottom:10px;">
-        <div class="totaal-bar" style="margin:0;">
-          <div>
-            <div class="totaal-label">Jouw totaal</div>
-            <div style="font-size:11px; color:var(--text3);" id="mijn-items-count"></div>
-          </div>
-          <div class="totaal-bedrag" id="mijn-totaal-bedrag">€0,00</div>
+    <div class="settings-row" onclick="editSetting('iban')">
+      <span class="settings-key">IBAN</span>
+      <span class="settings-val" id="settings-iban-val">Toevoegen</span>
+    </div>
+  </div>
+</div>
+
+<!-- REKENING CONTROLEREN -->
+<div class="screen" id="screen-controleren">
+  <div class="topbar">
+    <div class="topbar-inner">
+      <button class="back-btn" onclick="switchScreen('home'); resetUpload();">←</button>
+      <span style="font-size:17px; font-weight:600;">Rekening controleren</span>
+      <div style="width:40px;"></div>
+    </div>
+  </div>
+  <div class="controleer-list" id="controleer-list"></div>
+  <button class="fab" onclick="maakRekening()" id="maak-rekening-btn">✓</button>
+</div>
+
+<!-- DETAIL -->
+<div class="screen" id="screen-detail">
+  <div class="detail-topbar">
+    <div class="detail-topbar-inner">
+      <button class="back-btn" onclick="goHome()">←</button>
+      <div class="detail-topbar-actions">
+        <div class="icon-btn" onclick="deelHuidigeRekening()" title="Delen">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        </div>
+        <div class="icon-btn" id="verwijder-btn" onclick="verwijderRekening()" title="Verwijderen">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
         </div>
       </div>
-      <button class="btn btn-primary" id="sla-selectie-op-btn" onclick="slaSelectieOp()" style="display:none;">Samenvatting opslaan</button>
     </div>
   </div>
-
-  <div class="screen" id="screen-settings">
-    <div class="topbar"><h1>Instellingen</h1></div>
-    <div class="section-title">Profiel</div>
-    <div class="settings-section">
-      <div class="settings-row" onclick="editSetting('naam')" style="cursor:pointer;">
-        <span class="settings-key">Naam</span>
-        <span class="settings-val" id="settings-naam-val">—</span>
+  <div class="detail-header">
+    <div class="detail-naam" id="detail-naam">—</div>
+    <div class="detail-meta" id="detail-meta">—</div>
+  </div>
+  <div class="segmented" id="segmented-control">
+    <button class="seg-btn active" onclick="switchSeg('heel')" id="seg-heel">Hele rekening</button>
+    <button class="seg-btn" onclick="switchSeg('mijn')" id="seg-mijn">Mijn lijst</button>
+  </div>
+  <div class="items-list" id="items-list" style="padding-bottom: 16px;"></div>
+  <div class="fooi-sticky" id="fooi-sticky">
+    <div class="fooi-sticky-inner">
+      <div class="fooi-row"><span>Fooi</span><span id="fooi-bedrag">—</span></div>
+      <div class="fooi-totaal">
+        <div>
+          <div class="fooi-totaal-label" id="fooi-totaal-label">Jouw totaal</div>
+          <div style="font-size:12px; color:var(--text3);" id="fooi-items-count"></div>
+        </div>
+        <div class="fooi-totaal-bedrag" id="fooi-totaal-bedrag">€ 0,00</div>
       </div>
-      <div class="settings-row" onclick="editSetting('iban')" style="cursor:pointer;">
-        <span class="settings-key">IBAN</span>
-        <span class="settings-val" id="settings-iban-val">Toevoegen</span>
-      </div>
-    </div>
-    <div class="section-title">Over</div>
-    <div class="settings-section">
-      <div class="settings-row">
-        <span class="settings-key">Versie</span>
-        <span class="settings-val">1.0</span>
-      </div>
+      <button class="btn btn-primary" id="betaal-btn" onclick="betalen()" style="display:none;">Betalen</button>
     </div>
   </div>
+</div>
 
-  <nav class="bottom-nav">
-    <button class="nav-item active" id="nav-home" onclick="switchTab('home')">
-      <span class="nav-icon">🧾</span>
-      <span>Rekeningen</span>
-    </button>
-    <button class="nav-fab" onclick="openUpload()">
-      <div class="nav-fab-inner">+</div>
-    </button>
-    <button class="nav-item" id="nav-settings" onclick="switchTab('settings')">
-      <span class="nav-icon">⚙️</span>
-      <span>Instellingen</span>
-    </button>
-  </nav>
 </div>
 
 <!-- UPLOAD SHEET -->
 <div class="sheet-overlay" id="upload-sheet">
   <div class="sheet">
     <div class="sheet-handle"></div>
-    <div class="sheet-title">Nieuwe rekening</div>
-    <div id="upload-step-1">
-      <div class="sheet-section">
-        <div class="sheet-label">Foto van de bon</div>
-        <div class="upload-area" onclick="document.getElementById('camera-input').click()">
-          <div class="upload-icon">📷</div>
-          <div class="upload-text">Tik om een foto te maken of te kiezen</div>
-        </div>
-        <input type="file" id="camera-input" accept="image/*" capture="environment" onchange="fotoGekozen(event)">
-        <div id="foto-preview" style="display:none; margin-top:12px; text-align:center;">
-          <img id="preview-img" style="max-width:100%; border-radius:8px; max-height:200px; object-fit:contain;">
-          <div style="margin-top:8px; font-size:13px; color:var(--text2);" id="preview-label">—</div>
-        </div>
-      </div>
-      <div class="sheet-section">
-        <div class="sheet-label">Naam van de rekening</div>
-        <input type="text" id="upload-naam" placeholder="bijv. Etentje vrijdag" maxlength="50">
-      </div>
-      <div class="sheet-section">
-        <div class="sheet-label">Aantal deelnemers (voor fooi)</div>
-        <input type="number" id="upload-deelnemers" placeholder="bijv. 4" min="1" max="50" value="2">
-      </div>
-      <div class="sheet-section">
-        <button class="btn btn-primary" id="scan-btn" onclick="scanBon()" disabled>Bon scannen met AI</button>
-      </div>
+    <div class="sheet-header">
+      <div class="sheet-title">Rekening toevoegen</div>
+      <button class="sheet-close" onclick="closeSheet('upload-sheet')">✕</button>
     </div>
-    <div id="upload-step-2" style="display:none;">
-      <div class="loading-state" id="scan-loading">
-        <div class="spinner"></div>
-        <p>AI scant je bon...</p>
+    <div class="sheet-body">
+      <div>
+        <div id="upload-area-wrap">
+          <div class="upload-area" onclick="document.getElementById('camera-input').click()">
+            <div class="upload-icon">📷</div>
+            <div class="upload-text">Foto maken of toevoegen</div>
+          </div>
+        </div>
+        <input type="file" id="camera-input" accept="image/*" onchange="fotoGekozen(event)">
       </div>
-      <div id="scan-resultaat" style="display:none;"></div>
+      <div>
+        <input type="text" id="upload-naam" placeholder="Naam rekening">
+      </div>
+      <div>
+        <input type="number" id="upload-deelnemers" placeholder="Aantal personen" inputmode="numeric" pattern="[0-9]*" min="1" max="100">
+      </div>
+      <div>
+        <input type="url" id="upload-betaallink" placeholder="Betaallink" autocomplete="off" autocorrect="off">
+        <div class="field-hint">Voeg een betaallink toe zodat iedereen die direct vanuit hier kan betalen</div>
+      </div>
+      <div>
+        <button class="btn btn-primary" id="scan-btn" onclick="scanBon()" disabled>Bon scannen</button>
+      </div>
     </div>
   </div>
 </div>
@@ -473,37 +597,16 @@
 <div class="sheet-overlay" id="split-sheet">
   <div class="sheet">
     <div class="sheet-handle"></div>
-    <div class="sheet-title" id="split-sheet-title">Item splitsen</div>
-    <div class="sheet-section">
-      <div class="sheet-label">Over hoeveel personen splitsen?</div>
-      <div class="pill-row" id="split-pills">
-        <button class="pill active" onclick="setSplit(2)">2</button>
-        <button class="pill" onclick="setSplit(3)">3</button>
-        <button class="pill" onclick="setSplit(4)">4</button>
-        <button class="pill" onclick="setSplit(5)">5</button>
-        <button class="pill" onclick="setSplit(6)">6</button>
-      </div>
+    <div class="sheet-header">
+      <div class="sheet-title" id="split-titel">Item splitsen</div>
+      <button class="sheet-close" onclick="closeSheet('split-sheet')">✕</button>
     </div>
-    <div class="sheet-section">
-      <div style="font-size:14px; color:var(--text2); margin-bottom:16px;">
-        Jouw deel: <strong id="split-bedrag-preview" style="color:var(--text);">—</strong>
-      </div>
-      <button class="btn btn-primary" onclick="bevestigSplit()">Bevestigen</button>
-      <div style="height:8px;"></div>
-      <button class="btn btn-secondary" onclick="closeSplitSheet()">Annuleren</button>
+    <div class="sheet-body">
+      <div style="font-size:14px; color:var(--text2); line-height:22px;" id="split-omschrijving"></div>
+      <input type="number" id="split-input" placeholder="Aantal personen" inputmode="numeric" pattern="[0-9]*" min="1" max="50">
+      <button class="btn btn-primary" onclick="bevestigSplit()">Opslaan</button>
     </div>
-  </div>
-</div>
-
-<!-- SAMENVATTING SHEET -->
-<div class="sheet-overlay" id="samenvatting-sheet">
-  <div class="sheet">
-    <div class="sheet-handle"></div>
-    <div class="sheet-title">Jouw samenvatting</div>
-    <div class="sheet-section" id="samenvatting-content"></div>
-    <div class="sheet-section">
-      <button class="btn btn-secondary" onclick="document.getElementById('samenvatting-sheet').classList.remove('open')">Sluiten</button>
-    </div>
+    <div style="height:20px;"></div>
   </div>
 </div>
 
@@ -511,18 +614,22 @@
 <div class="sheet-overlay" id="settings-sheet">
   <div class="sheet">
     <div class="sheet-handle"></div>
-    <div class="sheet-title" id="settings-sheet-title">Bewerken</div>
-    <div class="sheet-section">
+    <div class="sheet-header">
+      <div class="sheet-title" id="settings-sheet-title">Bewerken</div>
+      <button class="sheet-close" onclick="closeSheet('settings-sheet')">✕</button>
+    </div>
+    <div class="sheet-body">
       <input type="text" id="settings-edit-input" placeholder="">
-      <div style="height:12px;"></div>
       <button class="btn btn-primary" onclick="slaSettingOp()">Opslaan</button>
     </div>
+    <div style="height:20px;"></div>
   </div>
 </div>
 
 <script>
 const SUPABASE_URL = 'https://lawaeaqiuhklwbhxkkic.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxhd2FlYXFpdWhrbHdiaHhra2ljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE1MDM1NTcsImV4cCI6MjA5NzA3OTU1N30.eM8Rg450B2q-k64CeO38Vo1GegLJLo9qVXt5kIbCyTM';
+const EMOJIS = ['🍕','🍣','🍜','🍔','🥂','🍷','🍺','🌮','🥘','🍱','🥗','🍝','🫕','🥩','🍗','🥩','🍤','🥞','🧆','🫔'];
 
 const sb = {
   async query(table, opts = {}) {
@@ -559,23 +666,62 @@ const sb = {
   }
 };
 
-let gebruikerNaam = localStorage.getItem('splitsie_naam') || '';
-let gebruikerIBAN = localStorage.getItem('splitsie_iban') || '';
-let gebruikerId = localStorage.getItem('splitsie_id') || generateId();
+let gebruikerNaam = localStorage.getItem('sm_naam') || '';
+let gebruikerIBAN = localStorage.getItem('sm_iban') || '';
+let gebruikerId = localStorage.getItem('sm_id') || genId();
 let huidigeFotoBase64 = null;
+let huidigeFotoType = 'image/jpeg';
 let huidigeRekeningId = null;
+let huidigeRekening = null;
 let huidigeItems = [];
-let mijnSelecties = {};
+let controleerItems = [];
 let splitItemId = null;
-let splitAantal = 2;
 let currentEditKey = null;
 let pollingInterval = null;
 let scanData = null;
+let huidigSeg = 'heel';
+let verborgenIds = JSON.parse(localStorage.getItem('sm_hidden') || '[]');
 
-function generateId() {
-  const id = 'u_' + Math.random().toString(36).substr(2, 9);
-  localStorage.setItem('splitsie_id', id);
+function genId() {
+  const id = 'u_' + Math.random().toString(36).substr(2,9);
+  localStorage.setItem('sm_id', id);
   return id;
+}
+
+function genShareId() {
+  return Math.random().toString(36).substr(2,8).toUpperCase();
+}
+
+function fmt(n) {
+  return '€ ' + parseFloat(n).toFixed(2).replace('.', ',');
+}
+
+function fmtDatum(d) {
+  if (!d) return '';
+  const dt = new Date(d);
+  if (isNaN(dt)) return d;
+  return dt.toLocaleDateString('nl-NL', { day:'2-digit', month:'2-digit', year:'numeric' });
+}
+
+function escHtml(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function toast(msg) {
+  const el = document.createElement('div');
+  el.className = 'toast'; el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 2600);
+}
+
+function switchScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+}
+
+function closeSheet(id) {
+  document.getElementById(id).classList.remove('open');
 }
 
 function init() {
@@ -583,11 +729,11 @@ function init() {
   const joinId = params.get('join');
 
   if (!gebruikerNaam) {
-    document.getElementById('naam-setup').style.display = 'flex';
-    if (joinId) localStorage.setItem('splitsie_pending_join', joinId);
+    switchScreen('onboarding');
+    if (joinId) localStorage.setItem('sm_pending_join', joinId);
     return;
   }
-  document.getElementById('naam-setup').style.display = 'none';
+  switchScreen('home');
   updateSettingsDisplay();
   laadHome();
 
@@ -601,14 +747,11 @@ async function slaaNaamOp() {
   const val = document.getElementById('naam-input').value.trim();
   if (!val) return toast('Vul een naam in');
   gebruikerNaam = val;
-  localStorage.setItem('splitsie_naam', val);
-  document.getElementById('naam-setup').style.display = 'none';
-  const pendingJoin = localStorage.getItem('splitsie_pending_join');
-  if (pendingJoin) {
-    localStorage.removeItem('splitsie_pending_join');
-    await joinRekening(pendingJoin);
-  }
+  localStorage.setItem('sm_naam', val);
+  switchScreen('home');
   updateSettingsDisplay();
+  const pending = localStorage.getItem('sm_pending_join');
+  if (pending) { localStorage.removeItem('sm_pending_join'); await joinRekening(pending); }
   laadHome();
 }
 
@@ -619,197 +762,412 @@ function updateSettingsDisplay() {
 
 async function laadHome() {
   const el = document.getElementById('home-content');
-  el.innerHTML = '<div class="loading-state"><div class="spinner"></div><p>Laden...</p></div>';
+  el.innerHTML = '<div class="loading-state"><div class="spinner"></div></div>';
   try {
     const deelnames = await sb.query('deelnames', { select: 'rekening_id', eq: { gebruiker_id: gebruikerId } });
     const eigen = await sb.query('rekeningen', { select: '*', eq: { uploader_id: gebruikerId }, order: 'created_at.desc' });
     const deelnameIds = deelnames.map ? deelnames.map(d => d.rekening_id) : [];
-    let andereRekeningen = [];
-    if (deelnameIds.length > 0) {
-      andereRekeningen = await sb.query('rekeningen', { select: '*', in: { id: deelnameIds }, order: 'created_at.desc' });
-    }
+    let andere = [];
+    if (deelnameIds.length > 0) andere = await sb.query('rekeningen', { select: '*', in: { id: deelnameIds }, order: 'created_at.desc' });
     const eigenIds = eigen.map ? eigen.map(r => r.id) : [];
     const alle = [
       ...(eigen.map ? eigen : []),
-      ...(andereRekeningen.map ? andereRekeningen.filter(r => !eigenIds.includes(r.id)) : [])
-    ];
+      ...(andere.map ? andere.filter(r => !eigenIds.includes(r.id)) : [])
+    ].filter(r => !verborgenIds.includes(r.id));
+
     if (!alle.length) {
       el.innerHTML = `<div class="empty-state">
         <div class="empty-icon">🧾</div>
-        <div class="empty-title">Geen rekeningen</div>
-        <div class="empty-sub">Voeg een bon toe via de + knop, of open een gedeelde link.</div>
+        <div class="empty-title">Geen openstaande rekeningen</div>
+        <div class="empty-sub">Voeg een bon toe via de + knop</div>
       </div>`;
       return;
     }
-    let html = '<div class="section-title">Jouw rekeningen</div>';
+
+    let html = '<div class="rekening-list">';
     for (const r of alle) {
-      const items = await sb.query('items', { select: 'prijs,geselecteerd_door', eq: { rekening_id: r.id } });
-      const totaal = items.reduce ? items.reduce((s, i) => s + parseFloat(i.prijs || 0), 0) : 0;
-      const afgevinkt = items.filter ? items.filter(i => i.geselecteerd_door).length : 0;
-      const pct = items.length ? Math.round((afgevinkt / items.length) * 100) : 0;
-      const isEigen = r.uploader_id === gebruikerId;
-      html += `<div class="card card-tap rekening-card" onclick="openRekening('${r.id}')">
-        <div class="rekening-header">
+      const items = await sb.query('items', { select: 'prijs,geselecteerd_door,split_van', eq: { rekening_id: r.id } });
+      const totaal = items.reduce ? items.reduce((s,i) => s + parseFloat(i.prijs||0), 0) : 0;
+      const mijnTotaal = items.filter ? items.filter(i => i.geselecteerd_door === gebruikerId).reduce((s,i) => s + parseFloat(i.prijs||0)/(i.split_van||1), 0) : 0;
+      const emoji = EMOJIS[Math.abs(r.id.charCodeAt(0) + r.id.charCodeAt(1)) % EMOJIS.length];
+      html += `<div class="rekening-card" onclick="openRekening('${r.id}')">
+        <div class="rekening-emoji">${emoji}</div>
+        <div class="rekening-info">
           <div class="rekening-naam">${escHtml(r.naam)}</div>
-          <div class="rekening-badge ${pct === 100 ? 'badge-afgerond' : 'badge-open'}">${pct === 100 ? 'Afgerond' : 'Open'}</div>
+          ${r.datum ? `<div class="rekening-datum">${fmtDatum(r.datum)}</div>` : ''}
         </div>
-        <div class="rekening-meta">${isEigen ? '👤 Jij • ' : ''}${items.length || 0} items • €${totaal.toFixed(2).replace('.',',')} • ${afgevinkt}/${items.length || 0} afgevinkt</div>
-        <div class="rekening-progress"><div class="rekening-progress-bar" style="width:${pct}%"></div></div>
+        <div class="rekening-bedragen">
+          <div class="rekening-totaal">${fmt(totaal)}</div>
+          ${mijnTotaal > 0 ? `<div class="rekening-mijn">${fmt(mijnTotaal)} van mij</div>` : '<div class="rekening-mijn">—</div>'}
+        </div>
       </div>`;
     }
+    html += '</div>';
     el.innerHTML = html;
   } catch(e) {
     el.innerHTML = `<div class="empty-state"><div class="empty-title">Kon niet laden</div><div class="empty-sub">${e.message}</div></div>`;
   }
 }
 
-function refreshHome() { laadHome(); }
-
-function switchTab(tab) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('screen-' + tab).classList.add('active');
-  document.getElementById('nav-' + tab)?.classList.add('active');
+function goHome() {
+  if (pollingInterval) { clearInterval(pollingInterval); pollingInterval = null; }
+  huidigeRekeningId = null; huidigeRekening = null;
+  switchScreen('home');
+  laadHome();
 }
 
+// ── UPLOAD ──
 function openUpload() {
+  resetUpload();
   document.getElementById('upload-sheet').classList.add('open');
-  document.getElementById('upload-step-1').style.display = 'block';
-  document.getElementById('upload-step-2').style.display = 'none';
-  document.getElementById('foto-preview').style.display = 'none';
-  document.getElementById('upload-naam').value = '';
-  document.getElementById('upload-deelnemers').value = '2';
-  document.getElementById('scan-btn').disabled = true;
+}
+
+function resetUpload() {
   huidigeFotoBase64 = null;
+  document.getElementById('upload-naam').value = '';
+  document.getElementById('upload-deelnemers').value = '';
+  document.getElementById('upload-betaallink').value = '';
+  document.getElementById('scan-btn').disabled = true;
+  document.getElementById('scan-btn').innerHTML = 'Bon scannen';
+  document.getElementById('upload-area-wrap').innerHTML = `<div class="upload-area" onclick="document.getElementById('camera-input').click()">
+    <div class="upload-icon">📷</div>
+    <div class="upload-text">Foto maken of toevoegen</div>
+  </div>`;
   document.getElementById('camera-input').value = '';
 }
 
 function fotoGekozen(event) {
   const file = event.target.files[0];
   if (!file) return;
+  huidigeFotoType = file.type || 'image/jpeg';
   const reader = new FileReader();
   reader.onload = e => {
-    const dataUrl = e.target.result;
-    huidigeFotoBase64 = dataUrl.split(',')[1];
-    document.getElementById('preview-img').src = dataUrl;
-    document.getElementById('foto-preview').style.display = 'block';
-    document.getElementById('preview-label').textContent = file.name;
+    huidigeFotoBase64 = e.target.result.split(',')[1];
+    document.getElementById('upload-area-wrap').innerHTML = `<div class="upload-preview">
+      <img src="${e.target.result}">
+      <button class="upload-delete" onclick="resetFoto()">🗑</button>
+    </div>`;
     document.getElementById('scan-btn').disabled = false;
   };
   reader.readAsDataURL(file);
 }
 
+function resetFoto() {
+  huidigeFotoBase64 = null;
+  document.getElementById('upload-area-wrap').innerHTML = `<div class="upload-area" onclick="document.getElementById('camera-input').click()">
+    <div class="upload-icon">📷</div>
+    <div class="upload-text">Foto maken of toevoegen</div>
+  </div>`;
+  document.getElementById('camera-input').value = '';
+  document.getElementById('scan-btn').disabled = true;
+}
+
 async function scanBon() {
+  if (!huidigeFotoBase64) return toast('Kies eerst een foto');
   const naam = document.getElementById('upload-naam').value.trim();
   const deelnemers = parseInt(document.getElementById('upload-deelnemers').value) || 2;
-  if (!naam) return toast('Vul een naam in voor de rekening');
-  if (!huidigeFotoBase64) return toast('Kies eerst een foto');
+  const betaallink = document.getElementById('upload-betaallink').value.trim();
 
-  document.getElementById('upload-step-1').style.display = 'none';
-  document.getElementById('upload-step-2').style.display = 'block';
-  document.getElementById('scan-loading').style.display = 'block';
-  document.getElementById('scan-resultaat').style.display = 'none';
+  const btn = document.getElementById('scan-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="btn-spinner"></div>';
+  document.getElementById('upload-naam').disabled = true;
+  document.getElementById('upload-deelnemers').disabled = true;
+  document.getElementById('upload-betaallink').disabled = true;
 
-try {
+  try {
     const response = await fetch('/.netlify/functions/scan-bon', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ imageBase64: huidigeFotoBase64, mediaType: 'image/jpeg' })
+      body: JSON.stringify({ imageBase64: huidigeFotoBase64, mediaType: huidigeFotoType })
     });
     const data = await response.json();
     if (!data.content || !data.content[0]) throw new Error(JSON.stringify(data));
-    const text = data.content[0].text.trim().replace(/```json|```/g, '').trim();
+    const text = data.content[0].text.trim().replace(/```json|```/g,'').trim();
     const parsed = JSON.parse(text);
-    document.getElementById('scan-loading').style.display = 'none';
-    toonScanResultaat(parsed, naam, deelnemers);
+
+    scanData = { parsed, naam, deelnemers, betaallink };
+    closeSheet('upload-sheet');
+    toonControleren(parsed);
   } catch(e) {
-    document.getElementById('scan-loading').style.display = 'none';
-    document.getElementById('scan-resultaat').style.display = 'block';
-    document.getElementById('scan-resultaat').innerHTML = `<div class="sheet-section">
-      <div style="color:var(--danger); margin-bottom:12px;">Kon de bon niet lezen. Probeer een duidelijkere foto.</div>
-      <div style="font-size:12px; color:var(--text3);">${e.message}</div>
-      <div style="height:12px;"></div>
-      <button class="btn btn-secondary" onclick="openUpload()">Opnieuw proberen</button>
-    </div>`;
+    toast('Kon de bon niet lezen: ' + e.message);
+    btn.disabled = false;
+    btn.innerHTML = 'Bon scannen';
+    document.getElementById('upload-naam').disabled = false;
+    document.getElementById('upload-deelnemers').disabled = false;
+    document.getElementById('upload-betaallink').disabled = false;
   }
 }
 
-function toonScanResultaat(parsed, naam, deelnemers) {
-  scanData = { parsed, naam, deelnemers };
-  const fooi = parsed.totaal_betaald > parsed.subtotaal ? (parsed.totaal_betaald - parsed.subtotaal) : 0;
-  const fooiPP = fooi / deelnemers;
+function toonControleren(parsed) {
+  controleerItems = parsed.items.map((item, i) => ({
+    id: 'ci_' + i,
+    naam: item.naam,
+    prijs: item.prijs * (item.aantal || 1),
+    split_van: 1
+  }));
+  renderControleren();
+  switchScreen('controleren');
+}
 
-  let html = `<div class="sheet-section">
-    <div class="sheet-label">Gevonden items</div>
-    <div class="gap-8">`;
-  parsed.items.forEach(item => {
-    html += `<div style="display:flex; justify-content:space-between; align-items:center; padding:10px 12px; background:var(--bg3); border-radius:var(--radius-sm);">
-      <div>
-        <div style="font-size:14px; font-weight:500;">${escHtml(item.naam)}</div>
-        ${item.aantal > 1 ? `<div style="font-size:12px; color:var(--text2);">${item.aantal}x €${item.prijs.toFixed(2).replace('.',',')}</div>` : ''}
+function renderControleren() {
+  const el = document.getElementById('controleer-list');
+  let html = '';
+  for (const item of controleerItems) {
+    const perPersoon = item.prijs / item.split_van;
+    html += `<div class="controleer-item">
+      <div class="controleer-item-left">
+        <div class="controleer-item-naam">${escHtml(item.naam)}</div>
+        ${item.split_van > 1 ? `<div class="controleer-item-sub">Delen door ${item.split_van} · ${fmt(perPersoon)} p.p.</div>` : ''}
       </div>
-      <div style="font-size:14px; font-weight:600;">€${(item.prijs * (item.aantal||1)).toFixed(2).replace('.',',')}</div>
+      <div class="controleer-item-right">
+        <div class="controleer-item-prijs">${fmt(item.prijs)}</div>
+        ${item.split_van > 1 ? `<div class="controleer-item-pp">${fmt(perPersoon)} p.p.</div>` : ''}
+      </div>
+      <button class="split-btn ${item.split_van > 1 ? 'active' : ''}" onclick="openSplit('${item.id}')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
+      </button>
     </div>`;
-  });
-  html += `</div></div>
-  <div class="sheet-section">
-    <div style="display:flex; justify-content:space-between; font-size:14px; padding:6px 0; color:var(--text2);"><span>Subtotaal</span><span>€${parsed.subtotaal.toFixed(2).replace('.',',')}</span></div>
-    ${fooi > 0 ? `<div style="display:flex; justify-content:space-between; font-size:14px; padding:6px 0; color:var(--text2);"><span>Fooi</span><span>€${fooi.toFixed(2).replace('.',',')} (€${fooiPP.toFixed(2).replace('.',',')} p.p.)</span></div>` : ''}
-    <div style="display:flex; justify-content:space-between; font-size:15px; font-weight:600; padding:8px 0; border-top:0.5px solid var(--border); margin-top:4px;"><span>Betaald</span><span>€${parsed.totaal_betaald.toFixed(2).replace('.',',')}</span></div>
-  </div>
-  <div class="sheet-section">
-    <button class="btn btn-primary" onclick="maakRekening()">Rekening aanmaken</button>
-    <div style="height:8px;"></div>
-    <button class="btn btn-secondary" onclick="openUpload()">Opnieuw</button>
-  </div>`;
+  }
+  el.innerHTML = html;
+}
 
-  document.getElementById('scan-resultaat').innerHTML = html;
-  document.getElementById('scan-resultaat').style.display = 'block';
+function openSplit(itemId) {
+  splitItemId = itemId;
+  const item = controleerItems.find(i => i.id === itemId);
+  if (!item) return;
+  document.getElementById('split-titel').textContent = 'Item splitsen';
+  document.getElementById('split-omschrijving').innerHTML = `Hoeveel mensen wil je laten meebetalen aan <strong>${escHtml(item.naam)}</strong> van <strong>${fmt(item.prijs)}</strong>?`;
+  document.getElementById('split-input').value = item.split_van > 1 ? item.split_van : '';
+  document.getElementById('split-sheet').classList.add('open');
+}
+
+function bevestigSplit() {
+  const n = parseInt(document.getElementById('split-input').value) || 1;
+  const item = controleerItems.find(i => i.id === splitItemId);
+  if (item) { item.split_van = Math.max(1, n); }
+  closeSheet('split-sheet');
+  renderControleren();
 }
 
 async function maakRekening() {
   if (!scanData) return;
-  const { parsed, naam, deelnemers } = scanData;
+  const { parsed, naam, deelnemers, betaallink } = scanData;
+  const btn = document.getElementById('maak-rekening-btn');
+  btn.disabled = true;
+
   try {
     const fooi = parsed.totaal_betaald > parsed.subtotaal ? parsed.totaal_betaald - parsed.subtotaal : 0;
-    const shareId = generateShareId();
+    const shareId = genShareId();
     const rekRes = await sb.insert('rekeningen', {
-      naam, uploader_id: gebruikerId, uploader_naam: gebruikerNaam,
+      naam: naam || 'Rekening',
+      uploader_id: gebruikerId,
+      uploader_naam: gebruikerNaam,
       uploader_iban: gebruikerIBAN || null,
-      subtotaal: parsed.subtotaal, totaal_betaald: parsed.totaal_betaald,
-      fooi, deelnemers, share_id: shareId
+      subtotaal: parsed.subtotaal,
+      totaal_betaald: parsed.totaal_betaald,
+      fooi, deelnemers,
+      betaallink: betaallink || null,
+      datum: parsed.datum || null,
+      share_id: shareId
     });
-    if (!rekRes || !rekRes[0]) throw new Error('Rekening aanmaken mislukt');
+    if (!rekRes || !rekRes[0]) throw new Error('Aanmaken mislukt');
     const rekeningId = rekRes[0].id;
 
-    for (const item of parsed.items) {
-      const n = item.aantal || 1;
-      if (n > 1) {
-        for (let k = 0; k < n; k++) {
-          await sb.insert('items', { rekening_id: rekeningId, naam: item.naam, prijs: item.prijs, split_van: 1 });
-        }
-      } else {
-        await sb.insert('items', { rekening_id: rekeningId, naam: item.naam, prijs: item.prijs, split_van: 1 });
-      }
+    for (const item of controleerItems) {
+      await sb.insert('items', {
+        rekening_id: rekeningId,
+        naam: item.naam,
+        prijs: item.prijs,
+        split_van: item.split_van
+      });
     }
     await sb.insert('deelnames', { rekening_id: rekeningId, gebruiker_id: gebruikerId, gebruiker_naam: gebruikerNaam });
-    document.getElementById('upload-sheet').classList.remove('open');
 
     const shareUrl = `${window.location.origin}${window.location.pathname}?join=${shareId}`;
     if (navigator.share) {
-      navigator.share({ title: naam, text: `Splitsie: ${naam}`, url: shareUrl }).catch(() => {});
+      navigator.share({ title: naam || 'Rekening', url: shareUrl }).catch(() => {});
     } else {
-      navigator.clipboard?.writeText(shareUrl).then(() => toast('Deellink gekopieerd!')).catch(() => alert(`Deellink:\n${shareUrl}`));
+      navigator.clipboard?.writeText(shareUrl).then(() => toast('Deellink gekopieerd!')).catch(() => {});
     }
-    laadHome();
     openRekening(rekeningId);
   } catch(e) {
     toast('Fout: ' + e.message);
+    btn.disabled = false;
   }
 }
 
-function generateShareId() {
-  return Math.random().toString(36).substr(2, 8).toUpperCase();
+// ── DETAIL ──
+async function openRekening(id) {
+  huidigeRekeningId = id;
+  huidigSeg = 'heel';
+  switchScreen('detail');
+  document.getElementById('items-list').innerHTML = '<div class="loading-state"><div class="spinner"></div></div>';
+  document.getElementById('seg-heel').classList.add('active');
+  document.getElementById('seg-mijn').classList.remove('active');
+
+  try {
+    const rekeningen = await sb.query('rekeningen', { select: '*', eq: { id } });
+    huidigeRekening = rekeningen[0];
+    if (!huidigeRekening) { toast('Niet gevonden'); goHome(); return; }
+
+    const r = huidigeRekening;
+    document.getElementById('detail-naam').textContent = r.naam;
+    const metaParts = [`Betaald door ${r.uploader_naam}`];
+    if (r.datum) metaParts.push(fmtDatum(r.datum));
+    document.getElementById('detail-meta').textContent = metaParts.join(' op ');
+
+    const isUploader = r.uploader_id === gebruikerId;
+    document.getElementById('verwijder-btn').style.display = isUploader ? 'flex' : 'flex';
+
+    const fooi = parseFloat(r.fooi || 0);
+    const fooiPP = r.deelnemers > 0 ? fooi / r.deelnemers : 0;
+    document.getElementById('fooi-bedrag').textContent = fooi > 0 ? `${fmt(fooi)} (${fmt(fooiPP)} p.p.)` : '—';
+
+    if (r.betaallink) {
+      document.getElementById('betaal-btn').style.display = 'block';
+    } else {
+      document.getElementById('betaal-btn').style.display = 'none';
+    }
+
+    const items = await sb.query('items', { select: '*', eq: { rekening_id: id }, order: 'created_at.asc' });
+    huidigeItems = items || [];
+
+    renderItems();
+    herbereken();
+    startPolling(id);
+  } catch(e) {
+    document.getElementById('items-list').innerHTML = `<div class="empty-state"><div class="empty-title">Fout</div><div class="empty-sub">${e.message}</div></div>`;
+  }
+}
+
+function renderItems() {
+  const el = document.getElementById('items-list');
+  let gefilterd = huidigeItems;
+  if (huidigSeg === 'mijn') gefilterd = huidigeItems.filter(i => i.geselecteerd_door === gebruikerId);
+
+  if (!gefilterd.length) {
+    el.innerHTML = huidigSeg === 'mijn'
+      ? `<div class="empty-state"><div class="empty-icon">☑️</div><div class="empty-title">Je hebt nog geen dingen geselecteerd</div></div>`
+      : `<div class="empty-state"><div class="empty-icon">🧾</div><div class="empty-title">Geen items</div></div>`;
+    return;
+  }
+
+  let html = '';
+  for (const item of gefilterd) {
+    const isVanMij = item.geselecteerd_door === gebruikerId;
+    const isVanAnder = item.geselecteerd_door && item.geselecteerd_door !== gebruikerId;
+    const prijs = parseFloat(item.prijs) / (item.split_van || 1);
+    let cls = 'item-row';
+    if (isVanMij) cls += ' geselecteerd';
+    if (isVanAnder) cls += ' van-ander';
+
+    html += `<div class="${cls}" id="item-${item.id}" onclick="toggleItem('${item.id}')">
+      <div class="item-check">
+        <svg class="item-check-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="${getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#0a0a0a'}" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="item-info">
+        <div class="item-naam">${escHtml(item.naam)}</div>
+        ${item.split_van > 1 ? `<div class="item-split-info">${fmt(prijs)} p.p. · gedeeld door ${item.split_van} · ${fmt(parseFloat(item.prijs))}</div>` : ''}
+        ${isVanAnder ? `<div class="item-persoon">${escHtml(item.geselecteerd_naam || 'Iemand anders')}</div>` : ''}
+      </div>
+      <div class="item-bedrag">${fmt(prijs)}</div>
+    </div>`;
+  }
+  el.innerHTML = html;
+}
+
+function switchSeg(seg) {
+  huidigSeg = seg;
+  document.getElementById('seg-heel').classList.toggle('active', seg === 'heel');
+  document.getElementById('seg-mijn').classList.toggle('active', seg === 'mijn');
+  renderItems();
+}
+
+function herbereken() {
+  let totaal = 0; let count = 0;
+  for (const item of huidigeItems) {
+    if (item.geselecteerd_door === gebruikerId) {
+      totaal += parseFloat(item.prijs) / (item.split_van || 1);
+      count++;
+    }
+  }
+  document.getElementById('fooi-totaal-bedrag').textContent = fmt(totaal);
+  document.getElementById('fooi-items-count').textContent = count > 0 ? `${count} item${count !== 1 ? 's' : ''} geselecteerd` : '';
+}
+
+async function toggleItem(itemId) {
+  const item = huidigeItems.find(i => i.id === itemId);
+  if (!item) return;
+  if (item.geselecteerd_door && item.geselecteerd_door !== gebruikerId) return;
+  const wasGeselecteerd = item.geselecteerd_door === gebruikerId;
+  item.geselecteerd_door = wasGeselecteerd ? null : gebruikerId;
+  item.geselecteerd_naam = wasGeselecteerd ? null : gebruikerNaam;
+  renderItems();
+  herbereken();
+  try {
+    await sb.update('items', { geselecteerd_door: item.geselecteerd_door, geselecteerd_naam: item.geselecteerd_naam }, { id: itemId });
+  } catch(e) {
+    item.geselecteerd_door = wasGeselecteerd ? gebruikerId : null;
+    renderItems(); herbereken();
+    toast('Fout bij opslaan');
+  }
+}
+
+function betalen() {
+  if (!huidigeRekening?.betaallink) return;
+  let link = huidigeRekening.betaallink;
+  if (!link.startsWith('http')) link = 'https://' + link;
+  window.open(link, '_blank');
+}
+
+function startPolling(id) {
+  if (pollingInterval) clearInterval(pollingInterval);
+  pollingInterval = setInterval(async () => {
+    if (huidigeRekeningId !== id) { clearInterval(pollingInterval); return; }
+    try {
+      const items = await sb.query('items', { select: '*', eq: { rekening_id: id }, order: 'created_at.asc' });
+      if (!items) return;
+      let changed = items.length !== huidigeItems.length;
+      if (!changed) {
+        for (const item of items) {
+          const old = huidigeItems.find(i => i.id === item.id);
+          if (!old || old.geselecteerd_door !== item.geselecteerd_door) { changed = true; break; }
+        }
+      }
+      if (changed) { huidigeItems = items; renderItems(); herbereken(); }
+    } catch(e) {}
+  }, 4000);
+}
+
+async function verwijderRekening() {
+  if (!huidigeRekeningId || !huidigeRekening) return;
+  const isUploader = huidigeRekening.uploader_id === gebruikerId;
+
+  if (isUploader) {
+    if (!confirm('Rekening verwijderen voor iedereen?')) return;
+    try {
+      await sb.delete('items', { rekening_id: huidigeRekeningId });
+      await sb.delete('deelnames', { rekening_id: huidigeRekeningId });
+      await sb.delete('rekeningen', { id: huidigeRekeningId });
+      goHome();
+    } catch(e) { toast('Fout: ' + e.message); }
+  } else {
+    verborgenIds.push(huidigeRekeningId);
+    localStorage.setItem('sm_hidden', JSON.stringify(verborgenIds));
+    goHome();
+  }
+}
+
+async function deelHuidigeRekening() {
+  if (!huidigeRekening) return;
+  const shareUrl = `${window.location.origin}${window.location.pathname}?join=${huidigeRekening.share_id}`;
+  if (navigator.share) {
+    navigator.share({ title: huidigeRekening.naam, url: shareUrl }).catch(() => {});
+  } else {
+    await navigator.clipboard?.writeText(shareUrl);
+    toast('Link gekopieerd!');
+  }
 }
 
 async function joinRekening(shareId) {
@@ -821,255 +1179,21 @@ async function joinRekening(shareId) {
     if (!bestaand || !bestaand[0]) {
       await sb.insert('deelnames', { rekening_id: rek.id, gebruiker_id: gebruikerId, gebruiker_naam: gebruikerNaam });
     }
+    verborgenIds = verborgenIds.filter(id => id !== rek.id);
+    localStorage.setItem('sm_hidden', JSON.stringify(verborgenIds));
     history.replaceState({}, '', window.location.pathname);
     await laadHome();
     openRekening(rek.id);
-  } catch(e) {
-    toast('Kon niet joinen: ' + e.message);
-  }
-}
-
-async function openRekening(id) {
-  huidigeRekeningId = id;
-  mijnSelecties = {};
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('screen-detail').classList.add('active');
-  document.getElementById('detail-content').innerHTML = '<div class="loading-state"><div class="spinner"></div></div>';
-  document.getElementById('mijn-totaal-bar').style.display = 'none';
-  document.getElementById('sla-selectie-op-btn').style.display = 'none';
-
-  try {
-    const rekeningen = await sb.query('rekeningen', { select: '*', eq: { id } });
-    const rek = rekeningen[0];
-    if (!rek) { toast('Niet gevonden'); goHome(); return; }
-
-    document.getElementById('detail-titel').textContent = rek.naam;
-    document.getElementById('detail-meta').textContent = `Door ${rek.uploader_naam} • ${rek.deelnemers} deelnemers`;
-
-    const items = await sb.query('items', { select: '*', eq: { rekening_id: id }, order: 'created_at.asc' });
-    huidigeItems = items || [];
-    const isUploader = rek.uploader_id === gebruikerId;
-    const fooi = parseFloat(rek.fooi || 0);
-    const fooiPP = rek.deelnemers > 0 ? fooi / rek.deelnemers : 0;
-
-    let html = '';
-    if (fooi > 0) {
-      html += `<div class="fooi-bar" style="margin-top:12px;">
-        <div class="fooi-row"><span class="fooi-label">Fooi betaald</span><span class="fooi-val">€${fooi.toFixed(2).replace('.',',')}</span></div>
-        <div class="fooi-per">€${fooiPP.toFixed(2).replace('.',',')} per persoon (${rek.deelnemers} deelnemers)</div>
-      </div>`;
-    }
-    html += '<div style="padding: 12px 16px 8px; font-size:12px; color:var(--text3);">Tik op een item om het te selecteren</div>';
-
-    for (const item of huidigeItems) {
-      const isVanMij = item.geselecteerd_door === gebruikerId;
-      const isVanAnder = item.geselecteerd_door && item.geselecteerd_door !== gebruikerId;
-      const prijsPerDeel = parseFloat(item.prijs) / (item.split_van || 1);
-      let clss = 'item-row';
-      if (isVanMij) { clss += ' geselecteerd'; mijnSelecties[item.id] = true; }
-      if (isVanAnder) clss += ' van-ander';
-
-      html += `<div class="${clss}" id="item-${item.id}" onclick="toggleItem('${item.id}')">
-        <div class="item-check">${isVanMij ? '✓' : ''}</div>
-        <div class="item-info">
-          <div class="item-naam">${escHtml(item.naam)}</div>
-          ${item.split_van > 1 ? `<div class="item-sub">Gesplitst over ${item.split_van} personen</div>` : ''}
-          ${isVanAnder ? `<div class="item-persoon">● ${escHtml(item.geselecteerd_naam || 'Iemand anders')}</div>` : ''}
-          ${isUploader && !item.geselecteerd_door ? `<button class="item-split-btn" onclick="event.stopPropagation(); openSplit('${item.id}')">Splitsen</button>` : ''}
-        </div>
-        <div class="item-bedrag">€${prijsPerDeel.toFixed(2).replace('.',',')}</div>
-      </div>`;
-    }
-
-    if (isUploader) {
-      html += `<div style="padding: 12px 16px;">
-        <button class="btn btn-secondary" onclick="deelLink('${rek.share_id}', '${escHtml(rek.naam)}')">🔗 Deellink kopiëren</button>
-      </div>`;
-    }
-
-    document.getElementById('detail-content').innerHTML = html;
-    herbereken();
-    startPolling(id);
-  } catch(e) {
-    document.getElementById('detail-content').innerHTML = `<div class="empty-state"><div class="empty-title">Fout</div><div class="empty-sub">${e.message}</div></div>`;
-  }
-}
-
-function startPolling(id) {
-  if (pollingInterval) clearInterval(pollingInterval);
-  pollingInterval = setInterval(async () => {
-    if (huidigeRekeningId !== id) { clearInterval(pollingInterval); return; }
-    try {
-      const items = await sb.query('items', { select: '*', eq: { rekening_id: id }, order: 'created_at.asc' });
-      if (!items) return;
-      let changed = false;
-      if (items.length !== huidigeItems.length) { changed = true; }
-      else {
-        for (const item of items) {
-          const old = huidigeItems.find(i => i.id === item.id);
-          if (!old || old.geselecteerd_door !== item.geselecteerd_door || old.split_van !== item.split_van) { changed = true; break; }
-        }
-      }
-      if (changed) { huidigeItems = items; updateItemsUI(); }
-    } catch(e) {}
-  }, 4000);
-}
-
-function updateItemsUI() {
-  for (const item of huidigeItems) {
-    const el = document.getElementById('item-' + item.id);
-    if (!el) continue;
-    const isVanMij = item.geselecteerd_door === gebruikerId;
-    const isVanAnder = item.geselecteerd_door && item.geselecteerd_door !== gebruikerId;
-    const prijsPerDeel = parseFloat(item.prijs) / (item.split_van || 1);
-    el.className = 'item-row' + (isVanMij ? ' geselecteerd' : '') + (isVanAnder ? ' van-ander' : '');
-    const check = el.querySelector('.item-check');
-    if (check) check.innerHTML = isVanMij ? '✓' : '';
-    const persoonEl = el.querySelector('.item-persoon');
-    if (isVanAnder) {
-      if (persoonEl) persoonEl.textContent = '● ' + (item.geselecteerd_naam || 'Iemand anders');
-      else { const info = el.querySelector('.item-info'); const p = document.createElement('div'); p.className = 'item-persoon'; p.textContent = '● ' + (item.geselecteerd_naam || 'Iemand anders'); info.appendChild(p); }
-    } else if (persoonEl) persoonEl.remove();
-    const bedragEl = el.querySelector('.item-bedrag');
-    if (bedragEl) bedragEl.textContent = `€${prijsPerDeel.toFixed(2).replace('.',',')}`;
-  }
-  herbereken();
-}
-
-async function toggleItem(itemId) {
-  const item = huidigeItems.find(i => i.id === itemId);
-  if (!item) return;
-  if (item.geselecteerd_door && item.geselecteerd_door !== gebruikerId) return;
-  const wasGeselecteerd = item.geselecteerd_door === gebruikerId;
-  const nieuweWaarde = wasGeselecteerd ? null : gebruikerId;
-  const nieuweNaam = wasGeselecteerd ? null : gebruikerNaam;
-  item.geselecteerd_door = nieuweWaarde;
-  item.geselecteerd_naam = nieuweNaam;
-  updateItemsUI();
-  try {
-    await sb.update('items', { geselecteerd_door: nieuweWaarde, geselecteerd_naam: nieuweNaam }, { id: itemId });
-  } catch(e) {
-    item.geselecteerd_door = wasGeselecteerd ? gebruikerId : null;
-    updateItemsUI();
-    toast('Fout bij opslaan');
-  }
-}
-
-function herbereken() {
-  let totaal = 0; let count = 0;
-  for (const item of huidigeItems) {
-    if (item.geselecteerd_door === gebruikerId) {
-      totaal += parseFloat(item.prijs) / (item.split_van || 1);
-      count++;
-    }
-  }
-  const bar = document.getElementById('mijn-totaal-bar');
-  const btn = document.getElementById('sla-selectie-op-btn');
-  if (count > 0) {
-    bar.style.display = 'block'; btn.style.display = 'block';
-    document.getElementById('mijn-totaal-bedrag').textContent = `€${totaal.toFixed(2).replace('.',',')}`;
-    document.getElementById('mijn-items-count').textContent = `${count} item${count !== 1 ? 's' : ''} geselecteerd`;
-  } else {
-    bar.style.display = 'none'; btn.style.display = 'none';
-  }
-}
-
-function openSplit(itemId) {
-  splitItemId = itemId; splitAantal = 2;
-  const item = huidigeItems.find(i => i.id === itemId);
-  document.getElementById('split-sheet-title').textContent = item ? escHtml(item.naam) + ' splitsen' : 'Item splitsen';
-  document.querySelectorAll('#split-pills .pill').forEach((p,i) => p.classList.toggle('active', i === 0));
-  updateSplitPreview();
-  document.getElementById('split-sheet').classList.add('open');
-}
-
-function setSplit(n) {
-  splitAantal = n;
-  document.querySelectorAll('#split-pills .pill').forEach(p => p.classList.toggle('active', parseInt(p.textContent) === n));
-  updateSplitPreview();
-}
-
-function updateSplitPreview() {
-  const item = huidigeItems.find(i => i.id === splitItemId);
-  if (!item) return;
-  document.getElementById('split-bedrag-preview').textContent = `€${(parseFloat(item.prijs) / splitAantal).toFixed(2).replace('.',',')}`;
-}
-
-async function bevestigSplit() {
-  if (!splitItemId) return;
-  const item = huidigeItems.find(i => i.id === splitItemId);
-  if (!item) return;
-  closeSplitSheet();
-  try {
-    const origPrijs = parseFloat(item.prijs);
-    const rekeningId = item.rekening_id;
-    await sb.delete('items', { id: splitItemId });
-    for (let k = 0; k < splitAantal; k++) {
-      await sb.insert('items', { rekening_id: rekeningId, naam: item.naam, prijs: origPrijs / splitAantal, split_van: splitAantal });
-    }
-    openRekening(rekeningId);
-  } catch(e) {
-    toast('Splitsen mislukt: ' + e.message);
-  }
-}
-
-function closeSplitSheet() {
-  document.getElementById('split-sheet').classList.remove('open');
-  splitItemId = null;
-}
-
-function slaSelectieOp() {
-  const geselecteerd = huidigeItems.filter(i => i.geselecteerd_door === gebruikerId);
-  if (!geselecteerd.length) return;
-  let totaal = 0;
-  let html = '<div class="gap-8">';
-  for (const item of geselecteerd) {
-    const prijs = parseFloat(item.prijs) / (item.split_van || 1);
-    totaal += prijs;
-    html += `<div class="samenvatting-item">
-      <span class="samenvatting-naam">${escHtml(item.naam)}${item.split_van > 1 ? ` (1/${item.split_van})` : ''}</span>
-      <span class="samenvatting-bedrag">€${prijs.toFixed(2).replace('.',',')}</span>
-    </div>`;
-  }
-  html += `</div>
-  <div style="margin-top:16px; padding-top:12px; border-top:0.5px solid var(--border);">
-    <div style="display:flex; justify-content:space-between; font-size:16px; font-weight:700;"><span>Totaal</span><span>€${totaal.toFixed(2).replace('.',',')}</span></div>
-    <div style="margin-top:16px;"><button class="btn btn-secondary" onclick="kopieerSamenvatting()">📋 Kopiëren voor betaalverzoek</button></div>
-  </div>`;
-  document.getElementById('samenvatting-content').innerHTML = html;
-  document.getElementById('samenvatting-sheet').classList.add('open');
-}
-
-function kopieerSamenvatting() {
-  const geselecteerd = huidigeItems.filter(i => i.geselecteerd_door === gebruikerId);
-  let tekst = `Splitsie - ${gebruikerNaam}\n\n`;
-  let totaal = 0;
-  for (const item of geselecteerd) {
-    const prijs = parseFloat(item.prijs) / (item.split_van || 1);
-    totaal += prijs;
-    tekst += `${item.naam}${item.split_van > 1 ? ` (1/${item.split_van})` : ''}: €${prijs.toFixed(2).replace('.',',')}\n`;
-  }
-  tekst += `\nTotaal: €${totaal.toFixed(2).replace('.',',')}`;
-  navigator.clipboard?.writeText(tekst).then(() => toast('Gekopieerd!')).catch(() => alert(tekst));
-}
-
-async function deelLink(shareId, naam) {
-  const shareUrl = `${window.location.origin}${window.location.pathname}?join=${shareId}`;
-  if (navigator.share) {
-    navigator.share({ title: naam, url: shareUrl }).catch(() => {});
-  } else {
-    await navigator.clipboard?.writeText(shareUrl);
-    toast('Link gekopieerd!');
-  }
+  } catch(e) { toast('Kon niet joinen: ' + e.message); }
 }
 
 function editSetting(key) {
   currentEditKey = key;
-  const labels = { naam: 'Naam', iban: 'IBAN rekeningnummer' };
+  const labels = { naam: 'Naam', iban: 'IBAN' };
   const values = { naam: gebruikerNaam, iban: gebruikerIBAN };
   document.getElementById('settings-sheet-title').textContent = labels[key] + ' bewerken';
   document.getElementById('settings-edit-input').value = values[key] || '';
-  document.getElementById('settings-edit-input').placeholder = key === 'iban' ? 'NL00 BANK 0000 0000 00' : 'Jouw naam';
+  document.getElementById('settings-edit-input').placeholder = key === 'iban' ? 'NL00 BANK 0000 0000 00' : 'Naam';
   document.getElementById('settings-sheet').classList.add('open');
 }
 
@@ -1077,37 +1201,13 @@ function slaSettingOp() {
   const val = document.getElementById('settings-edit-input').value.trim();
   if (currentEditKey === 'naam') {
     if (!val) return toast('Naam mag niet leeg zijn');
-    gebruikerNaam = val;
-    localStorage.setItem('splitsie_naam', val);
-  } else if (currentEditKey === 'iban') {
-    gebruikerIBAN = val;
-    localStorage.setItem('splitsie_iban', val);
+    gebruikerNaam = val; localStorage.setItem('sm_naam', val);
+  } else {
+    gebruikerIBAN = val; localStorage.setItem('sm_iban', val);
   }
   updateSettingsDisplay();
-  document.getElementById('settings-sheet').classList.remove('open');
+  closeSheet('settings-sheet');
   toast('Opgeslagen');
-}
-
-function goHome() {
-  if (pollingInterval) { clearInterval(pollingInterval); pollingInterval = null; }
-  huidigeRekeningId = null;
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('screen-home').classList.add('active');
-  document.getElementById('nav-home').classList.add('active');
-  laadHome();
-}
-
-function escHtml(str) {
-  if (!str) return '';
-  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-function toast(msg) {
-  const el = document.createElement('div');
-  el.className = 'toast';
-  el.textContent = msg;
-  document.body.appendChild(el);
-  setTimeout(() => el.remove(), 2600);
 }
 
 document.querySelectorAll('.sheet-overlay').forEach(overlay => {
