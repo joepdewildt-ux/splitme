@@ -6,30 +6,33 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#0a0a0a">
+<meta name="theme-color" content="#f5f5f5">
 <title>SplitMe</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
 :root {
-  --bg: #0a0a0a;
-  --bg2: #141414;
-  --bg3: #1e1e1e;
-  --bg4: #282828;
-  --border: rgba(255,255,255,0.08);
-  --border2: rgba(255,255,255,0.14);
-  --text: #ffffff;
-  --text2: #999999;
-  --text3: #555555;
-  --radius: 16px;
+  --bg: #f5f5f5;
+  --bg2: #ffffff;
+  --bg3: #f0f0f0;
+  --bg4: #e8e8e8;
+  --border: rgba(0,0,0,0.08);
+  --border2: rgba(0,0,0,0.14);
+  --text: #111111;
+  --text2: #767676;
+  --text3: #aaaaaa;
+  --accent: #2C4C1B;
+  --accent-light: rgba(44,76,27,0.1);
+  --radius: 360px;
   --radius-sm: 12px;
+  --radius-input: 8px;
   --max-w: 600px;
   --px: 16px;
 }
 
 body {
-  font-family: 'Poppins', -apple-system, sans-serif;
+  font-family: 'Public Sans', -apple-system, sans-serif;
   background: var(--bg);
   color: var(--text);
   font-size: 16px;
@@ -42,87 +45,130 @@ body {
 .screen { display: none; flex-direction: column; min-height: 100vh; }
 .screen.active { display: flex; }
 
+/* ── TYPOGRAPHY ── */
+.h1 { font-size: 24px; line-height: 36px; font-weight: 700; color: var(--accent); }
+.body-bold { font-size: 16px; line-height: 24px; font-weight: 700; }
+.body-reg { font-size: 16px; line-height: 24px; font-weight: 400; }
+.body-s { font-size: 14px; line-height: 20px; font-weight: 400; color: var(--text2); }
+.body-xs { font-size: 12px; line-height: 16px; font-weight: 400; color: var(--text3); }
+
 /* ── ONBOARDING ── */
 #screen-onboarding { justify-content: space-between; padding: 0 var(--px); max-width: var(--max-w); margin: 0 auto; width: 100%; }
 .onboarding-top { padding-top: 72px; }
-.onboarding-logo { font-size: 32px; line-height: 48px; font-weight: 800; }
+.onboarding-logo { font-size: 24px; line-height: 36px; font-weight: 800; color: var(--accent); }
 .onboarding-sub { font-size: 16px; line-height: 24px; color: var(--text2); margin-top: 4px; }
 .onboarding-bottom { padding-bottom: 48px; display: flex; flex-direction: column; gap: 12px; }
 .onboarding-label { font-size: 14px; color: var(--text2); }
 
-/* ── INPUTS ── */
-input[type="text"], input[type="number"], input[type="url"] {
-  width: 100%; padding: 12px 16px;
-  background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--radius-sm);
-  color: var(--text); font-size: 16px; line-height: 24px;
-  font-family: 'Poppins', sans-serif; outline: none; transition: border-color 0.15s;
-  -webkit-appearance: none; height: 48px;
+/* ── INPUTS (floating label) ── */
+.input-field {
+  position: relative; background: var(--bg2);
+  border-radius: var(--radius-input); overflow: hidden;
+  height: 56px;
 }
-input:focus { border-color: rgba(255,255,255,0.35); }
-input::placeholder { color: var(--text3); }
-input[type="number"] { -moz-appearance: textfield; }
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
-input:disabled { opacity: 0.4; }
+.input-field input {
+  width: 100%; height: 100%;
+  padding: 20px 16px 4px;
+  background: transparent; border: none;
+  color: var(--text); font-size: 16px; line-height: 24px;
+  font-family: 'Public Sans', sans-serif;
+  outline: none; -webkit-appearance: none;
+}
+.input-field input[type="number"] { -moz-appearance: textfield; }
+.input-field input[type="number"]::-webkit-outer-spin-button,
+.input-field input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+.input-field label {
+  position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+  font-size: 16px; color: var(--text2); pointer-events: none;
+  transition: all 0.15s ease; font-family: 'Public Sans', sans-serif;
+  line-height: 24px;
+}
+.input-field input:focus ~ label,
+.input-field input:not(:placeholder-shown) ~ label {
+  top: 10px; transform: translateY(0); font-size: 12px; line-height: 16px; color: var(--text3);
+}
+.input-field input::placeholder { color: transparent; }
+.input-field input:disabled { opacity: 0.4; }
+
+/* Simple input for onboarding */
+input.simple-input {
+  width: 100%; padding: 14px 16px;
+  background: var(--bg2); border: none;
+  border-radius: var(--radius-input);
+  color: var(--text); font-size: 16px; line-height: 24px;
+  font-family: 'Public Sans', sans-serif; outline: none;
+  -webkit-appearance: none; height: 56px;
+}
+input.simple-input::placeholder { color: var(--text3); }
 
 /* ── BUTTONS ── */
 .btn {
-  height: 48px; padding: 0 16px; border-radius: 100px; border: none;
-  font-size: 16px; font-weight: 600; font-family: 'Poppins', sans-serif;
+  height: 48px; padding: 0 20px; border-radius: 100px; border: none;
+  font-size: 16px; font-weight: 700; font-family: 'Public Sans', sans-serif;
   cursor: pointer; transition: opacity 0.15s, transform 0.1s;
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
 }
 .btn-full { width: 100%; }
 .btn:active { transform: scale(0.98); opacity: 0.85; }
-.btn-primary { background: var(--text); color: var(--bg); }
-.btn-secondary { background: var(--bg3); color: var(--text); border: 1px solid var(--border2); }
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-secondary { background: var(--bg3); color: var(--text); }
 .btn:disabled { opacity: 0.35; pointer-events: none; }
-.btn-spinner { width: 18px; height: 18px; border: 2px solid rgba(0,0,0,0.25); border-top-color: var(--bg); border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
+.btn-spinner { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
+
+/* ── ICON BUTTONS ── */
+.icon-btn {
+  width: 44px; height: 44px; background: var(--bg2); border-radius: 50%; border: none;
+  display: flex; align-items: center; justify-content: center; cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10), 0 1px 3px rgba(0,0,0,0.08);
+  flex-shrink: 0;
+}
+.icon-btn svg { width: 28px; height: 28px; }
 
 /* ── TOPBAR ── */
-.topbar { padding: 44px var(--px) 12px; position: sticky; top: 0; background: var(--bg); z-index: 10; }
+.topbar { padding: 44px var(--px) 0; position: sticky; top: 0; background: var(--bg); z-index: 10; }
 .topbar-inner { max-width: var(--max-w); width: 100%; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-.topbar-logo { font-size: 20px; font-weight: 700; }
-.topbar-title { font-size: 20px; font-weight: 700; line-height: 32px; }
-.icon-btn {
-  width: 40px; height: 40px; background: var(--bg3); border: 1px solid var(--border);
-  border-radius: 50%; display: flex; align-items: center; justify-content: center;
-  cursor: pointer; flex-shrink: 0;
-}
-.back-btn {
-  width: 40px; height: 40px; background: var(--bg3); border: 1px solid var(--border);
-  border-radius: 50%; display: flex; align-items: center; justify-content: center;
-  cursor: pointer; flex-shrink: 0; padding: 0;
-  background: var(--bg3); border: none;
-}
+.topbar-logo { font-size: 24px; line-height: 36px; font-weight: 800; color: var(--accent); }
 .topbar-actions { display: flex; gap: 8px; }
 
+/* Page title below topbar */
+.page-title-wrap { padding: 16px var(--px) 0; max-width: var(--max-w); margin: 0 auto; width: 100%; }
+.page-title { font-size: 24px; line-height: 36px; font-weight: 700; color: var(--accent); }
+
 /* ── HOME ── */
-#screen-home { padding-bottom: 100px; }
-.rekening-list { display: flex; flex-direction: column; gap: 10px; padding: 8px var(--px) 0; max-width: var(--max-w); margin: 0 auto; }
-.rekening-card {
-  background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius);
-  padding: 14px 16px; display: flex; align-items: center; gap: 14px;
-  cursor: pointer; transition: background 0.12s;
+#screen-home { height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+.home-scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: 120px; }
+.rekening-list { display: flex; flex-direction: column; gap: 12px; padding: 12px var(--px) 0; max-width: var(--max-w); margin: 0 auto; }
+
+.rekening-pill {
+  background: var(--bg2); border-radius: var(--radius);
+  height: 70px; padding: 12px 16px 12px 12px;
+  display: flex; align-items: center; gap: 12px;
+  cursor: pointer; transition: opacity 0.12s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 }
-.rekening-card:active { background: var(--bg3); }
-.rekening-emoji { width: 44px; height: 44px; background: var(--bg3); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.rekening-pill:active { opacity: 0.75; }
+.rekening-emoji-circle {
+  width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; background: var(--accent-light);
+}
 .rekening-info { flex: 1; min-width: 0; }
-.rekening-naam { font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.rekening-datum { font-size: 13px; color: var(--text3); margin-top: 2px; }
+.rekening-naam { font-size: 16px; font-weight: 700; line-height: 24px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rekening-datum { font-size: 14px; line-height: 20px; color: var(--text2); margin-top: 0; }
 .rekening-bedragen { text-align: right; flex-shrink: 0; }
-.rekening-totaal { font-size: 15px; font-weight: 600; }
-.rekening-mijn { font-size: 13px; color: var(--text2); margin-top: 2px; }
+.rekening-totaal { font-size: 16px; font-weight: 700; line-height: 24px; }
+.rekening-mijn { font-size: 14px; line-height: 20px; color: var(--text2); }
 
 /* FAB */
 .fab {
-  position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
-  width: 48px; height: 48px; background: var(--text); border-radius: 50%; border: none;
+  position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
+  width: 56px; height: 56px; background: var(--accent); border-radius: 50%; border: none;
   display: flex; align-items: center; justify-content: center;
-  cursor: pointer; box-shadow: 0 4px 20px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3);
+  cursor: pointer; box-shadow: 0 4px 16px rgba(44,76,27,0.35), 0 2px 6px rgba(0,0,0,0.15);
   z-index: 50; transition: transform 0.15s;
 }
 .fab:active { transform: translateX(-50%) scale(0.93); }
+.fab svg { width: 32px; height: 32px; }
 
 /* EMPTY STATE */
 .empty-state {
@@ -136,69 +182,72 @@ input:disabled { opacity: 0.4; }
 /* ── SHEETS ── */
 .sheet-overlay {
   display: none; position: fixed; inset: 0;
-  background: rgba(0,0,0,0.72); z-index: 200;
+  background: rgba(0,0,0,0.45); z-index: 200;
   align-items: flex-end; justify-content: center;
 }
 .sheet-overlay.open { display: flex; }
 .sheet {
-  background: var(--bg2); border-radius: 24px 24px 0 0;
+  background: var(--bg); border-radius: 24px 24px 0 0;
   width: 100%; max-width: var(--max-w); max-height: 94vh;
   overflow-y: auto; padding: 0 0 40px;
   animation: slideUp 0.28s cubic-bezier(0.32,0.72,0,1);
 }
 @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-.sheet-handle { width: 36px; height: 4px; background: var(--bg4); border-radius: 2px; margin: 12px auto 16px; }
-.sheet-header {
-  padding: 0 var(--px) 12px;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.sheet-title { font-size: 20px; font-weight: 700; line-height: 32px; }
-.sheet-close {
-  width: 32px; height: 32px; background: var(--bg3); border: none; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center; cursor: pointer;
-}
-.sheet-body { padding: 0 var(--px); display: flex; flex-direction: column; gap: 14px; }
-.sheet-body-text { font-size: 14px; color: var(--text2); line-height: 22px; margin-top: 4px; }
-.field-hint { font-size: 12px; color: var(--text3); margin-top: 6px; line-height: 18px; }
+.sheet-handle { width: 36px; height: 4px; background: var(--bg4); border-radius: 2px; margin: 12px auto 0; }
 
-/* UPLOAD */
-.upload-area {
-  background: var(--bg3); border: 1.5px dashed var(--border2); border-radius: var(--radius-sm);
-  padding: 28px 20px; text-align: center; cursor: pointer; transition: border-color 0.15s;
+.sheet-topbar {
+  padding: 16px var(--px) 0;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; background: var(--bg); z-index: 2;
 }
-.upload-area:active { border-color: rgba(255,255,255,0.35); }
-.upload-icon { font-size: 28px; margin-bottom: 8px; opacity: 0.35; }
-.upload-text { font-size: 14px; color: var(--text2); }
-.upload-preview { position: relative; background: var(--bg3); border-radius: var(--radius-sm); overflow: hidden; min-height: 100px; display: flex; align-items: center; justify-content: center; }
-.upload-preview img { max-width: 100%; max-height: 160px; object-fit: contain; display: block; }
-.upload-delete { position: absolute; top: 8px; right: 8px; width: 32px; height: 32px; background: rgba(0,0,0,0.6); border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.sheet-title { font-size: 24px; line-height: 36px; font-weight: 700; color: var(--accent); }
+.sheet-body { padding: 16px var(--px) 0; display: flex; flex-direction: column; gap: 12px; }
+.field-hint { font-size: 12px; line-height: 16px; color: var(--text3); margin-top: 4px; }
+
+/* UPLOAD AREA */
+.upload-area {
+  background: var(--bg2); border-radius: var(--radius-sm);
+  padding: 24px 20px; text-align: center; cursor: pointer;
+  transition: opacity 0.15s; display: flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 72px;
+}
+.upload-area:active { opacity: 0.7; }
+.upload-area-text { font-size: 16px; font-weight: 500; color: var(--text2); }
+.upload-preview { position: relative; background: var(--bg2); border-radius: var(--radius-sm); overflow: hidden; min-height: 80px; display: flex; align-items: center; justify-content: center; }
+.upload-preview img { max-width: 100%; max-height: 140px; object-fit: contain; display: block; }
+.upload-delete { position: absolute; top: 8px; right: 8px; width: 36px; height: 36px; background: rgba(0,0,0,0.5); border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
 /* ── REKENING CONTROLEREN ── */
-#screen-controleren { padding-bottom: 100px; }
-.controleer-list { display: flex; flex-direction: column; gap: 8px; padding: 8px var(--px) 0; max-width: var(--max-w); margin: 0 auto; }
-.controleer-item {
-  background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-sm);
+#screen-controleren { height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+.controleren-topbar { padding: 44px var(--px) 0; background: var(--bg); position: sticky; top: 0; z-index: 10; }
+.controleren-topbar-inner { max-width: var(--max-w); margin: 0 auto; display: flex; align-items: center; }
+.controleren-scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: 100px; }
+
+.controleer-list { display: flex; flex-direction: column; gap: 12px; padding: 12px var(--px) 0; max-width: var(--max-w); margin: 0 auto; }
+
+.controleer-pill {
+  background: var(--bg2); border-radius: var(--radius);
   padding: 14px 16px; display: flex; align-items: center; gap: 12px;
+  cursor: pointer; transition: opacity 0.12s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  min-height: 56px;
 }
-.controleer-item-left { flex: 1; min-width: 0; }
-.controleer-item-naam { font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.controleer-item-sub { font-size: 12px; color: var(--text3); margin-top: 0px; }
-.controleer-item-right { text-align: right; flex-shrink: 0; }
-.controleer-item-prijs { font-size: 15px; font-weight: 600; }
-.controleer-item-pp { font-size: 12px; color: var(--text3); margin-top: 0px; }
-.split-btn {
-  width: 36px; height: 36px; flex-shrink: 0;
-  background: var(--bg3); border: 1px solid var(--border2); border-radius: 10px;
-  cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s;
-}
-.split-btn.active { background: var(--text); border-color: var(--text); }
+.controleer-pill:active { opacity: 0.75; }
+.controleer-pill-left { flex: 1; min-width: 0; }
+.controleer-pill-naam { font-size: 16px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.controleer-pill-sub { font-size: 14px; line-height: 20px; color: var(--text2); margin-top: 0; }
+.controleer-pill-right { text-align: right; flex-shrink: 0; }
+.controleer-pill-prijs { font-size: 16px; font-weight: 700; }
+.controleer-pill-pp { font-size: 14px; line-height: 20px; color: var(--text2); }
+.split-icon-btn { background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 4px; flex-shrink: 0; }
+.split-icon-btn svg { width: 22px; height: 22px; }
 
 .controleer-fab {
-  position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
+  position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
   height: 48px; padding: 0 24px;
-  background: var(--text); border-radius: 100px; border: none;
-  font-size: 16px; font-weight: 600; font-family: 'Poppins', sans-serif;
-  color: var(--bg); cursor: pointer; box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  background: var(--accent); border-radius: 100px; border: none;
+  font-size: 16px; font-weight: 700; font-family: 'Public Sans', sans-serif;
+  color: #fff; cursor: pointer; box-shadow: 0 4px 16px rgba(44,76,27,0.3);
   display: flex; align-items: center; justify-content: center;
   white-space: nowrap; z-index: 50; transition: transform 0.15s;
 }
@@ -206,84 +255,91 @@ input:disabled { opacity: 0.4; }
 .controleer-fab:disabled { opacity: 0.35; pointer-events: none; }
 
 /* ── DETAIL ── */
-#screen-detail { padding-bottom: 0; display: flex; flex-direction: column; }
-.detail-topbar { padding: 44px var(--px) 12px; position: sticky; top: 0; background: var(--bg); z-index: 10; }
+#screen-detail { height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+.detail-topbar { padding: 44px var(--px) 0; background: var(--bg); position: sticky; top: 0; z-index: 10; }
 .detail-topbar-inner { max-width: var(--max-w); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
 .detail-topbar-actions { display: flex; gap: 8px; }
 
-.detail-header { padding: 0 var(--px) 0; max-width: var(--max-w); width: 100%; margin: 0 auto; }
-.detail-naam { font-size: 20px; font-weight: 700; line-height: 32px; }
-.detail-meta { font-size: 14px; color: var(--text2); margin-top: 2px; }
+.detail-header { padding: 16px var(--px) 0; max-width: var(--max-w); width: 100%; margin: 0 auto; }
+.detail-naam { font-size: 24px; line-height: 36px; font-weight: 700; color: var(--accent); }
+.detail-meta { font-size: 14px; line-height: 20px; color: var(--text2); margin-top: 2px; }
 
+/* SEGMENTED */
 .segmented-wrap { padding: 12px var(--px) 0; max-width: var(--max-w); width: 100%; margin: 0 auto; }
-.segmented { display: flex; background: var(--bg3); border-radius: 100px; padding: 3px; width: 100%; }
+.segmented {
+  display: flex; background: var(--bg2); border-radius: 12px; padding: 4px; width: 100%;
+  height: 44px; box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
 .seg-btn {
-  flex: 1; width: 50%; padding: 8px 0; border-radius: 100px; border: none;
-  font-size: 14px; font-weight: 500; font-family: 'Poppins', sans-serif;
+  flex: 1; width: 50%; height: 36px; border-radius: 8px; border: none;
+  font-size: 14px; line-height: 20px; font-weight: 500; font-family: 'Public Sans', sans-serif;
   cursor: pointer; color: var(--text2); background: transparent; transition: all 0.2s; text-align: center;
 }
-.seg-btn.active { background: var(--bg); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.3); }
+.seg-btn.active { background: var(--accent); color: #fff; box-shadow: 0 1px 4px rgba(44,76,27,0.25); }
 
 /* ITEMS */
-.items-scroll { flex: 1; overflow-y: auto; }
-.items-list { padding: 12px var(--px) 16px; max-width: var(--max-w); width: 100%; margin: 0 auto; display: flex; flex-direction: column; gap: 8px; }
+.items-scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+.items-list { padding: 12px var(--px) 16px; max-width: var(--max-w); width: 100%; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+
 .item-row {
-  background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-sm);
-  padding: 14px 16px; display: flex; align-items: center; gap: 12px;
-  cursor: pointer; transition: background 0.12s; width: 100%;
+  background: var(--bg2); border-radius: var(--radius-sm);
+  padding: 12px 16px; display: flex; align-items: center; gap: 12px;
+  cursor: pointer; transition: opacity 0.12s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 }
-.item-row:active { background: var(--bg3); }
-.item-row.geselecteerd { background: var(--bg3); border-color: var(--border2); }
+.item-row:active { opacity: 0.75; }
+.item-row.geselecteerd { background: var(--accent-light); }
 .item-row.van-ander { opacity: 0.4; pointer-events: none; }
 .item-info { flex: 1; min-width: 0; overflow: hidden; }
-.item-naam { font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.item-persoon { font-size: 12px; color: var(--text3); margin-top: 0; }
-.item-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
-.item-bedrag { font-size: 15px; font-weight: 600; }
+.item-naam { font-size: 16px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.item-persoon { font-size: 14px; line-height: 20px; color: var(--text2); margin-top: 0; }
+.item-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.item-bedrag { font-size: 16px; font-weight: 700; }
 .item-check {
-  width: 24px; height: 24px; border: 1.5px solid var(--border2); border-radius: 50%;
+  width: 24px; height: 24px; border: 2px solid var(--border2); border-radius: 50%;
   display: flex; align-items: center; justify-content: center; transition: all 0.15s; flex-shrink: 0;
+  background: var(--bg2);
 }
-.item-row.geselecteerd .item-check { background: var(--text); border-color: var(--text); }
+.item-row.geselecteerd .item-check { background: var(--accent); border-color: var(--accent); }
 .item-check-icon { display: none; }
 .item-row.geselecteerd .item-check-icon { display: block; }
 
-/* FOOI STICKY - always at bottom */
+/* FOOI STICKY */
 .fooi-sticky {
-  background: var(--bg); border-top: 1px solid var(--border);
+  background: var(--bg2); border-top: 1px solid var(--border);
   border-radius: 24px 24px 0 0;
-  padding: 16px var(--px) 40px; z-index: 20;
-  flex-shrink: 0;
+  padding: 16px var(--px) 40px; z-index: 20; flex-shrink: 0;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
 }
 .fooi-sticky-inner { max-width: var(--max-w); margin: 0 auto; display: flex; flex-direction: column; gap: 0; }
-.fooi-totaal-row { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 0; }
-.fooi-totaal-label { font-size: 16px; font-weight: 600; }
+.fooi-totaal-row { display: flex; justify-content: space-between; align-items: baseline; }
+.fooi-totaal-label { font-size: 16px; font-weight: 700; }
 .fooi-totaal-bedrag { font-size: 20px; font-weight: 700; }
-.fooi-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--text2); margin-top: 0; padding: 0; }
+.fooi-row { display: flex; justify-content: space-between; align-items: center; font-size: 14px; line-height: 20px; color: var(--text2); margin-top: 2px; }
 .fooi-betaal-btn { margin-top: 12px; }
 
 /* SETTINGS */
 #screen-settings { padding-bottom: 40px; }
 .settings-list { padding: 8px var(--px); max-width: var(--max-w); margin: 0 auto; display: flex; flex-direction: column; gap: 2px; }
 .settings-row {
-  background: var(--bg2); border: 1px solid var(--border);
-  padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer;
+  background: var(--bg2); padding: 14px 16px;
+  display: flex; justify-content: space-between; align-items: center; cursor: pointer;
+  border-bottom: 1px solid var(--border);
 }
-.settings-row:first-child { border-radius: var(--radius-sm) var(--radius-sm) 0 0; }
-.settings-row:last-child { border-radius: 0 0 var(--radius-sm) var(--radius-sm); }
-.settings-row:only-child { border-radius: var(--radius-sm); }
-.settings-key { font-size: 15px; }
-.settings-val { font-size: 14px; color: var(--text3); max-width: 55%; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.section-title { font-size: 12px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.8px; padding: 16px var(--px) 8px; max-width: var(--max-w); margin: 0 auto; display: block; }
+.settings-row:first-child { border-radius: var(--radius-sm) var(--radius-sm) 0 0; border-bottom: 1px solid var(--border); }
+.settings-row:last-child { border-radius: 0 0 var(--radius-sm) var(--radius-sm); border-bottom: none; }
+.settings-row:only-child { border-radius: var(--radius-sm); border-bottom: none; }
+.settings-key { font-size: 16px; font-weight: 500; }
+.settings-val { font-size: 14px; color: var(--text2); max-width: 55%; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.section-title { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.8px; padding: 16px var(--px) 8px; max-width: var(--max-w); margin: 0 auto; display: block; }
 
 /* UTILS */
-.spinner { width: 24px; height: 24px; border: 2px solid var(--border2); border-top-color: var(--text); border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto; }
+.spinner { width: 24px; height: 24px; border: 2px solid var(--border2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .loading-state { padding: 48px 20px; text-align: center; }
 .toast {
   position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
-  background: var(--bg3); border: 1px solid var(--border2);
-  color: var(--text); padding: 10px 18px; border-radius: 100px;
+  background: #111; color: #fff; padding: 10px 18px; border-radius: 100px;
   font-size: 13px; font-weight: 500; z-index: 9999; white-space: nowrap;
   animation: fadeInOut 2.5s ease forwards;
 }
@@ -293,9 +349,6 @@ input:disabled { opacity: 0.4; }
   75% { opacity:1; } 100% { opacity:0; }
 }
 #camera-input { display: none; }
-
-/* SVG icon helpers */
-.icon-svg-white path { fill: white; }
 </style>
 </head>
 <body>
@@ -309,7 +362,7 @@ input:disabled { opacity: 0.4; }
   </div>
   <div class="onboarding-bottom">
     <div class="onboarding-label">Vul je naam in zodat anderen kunnen zien wat jij gesplitst hebt</div>
-    <input type="text" id="naam-input" placeholder="Naam" maxlength="30">
+    <input type="text" class="simple-input" id="naam-input" placeholder="Naam" maxlength="30">
     <button class="btn btn-primary btn-full" onclick="slaaNaamOp()">Volgende</button>
   </div>
 </div>
@@ -320,13 +373,15 @@ input:disabled { opacity: 0.4; }
     <div class="topbar-inner">
       <div class="topbar-logo">SplitMe</div>
       <div class="icon-btn" onclick="switchScreen('settings')">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M19.99 19.99C19.99 16.35 17.56 13.29 14.24 12.32C15.57 11.55 16.48 10.12 16.48 8.46C16.48 5.99 14.48 3.99 12.01 3.99C9.54 3.99 7.54 5.99 7.54 8.46C7.54 10.11 8.45 11.54 9.78 12.31C6.45 13.28 4.02 16.34 4.02 19.98H5.58V19.63C5.58 17.75 6.47 16.09 7.85 15.02C8.98 14.07 10.43 13.49 12.01 13.49C13.59 13.49 15.02 14.06 16.14 14.99C17.24 15.83 18.03 17.05 18.31 18.45C18.38 18.84 18.42 19.22 18.42 19.6V19.98H19.99V19.99ZM12.01 5.5C13.65 5.5 14.98 6.83 14.98 8.47C14.98 10.11 13.65 11.44 12.01 11.44C10.37 11.44 9.04 10.11 9.04 8.47C9.04 6.83 10.37 5.5 12.01 5.5Z" fill="white"/></svg>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M19.99 19.99C19.99 16.35 17.56 13.29 14.24 12.32C15.57 11.55 16.48 10.12 16.48 8.46C16.48 5.99 14.48 3.99 12.01 3.99C9.54 3.99 7.54 5.99 7.54 8.46C7.54 10.11 8.45 11.54 9.78 12.31C6.45 13.28 4.02 16.34 4.02 19.98H5.58V19.63C5.58 17.75 6.47 16.09 7.85 15.02C8.98 14.07 10.43 13.49 12.01 13.49C13.59 13.49 15.02 14.06 16.14 14.99C17.24 15.83 18.03 17.05 18.31 18.45C18.38 18.84 18.42 19.22 18.42 19.6V19.98H19.99V19.99ZM12.01 5.5C13.65 5.5 14.98 6.83 14.98 8.47C14.98 10.11 13.65 11.44 12.01 11.44C10.37 11.44 9.04 10.11 9.04 8.47C9.04 6.83 10.37 5.5 12.01 5.5Z" fill="#2C4C1B"/></svg>
       </div>
     </div>
   </div>
-  <div id="home-content"><div class="loading-state"><div class="spinner"></div></div></div>
+  <div class="home-scroll" id="home-scroll">
+    <div id="home-content"><div class="loading-state"><div class="spinner"></div></div></div>
+  </div>
   <button class="fab" onclick="openUpload()">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M10.9374 13.0626L6.4552 13.0626C6.17184 13.0626 5.92068 12.9531 5.70173 12.7341C5.48277 12.5152 5.37329 12.264 5.37329 11.9807C5.37329 11.6973 5.48277 11.4462 5.70173 11.2272C5.92068 11.0082 6.17184 10.8988 6.4552 10.8988L10.9374 10.8988L10.9181 6.43587C10.9181 6.15252 11.0276 5.90136 11.2465 5.6824C11.4655 5.46344 11.7166 5.35396 12 5.35396C12.2834 5.35396 12.5345 5.46344 12.7535 5.6824C12.9724 5.90136 13.0819 6.15252 13.0819 6.43587L13.0819 10.9181L17.5448 10.8988C17.8282 10.8988 18.0793 11.0082 18.2983 11.2272C18.5172 11.4462 18.6267 11.6973 18.6267 11.9807C18.6267 12.2898 18.5205 12.5506 18.3079 12.7631C18.0954 12.9756 17.841 13.0755 17.5448 13.0626L13.0819 13.0433L13.0819 17.5255C13.0819 17.8088 12.9724 18.06 12.7535 18.2789C12.5345 18.4979 12.2834 18.6074 12 18.6074C11.6909 18.6074 11.4301 18.5011 11.2175 18.2886C11.005 18.0761 10.9052 17.8217 10.9181 17.5255L10.9374 13.0626Z" fill="#222222"/></svg>
+    <svg viewBox="0 0 24 24" fill="none"><path d="M10.9374 13.0626L6.4552 13.0626C6.17 13.0626 5.92 12.95 5.70 12.73C5.48 12.52 5.37 12.26 5.37 11.98C5.37 11.70 5.48 11.45 5.70 11.23C5.92 11.01 6.17 10.90 6.46 10.90L10.94 10.90L10.92 6.44C10.92 6.15 11.03 5.90 11.25 5.68C11.47 5.46 11.72 5.35 12 5.35C12.28 5.35 12.53 5.46 12.75 5.68C12.97 5.90 13.08 6.15 13.08 6.44L13.08 10.92L17.54 10.90C17.83 10.90 18.08 11.01 18.30 11.23C18.52 11.45 18.63 11.70 18.63 11.98C18.63 12.29 18.52 12.55 18.31 12.76C18.10 12.98 17.84 13.08 17.54 13.06L13.08 13.04L13.08 17.53C13.08 17.81 12.97 18.06 12.75 18.28C12.53 18.50 12.28 18.61 12 18.61C11.69 18.61 11.43 18.50 11.22 18.29C11.01 18.08 10.91 17.82 10.92 17.53L10.9374 13.0626Z" fill="white"/></svg>
   </button>
 </div>
 
@@ -334,13 +389,13 @@ input:disabled { opacity: 0.4; }
 <div class="screen" id="screen-settings">
   <div class="topbar">
     <div class="topbar-inner">
-      <button class="back-btn icon-btn" onclick="switchScreen('home')">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M21.475 11.725H4.665L11.355 5.005L10.295 3.945L3.025 11.245C2.345 11.925 2.345 13.035 3.025 13.725L10.295 21.005L11.355 19.945L4.655 13.225H21.485V11.725H21.475Z" fill="white"/></svg>
+      <button class="icon-btn" onclick="switchScreen('home')">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M21.475 11.725H4.665L11.355 5.005L10.295 3.945L3.025 11.245C2.345 11.925 2.345 13.035 3.025 13.725L10.295 21.005L11.355 19.945L4.655 13.225H21.485V11.725H21.475Z" fill="#2C4C1B"/></svg>
       </button>
-      <span class="topbar-title">Instellingen</span>
-      <div style="width:40px;"></div>
+      <div style="width:44px;"></div>
     </div>
   </div>
+  <div class="page-title-wrap"><div class="page-title">Instellingen</div></div>
   <span class="section-title">Profiel</span>
   <div class="settings-list">
     <div class="settings-row" onclick="editSetting('naam')"><span class="settings-key">Naam</span><span class="settings-val" id="settings-naam-val">—</span></div>
@@ -350,16 +405,17 @@ input:disabled { opacity: 0.4; }
 
 <!-- REKENING CONTROLEREN -->
 <div class="screen" id="screen-controleren">
-  <div class="topbar">
-    <div class="topbar-inner">
-      <button class="back-btn icon-btn" onclick="switchScreen('home'); resetUpload();">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M21.475 11.725H4.665L11.355 5.005L10.295 3.945L3.025 11.245C2.345 11.925 2.345 13.035 3.025 13.725L10.295 21.005L11.355 19.945L4.655 13.225H21.485V11.725H21.475Z" fill="white"/></svg>
+  <div class="controleren-topbar">
+    <div class="controleren-topbar-inner">
+      <button class="icon-btn" onclick="switchScreen('home'); resetUpload();">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M21.475 11.725H4.665L11.355 5.005L10.295 3.945L3.025 11.245C2.345 11.925 2.345 13.035 3.025 13.725L10.295 21.005L11.355 19.945L4.655 13.225H21.485V11.725H21.475Z" fill="#2C4C1B"/></svg>
       </button>
-      <span class="topbar-title">Rekening controleren</span>
-      <div style="width:40px;"></div>
     </div>
   </div>
-  <div class="controleer-list" id="controleer-list"></div>
+  <div class="page-title-wrap" style="padding-bottom:0;"><div class="page-title">Rekening controleren</div></div>
+  <div class="controleren-scroll">
+    <div class="controleer-list" id="controleer-list"></div>
+  </div>
   <button class="controleer-fab" id="maak-rekening-btn" onclick="maakRekening()">Rekening maken</button>
 </div>
 
@@ -367,20 +423,20 @@ input:disabled { opacity: 0.4; }
 <div class="screen" id="screen-detail">
   <div class="detail-topbar">
     <div class="detail-topbar-inner">
-      <button class="back-btn icon-btn" onclick="goHome()">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M21.475 11.725H4.665L11.355 5.005L10.295 3.945L3.025 11.245C2.345 11.925 2.345 13.035 3.025 13.725L10.295 21.005L11.355 19.945L4.655 13.225H21.485V11.725H21.475Z" fill="white"/></svg>
+      <button class="icon-btn" onclick="goHome()">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M21.475 11.725H4.665L11.355 5.005L10.295 3.945L3.025 11.245C2.345 11.925 2.345 13.035 3.025 13.725L10.295 21.005L11.355 19.945L4.655 13.225H21.485V11.725H21.475Z" fill="#2C4C1B"/></svg>
       </button>
       <div class="detail-topbar-actions">
         <div class="icon-btn" onclick="deelHuidigeRekening()">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M18 15C17.1 15 16.3 15.41 15.75 16.04L8.93 12.63C8.97 12.43 9 12.22 9 12C9 11.78 8.98 11.58 8.93 11.37L15.75 7.96C16.3 8.59 17.1 9 18 9C19.66 9 21 7.66 21 6C21 4.34 19.66 3 18 3C16.34 3 15 4.34 15 6C15 6.22 15.02 6.42 15.07 6.63L8.25 10.04C7.7 9.41 6.9 9 6 9C4.34 9 3 10.34 3 12C3 13.66 4.34 15 6 15C6.9 15 7.7 14.59 8.25 13.96L15.07 17.37C15.03 17.57 15 17.78 15 18C15 19.66 16.34 21 18 21C19.66 21 21 19.66 21 18C21 16.34 19.66 15 18 15Z" fill="white"/></svg>
+          <svg viewBox="0 0 24 24" fill="none"><path d="M18 15C17.1 15 16.3 15.41 15.75 16.04L8.93 12.63C8.97 12.43 9 12.22 9 12C9 11.78 8.98 11.58 8.93 11.37L15.75 7.96C16.3 8.59 17.1 9 18 9C19.66 9 21 7.66 21 6C21 4.34 19.66 3 18 3C16.34 3 15 4.34 15 6C15 6.22 15.02 6.42 15.07 6.63L8.25 10.04C7.7 9.41 6.9 9 6 9C4.34 9 3 10.34 3 12C3 13.66 4.34 15 6 15C6.9 15 7.7 14.59 8.25 13.96L15.07 17.37C15.03 17.57 15 17.78 15 18C15 19.66 16.34 21 18 21C19.66 21 21 19.66 21 18C21 16.34 19.66 15 18 15Z" fill="#2C4C1B"/></svg>
         </div>
         <div class="icon-btn" onclick="verwijderRekening()">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12.777 11.5135H11.2333V18.3243H12.777V11.5135Z" fill="white"/><path d="M15.9057 11.5135H14.3516L13.693 18.3243H15.247L15.9057 11.5135Z" fill="white"/><path d="M10.3173 18.3243L9.65866 11.5135H8.11492L8.76329 18.3243H10.3173Z" fill="white"/><path d="M19.7238 5.91892H15.3499V4.21622C15.3499 3.54486 14.7736 3 14.0635 3H9.94683C9.23671 3 8.66038 3.54486 8.66038 4.21622V5.91892H4.28645C3.57633 5.91892 3 6.46378 3 7.13514V9.08108C3 9.75243 3.57633 10.2973 4.28645 10.2973H4.65695L5.85077 19.9103C5.92281 20.533 6.54031 21 7.2813 21H16.7187C17.4597 21 18.0669 20.533 18.1492 19.9103L19.3431 10.2973H19.7136C20.4237 10.2973 21 9.75243 21 9.08108V7.13514C21 6.46378 20.4237 5.91892 19.7136 5.91892H19.7238ZM10.2041 4.45946H13.8062V5.91892H10.2041V4.45946ZM16.6467 19.5405H7.36364L6.21098 10.2973H17.789L16.6364 19.5405H16.6467ZM19.4666 8.83784H4.54374V7.37838H19.4666V8.83784Z" fill="white"/></svg>
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12.777 11.5135H11.2333V18.3243H12.777V11.5135Z" fill="#2C4C1B"/><path d="M15.9057 11.5135H14.3516L13.693 18.3243H15.247L15.9057 11.5135Z" fill="#2C4C1B"/><path d="M10.3173 18.3243L9.65866 11.5135H8.11492L8.76329 18.3243H10.3173Z" fill="#2C4C1B"/><path d="M19.7238 5.91892H15.3499V4.21622C15.3499 3.54486 14.7736 3 14.0635 3H9.94683C9.23671 3 8.66038 3.54486 8.66038 4.21622V5.91892H4.28645C3.57633 5.91892 3 6.46378 3 7.13514V9.08108C3 9.75243 3.57633 10.2973 4.28645 10.2973H4.65695L5.85077 19.9103C5.92281 20.533 6.54031 21 7.2813 21H16.7187C17.4597 21 18.0669 20.533 18.1492 19.9103L19.3431 10.2973H19.7136C20.4237 10.2973 21 9.75243 21 9.08108V7.13514C21 6.46378 20.4237 5.91892 19.7136 5.91892H19.7238ZM10.2041 4.45946H13.8062V5.91892H10.2041V4.45946ZM16.6467 19.5405H7.36364L6.21098 10.2973H17.789L16.6364 19.5405H16.6467ZM19.4666 8.83784H4.54374V7.37838H19.4666V8.83784Z" fill="#2C4C1B"/></svg>
         </div>
       </div>
     </div>
   </div>
-  <div class="detail-header" style="padding-bottom: 0;">
+  <div class="detail-header">
     <div class="detail-naam" id="detail-naam">—</div>
     <div class="detail-meta" id="detail-meta">—</div>
   </div>
@@ -400,11 +456,11 @@ input:disabled { opacity: 0.4; }
         <div class="fooi-totaal-bedrag" id="fooi-totaal-bedrag">€ 0,00</div>
       </div>
       <div class="fooi-row">
-        <span id="fooi-label-left">+ fooi</span>
+        <span>+ fooi</span>
         <span id="fooi-bedrag">—</span>
       </div>
       <div class="fooi-betaal-btn">
-        <button class="btn btn-primary btn-full" id="betaal-btn" onclick="betalen()" style="display:none;">Betalen</button>
+        <button class="btn btn-primary btn-full" id="betaal-btn" onclick="betalen()" style="display:none;"></button>
       </div>
     </div>
   </div>
@@ -416,26 +472,35 @@ input:disabled { opacity: 0.4; }
 <div class="sheet-overlay" id="upload-sheet">
   <div class="sheet">
     <div class="sheet-handle"></div>
-    <div class="sheet-header">
+    <div class="sheet-topbar">
       <div class="sheet-title">Rekening toevoegen</div>
-      <button class="sheet-close" onclick="closeSheet('upload-sheet')">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 13.5027L8.8306 16.6721C8.63024 16.8725 8.37523 16.9727 8.06557 16.9727C7.75592 16.9727 7.50091 16.8725 7.30055 16.6721C7.10018 16.4718 7 16.2168 7 15.9071C7 15.5975 7.10018 15.3424 7.30055 15.1421L10.4699 11.9727L7.30055 8.8306C7.10018 8.63024 7 8.37523 7 8.06557C7 7.75592 7.10018 7.50091 7.30055 7.30055C7.50091 7.10018 7.75592 7 8.06557 7C8.37523 7 8.63024 7.10018 8.8306 7.30055L12 10.4699L15.1421 7.30055C15.3424 7.10018 15.5975 7 15.9071 7C16.2168 7 16.4718 7.10018 16.6721 7.30055C16.8907 7.51913 17 7.77869 17 8.07923C17 8.37978 16.8907 8.63024 16.6721 8.8306L13.5027 11.9727L16.6721 15.1421C16.8725 15.3424 16.9727 15.5975 16.9727 15.9071C16.9727 16.2168 16.8725 16.4718 16.6721 16.6721C16.4536 16.8907 16.194 17 15.8934 17C15.5929 17 15.3424 16.8907 15.1421 16.6721L12 13.5027Z" fill="white"/></svg>
-      </button>
+      <div class="icon-btn" onclick="closeSheet('upload-sheet')">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 13.5027L8.8306 16.6721C8.63024 16.8725 8.37523 16.9727 8.06557 16.9727C7.75592 16.9727 7.50091 16.8725 7.30055 16.6721C7.10018 16.4718 7 16.2168 7 15.9071C7 15.5975 7.10018 15.3424 7.30055 15.1421L10.4699 11.9727L7.30055 8.8306C7.10018 8.63024 7 8.37523 7 8.06557C7 7.75592 7.10018 7.50091 7.30055 7.30055C7.50091 7.10018 7.75592 7 8.06557 7C8.37523 7 8.63024 7.10018 8.8306 7.30055L12 10.4699L15.1421 7.30055C15.3424 7.10018 15.5975 7 15.9071 7C16.2168 7 16.4718 7.10018 16.6721 7.30055C16.8907 7.51913 17 7.77869 17 8.07923C17 8.37978 16.8907 8.63024 16.6721 8.8306L13.5027 11.9727L16.6721 15.1421C16.8725 15.3424 16.9727 15.5975 16.9727 15.9071C16.9727 16.2168 16.8725 16.4718 16.6721 16.6721C16.4536 16.8907 16.194 17 15.8934 17C15.5929 17 15.3424 16.8907 15.1421 16.6721L12 13.5027Z" fill="#2C4C1B"/></svg>
+      </div>
     </div>
     <div class="sheet-body">
       <div>
         <div id="upload-area-wrap">
           <div class="upload-area" onclick="document.getElementById('camera-input').click()">
-            <div class="upload-icon">📷</div>
-            <div class="upload-text">Foto maken of toevoegen</div>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 8.26C9.38 8.26 7.25 10.39 7.25 13.01C7.25 15.63 9.38 17.76 12 17.76C14.62 17.76 16.75 15.63 16.75 13.01C16.75 10.39 14.62 8.26 12 8.26ZM12 16.26C10.21 16.26 8.75 14.8 8.75 13.01C8.75 11.22 10.21 9.76 12 9.76C13.79 9.76 15.25 11.22 15.25 13.01C15.25 14.8 13.79 16.26 12 16.26Z" fill="#2C4C1B"/><path d="M19 6.08H16.95L15.94 4.17C15.64 3.6 15.04 3.25 14.38 3.25H9.62C8.96 3.25 8.36 3.6 8.06 4.17L7.05 6.07H6V5.5C6 5.22 5.78 5 5.5 5H4.5C4.22 5 4 5.22 4 5.5V6.26C2.98 6.64 2.25 7.59 2.25 8.71V18.12C2.25 19.57 3.48 20.75 5 20.75H19C20.52 20.75 21.75 19.57 21.75 18.12V8.71C21.75 7.26 20.52 6.08 19 6.08ZM20.25 18.12C20.25 18.74 19.69 19.25 19 19.25H5C4.31 19.25 3.75 18.74 3.75 18.12V8.71C3.75 8.09 4.31 7.58 5 7.58H7.5C7.78 7.58 8.03 7.43 8.16 7.18L9.38 4.88C9.42 4.81 9.51 4.76 9.61 4.76H14.37C14.47 4.76 14.56 4.81 14.6 4.88L15.82 7.18C15.95 7.43 16.2 7.58 16.48 7.58H18.98C19.67 7.58 20.23 8.09 20.23 8.71V18.12H20.25Z" fill="#2C4C1B"/><path d="M18 11.01C18.5523 11.01 19 10.5623 19 10.01C19 9.45772 18.5523 9.01 18 9.01C17.4477 9.01 17 9.45772 17 10.01C17 10.5623 17.4477 11.01 18 11.01Z" fill="#2C4C1B"/></svg>
+            <span class="upload-area-text">Foto maken of toevoegen</span>
           </div>
         </div>
         <input type="file" id="camera-input" accept="image/*" onchange="fotoGekozen(event)">
       </div>
-      <input type="text" id="upload-naam" placeholder="Naam rekening">
-      <input type="number" id="upload-deelnemers" placeholder="Aantal personen" inputmode="numeric" pattern="[0-9]*" min="1" max="100">
+      <div class="input-field">
+        <input type="text" id="upload-naam" placeholder="Naam rekening">
+        <label>Naam rekening</label>
+      </div>
+      <div class="input-field">
+        <input type="number" id="upload-deelnemers" placeholder="Aantal personen" inputmode="numeric" pattern="[0-9]*" min="1" max="100">
+        <label>Aantal personen</label>
+      </div>
       <div>
-        <input type="url" id="upload-betaallink" placeholder="Betaallink" autocomplete="off">
+        <div class="input-field">
+          <input type="url" id="upload-betaallink" placeholder="Betaallink" autocomplete="off">
+          <label>Betaallink</label>
+        </div>
         <div class="field-hint">Voeg een betaallink toe zodat iedereen die direct vanuit hier kan betalen</div>
       </div>
       <button class="btn btn-primary btn-full" id="scan-btn" onclick="scanBon()" disabled>Rekening toevoegen</button>
@@ -448,15 +513,18 @@ input:disabled { opacity: 0.4; }
 <div class="sheet-overlay" id="split-sheet">
   <div class="sheet">
     <div class="sheet-handle"></div>
-    <div class="sheet-header">
+    <div class="sheet-topbar">
       <div class="sheet-title" id="split-titel">Item splitsen</div>
-      <button class="sheet-close" onclick="closeSheet('split-sheet')">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 13.5027L8.8306 16.6721C8.63024 16.8725 8.37523 16.9727 8.06557 16.9727C7.75592 16.9727 7.50091 16.8725 7.30055 16.6721C7.10018 16.4718 7 16.2168 7 15.9071C7 15.5975 7.10018 15.3424 7.30055 15.1421L10.4699 11.9727L7.30055 8.8306C7.10018 8.63024 7 8.37523 7 8.06557C7 7.75592 7.10018 7.50091 7.30055 7.30055C7.50091 7.10018 7.75592 7 8.06557 7C8.37523 7 8.63024 7.10018 8.8306 7.30055L12 10.4699L15.1421 7.30055C15.3424 7.10018 15.5975 7 15.9071 7C16.2168 7 16.4718 7.10018 16.6721 7.30055C16.8907 7.51913 17 7.77869 17 8.07923C17 8.37978 16.8907 8.63024 16.6721 8.8306L13.5027 11.9727L16.6721 15.1421C16.8725 15.3424 16.9727 15.5975 16.9727 15.9071C16.9727 16.2168 16.8725 16.4718 16.6721 16.6721C16.4536 16.8907 16.194 17 15.8934 17C15.5929 17 15.3424 16.8907 15.1421 16.6721L12 13.5027Z" fill="white"/></svg>
-      </button>
+      <div class="icon-btn" onclick="closeSheet('split-sheet')">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 13.5027L8.8306 16.6721C8.63024 16.8725 8.37523 16.9727 8.06557 16.9727C7.75592 16.9727 7.50091 16.8725 7.30055 16.6721C7.10018 16.4718 7 16.2168 7 15.9071C7 15.5975 7.10018 15.3424 7.30055 15.1421L10.4699 11.9727L7.30055 8.8306C7.10018 8.63024 7 8.37523 7 8.06557C7 7.75592 7.10018 7.50091 7.30055 7.30055C7.50091 7.10018 7.75592 7 8.06557 7C8.37523 7 8.63024 7.10018 8.8306 7.30055L12 10.4699L15.1421 7.30055C15.3424 7.10018 15.5975 7 15.9071 7C16.2168 7 16.4718 7.10018 16.6721 7.30055C16.8907 7.51913 17 7.77869 17 8.07923C17 8.37978 16.8907 8.63024 16.6721 8.8306L13.5027 11.9727L16.6721 15.1421C16.8725 15.3424 16.9727 15.5975 16.9727 15.9071C16.9727 16.2168 16.8725 16.4718 16.6721 16.6721C16.4536 16.8907 16.194 17 15.8934 17C15.5929 17 15.3424 16.8907 15.1421 16.6721L12 13.5027Z" fill="#2C4C1B"/></svg>
+      </div>
     </div>
     <div class="sheet-body">
-      <div class="sheet-body-text" id="split-omschrijving"></div>
-      <input type="number" id="split-input" placeholder="Aantal personen" inputmode="numeric" pattern="[0-9]*" min="1" max="50">
+      <div style="font-size:16px; color:var(--text2); line-height:24px; margin-top:4px;" id="split-omschrijving"></div>
+      <div class="input-field">
+        <input type="number" id="split-input" placeholder="Aantal personen" inputmode="numeric" pattern="[0-9]*" min="1" max="50">
+        <label>Aantal personen</label>
+      </div>
       <button class="btn btn-primary btn-full" onclick="bevestigSplit()">Opslaan</button>
     </div>
     <div style="height:20px;"></div>
@@ -467,14 +535,17 @@ input:disabled { opacity: 0.4; }
 <div class="sheet-overlay" id="settings-sheet">
   <div class="sheet">
     <div class="sheet-handle"></div>
-    <div class="sheet-header">
+    <div class="sheet-topbar">
       <div class="sheet-title" id="settings-sheet-title">Bewerken</div>
-      <button class="sheet-close" onclick="closeSheet('settings-sheet')">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 13.5027L8.8306 16.6721C8.63024 16.8725 8.37523 16.9727 8.06557 16.9727C7.75592 16.9727 7.50091 16.8725 7.30055 16.6721C7.10018 16.4718 7 16.2168 7 15.9071C7 15.5975 7.10018 15.3424 7.30055 15.1421L10.4699 11.9727L7.30055 8.8306C7.10018 8.63024 7 8.37523 7 8.06557C7 7.75592 7.10018 7.50091 7.30055 7.30055C7.50091 7.10018 7.75592 7 8.06557 7C8.37523 7 8.63024 7.10018 8.8306 7.30055L12 10.4699L15.1421 7.30055C15.3424 7.10018 15.5975 7 15.9071 7C16.2168 7 16.4718 7.10018 16.6721 7.30055C16.8907 7.51913 17 7.77869 17 8.07923C17 8.37978 16.8907 8.63024 16.6721 8.8306L13.5027 11.9727L16.6721 15.1421C16.8725 15.3424 16.9727 15.5975 16.9727 15.9071C16.9727 16.2168 16.8725 16.4718 16.6721 16.6721C16.4536 16.8907 16.194 17 15.8934 17C15.5929 17 15.3424 16.8907 15.1421 16.6721L12 13.5027Z" fill="white"/></svg>
-      </button>
+      <div class="icon-btn" onclick="closeSheet('settings-sheet')">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 13.5027L8.8306 16.6721C8.63024 16.8725 8.37523 16.9727 8.06557 16.9727C7.75592 16.9727 7.50091 16.8725 7.30055 16.6721C7.10018 16.4718 7 16.2168 7 15.9071C7 15.5975 7.10018 15.3424 7.30055 15.1421L10.4699 11.9727L7.30055 8.8306C7.10018 8.63024 7 8.37523 7 8.06557C7 7.75592 7.10018 7.50091 7.30055 7.30055C7.50091 7.10018 7.75592 7 8.06557 7C8.37523 7 8.63024 7.10018 8.8306 7.30055L12 10.4699L15.1421 7.30055C15.3424 7.10018 15.5975 7 15.9071 7C16.2168 7 16.4718 7.10018 16.6721 7.30055C16.8907 7.51913 17 7.77869 17 8.07923C17 8.37978 16.8907 8.63024 16.6721 8.8306L13.5027 11.9727L16.6721 15.1421C16.8725 15.3424 16.9727 15.5975 16.9727 15.9071C16.9727 16.2168 16.8725 16.4718 16.6721 16.6721C16.4536 16.8907 16.194 17 15.8934 17C15.5929 17 15.3424 16.8907 15.1421 16.6721L12 13.5027Z" fill="#2C4C1B"/></svg>
+      </div>
     </div>
     <div class="sheet-body">
-      <input type="text" id="settings-edit-input" placeholder="">
+      <div class="input-field">
+        <input type="text" id="settings-edit-input" placeholder=" ">
+        <label id="settings-edit-label">Naam</label>
+      </div>
       <button class="btn btn-primary btn-full" onclick="slaSettingOp()">Opslaan</button>
     </div>
     <div style="height:20px;"></div>
@@ -484,7 +555,7 @@ input:disabled { opacity: 0.4; }
 <script>
 const SUPABASE_URL = 'https://lawaeaqiuhklwbhxkkic.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxhd2FlYXFpdWhrbHdiaHhra2ljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE1MDM1NTcsImV4cCI6MjA5NzA3OTU1N30.eM8Rg450B2q-k64CeO38Vo1GegLJLo9qVXt5kIbCyTM';
-const EMOJIS = ['🍕','🍣','🍜','🍔','🥂','🍷','🍺','🌮','🥘','🍱','🥗','🍝','🫕','🥩','🍗','🍤','🥞','🧆','🫔','🥩'];
+const EMOJIS = ['🍕','🍣','🍜','🍔','🥂','🍷','🍺','🌮','🥘','🍱','🥗','🍝','🫕','🥩','🍗','🍤','🥞','🧆','🫔'];
 
 const sb = {
   async query(table, opts={}) {
@@ -608,12 +679,12 @@ async function laadHome() {
     }
     let html = '<div class="rekening-list">';
     for (const r of alle) {
-      const items = await sb.query('items', { select: 'prijs,geselecteerd_door,split_van', eq: { rekening_id: r.id } });
+      const items = await sb.query('items', { select: 'prijs,geselecteerd_door', eq: { rekening_id: r.id } });
       const totaal = items.reduce ? items.reduce((s,i) => s + parseFloat(i.prijs||0), 0) : 0;
       const mijnTotaal = items.filter ? items.filter(i => i.geselecteerd_door === gebruikerId).reduce((s,i) => s + parseFloat(i.prijs||0), 0) : 0;
       const emoji = EMOJIS[Math.abs((r.id.charCodeAt(0)||0) + (r.id.charCodeAt(1)||0)) % EMOJIS.length];
-      html += `<div class="rekening-card" onclick="openRekening('${r.id}')">
-        <div class="rekening-emoji">${emoji}</div>
+      html += `<div class="rekening-pill" onclick="openRekening('${r.id}')">
+        <div class="rekening-emoji-circle">${emoji}</div>
         <div class="rekening-info">
           <div class="rekening-naam">${escHtml(r.naam)}</div>
           ${r.datum ? `<div class="rekening-datum">${fmtDatum(r.datum)}</div>` : ''}
@@ -642,10 +713,13 @@ function openUpload() { resetUpload(); document.getElementById('upload-sheet').c
 function resetUpload() {
   huidigeFotoBase64 = null;
   ['upload-naam','upload-deelnemers','upload-betaallink'].forEach(id => {
-    const el = document.getElementById(id); el.value = ''; el.disabled = false;
+    const el = document.getElementById(id); if (el) { el.value = ''; el.disabled = false; }
   });
-  const btn = document.getElementById('scan-btn'); btn.disabled = true; btn.innerHTML = 'Rekening toevoegen';
-  document.getElementById('upload-area-wrap').innerHTML = `<div class="upload-area" onclick="document.getElementById('camera-input').click()"><div class="upload-icon">📷</div><div class="upload-text">Foto maken of toevoegen</div></div>`;
+  const btn = document.getElementById('scan-btn'); if (btn) { btn.disabled = true; btn.innerHTML = 'Rekening toevoegen'; }
+  document.getElementById('upload-area-wrap').innerHTML = `<div class="upload-area" onclick="document.getElementById('camera-input').click()">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 8.26C9.38 8.26 7.25 10.39 7.25 13.01C7.25 15.63 9.38 17.76 12 17.76C14.62 17.76 16.75 15.63 16.75 13.01C16.75 10.39 14.62 8.26 12 8.26ZM12 16.26C10.21 16.26 8.75 14.8 8.75 13.01C8.75 11.22 10.21 9.76 12 9.76C13.79 9.76 15.25 11.22 15.25 13.01C15.25 14.8 13.79 16.26 12 16.26Z" fill="#2C4C1B"/><path d="M19 6.08H16.95L15.94 4.17C15.64 3.6 15.04 3.25 14.38 3.25H9.62C8.96 3.25 8.36 3.6 8.06 4.17L7.05 6.07H6V5.5C6 5.22 5.78 5 5.5 5H4.5C4.22 5 4 5.22 4 5.5V6.26C2.98 6.64 2.25 7.59 2.25 8.71V18.12C2.25 19.57 3.48 20.75 5 20.75H19C20.52 20.75 21.75 19.57 21.75 18.12V8.71C21.75 7.26 20.52 6.08 19 6.08ZM20.25 18.12C20.25 18.74 19.69 19.25 19 19.25H5C4.31 19.25 3.75 18.74 3.75 18.12V8.71C3.75 8.09 4.31 7.58 5 7.58H7.5C7.78 7.58 8.03 7.43 8.16 7.18L9.38 4.88C9.42 4.81 9.51 4.76 9.61 4.76H14.37C14.47 4.76 14.56 4.81 14.6 4.88L15.82 7.18C15.95 7.43 16.2 7.58 16.48 7.58H18.98C19.67 7.58 20.23 8.09 20.23 8.71V18.12H20.25Z" fill="#2C4C1B"/><path d="M18 11.01C18.5523 11.01 19 10.5623 19 10.01C19 9.45772 18.5523 9.01 18 9.01C17.4477 9.01 17 9.45772 17 10.01C17 10.5623 17.4477 11.01 18 11.01Z" fill="#2C4C1B"/></svg>
+    <span class="upload-area-text">Foto maken of toevoegen</span>
+  </div>`;
   document.getElementById('camera-input').value = '';
 }
 
@@ -655,15 +729,18 @@ function fotoGekozen(event) {
   const reader = new FileReader();
   reader.onload = e => {
     huidigeFotoBase64 = e.target.result.split(',')[1];
-    document.getElementById('upload-area-wrap').innerHTML = `<div class="upload-preview"><img src="${e.target.result}"><button class="upload-delete" onclick="resetFoto()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12.777 11.5135H11.2333V18.3243H12.777V11.5135Z" fill="white"/><path d="M15.9057 11.5135H14.3516L13.693 18.3243H15.247L15.9057 11.5135Z" fill="white"/><path d="M10.3173 18.3243L9.65866 11.5135H8.11492L8.76329 18.3243H10.3173Z" fill="white"/><path d="M19.7238 5.91892H15.3499V4.21622C15.3499 3.54486 14.7736 3 14.0635 3H9.94683C9.23671 3 8.66038 3.54486 8.66038 4.21622V5.91892H4.28645C3.57633 5.91892 3 6.46378 3 7.13514V9.08108C3 9.75243 3.57633 10.2973 4.28645 10.2973H4.65695L5.85077 19.9103C5.92281 20.533 6.54031 21 7.2813 21H16.7187C17.4597 21 18.0669 20.533 18.1492 19.9103L19.3431 10.2973H19.7136C20.4237 10.2973 21 9.75243 21 9.08108V7.13514C21 6.46378 20.4237 5.91892 19.7136 5.91892H19.7238ZM10.2041 4.45946H13.8062V5.91892H10.2041V4.45946ZM16.6467 19.5405H7.36364L6.21098 10.2973H17.789L16.6364 19.5405H16.6467ZM19.4666 8.83784H4.54374V7.37838H19.4666V8.83784Z" fill="white"/></svg></button></div>`;
+    document.getElementById('upload-area-wrap').innerHTML = `<div class="upload-preview"><img src="${e.target.result}"><button class="upload-delete" onclick="resetFotoUpload()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12.777 11.5H11.233V18.32H12.777V11.5Z" fill="white"/><path d="M15.906 11.5H14.352L13.693 18.32H15.247L15.906 11.5Z" fill="white"/><path d="M10.317 18.32L9.659 11.5H8.115L8.763 18.32H10.317Z" fill="white"/><path d="M19.724 5.92H15.35V4.22C15.35 3.54 14.774 3 14.064 3H9.947C9.237 3 8.66 3.54 8.66 4.22V5.92H4.286C3.576 5.92 3 6.46 3 7.14V9.08C3 9.75 3.576 10.3 4.286 10.3H4.657L5.851 19.91C5.923 20.53 6.54 21 7.281 21H16.719C17.46 21 18.067 20.53 18.149 19.91L19.343 10.3H19.714C20.424 10.3 21 9.75 21 9.08V7.14C21 6.46 20.424 5.92 19.724 5.92ZM10.204 4.46H13.806V5.92H10.204V4.46ZM16.647 19.54H7.364L6.211 10.3H17.789L16.636 19.54H16.647ZM19.467 8.84H4.544V7.38H19.467V8.84Z" fill="white"/></svg></button></div>`;
     document.getElementById('scan-btn').disabled = false;
   };
   reader.readAsDataURL(file);
 }
 
-function resetFoto() {
+function resetFotoUpload() {
   huidigeFotoBase64 = null;
-  document.getElementById('upload-area-wrap').innerHTML = `<div class="upload-area" onclick="document.getElementById('camera-input').click()"><div class="upload-icon">📷</div><div class="upload-text">Foto maken of toevoegen</div></div>`;
+  document.getElementById('upload-area-wrap').innerHTML = `<div class="upload-area" onclick="document.getElementById('camera-input').click()">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 8.26C9.38 8.26 7.25 10.39 7.25 13.01C7.25 15.63 9.38 17.76 12 17.76C14.62 17.76 16.75 15.63 16.75 13.01C16.75 10.39 14.62 8.26 12 8.26ZM12 16.26C10.21 16.26 8.75 14.8 8.75 13.01C8.75 11.22 10.21 9.76 12 9.76C13.79 9.76 15.25 11.22 15.25 13.01C15.25 14.8 13.79 16.26 12 16.26Z" fill="#2C4C1B"/><path d="M19 6.08H16.95L15.94 4.17C15.64 3.6 15.04 3.25 14.38 3.25H9.62C8.96 3.25 8.36 3.6 8.06 4.17L7.05 6.07H6V5.5C6 5.22 5.78 5 5.5 5H4.5C4.22 5 4 5.22 4 5.5V6.26C2.98 6.64 2.25 7.59 2.25 8.71V18.12C2.25 19.57 3.48 20.75 5 20.75H19C20.52 20.75 21.75 19.57 21.75 18.12V8.71C21.75 7.26 20.52 6.08 19 6.08ZM20.25 18.12C20.25 18.74 19.69 19.25 19 19.25H5C4.31 19.25 3.75 18.74 3.75 18.12V8.71C3.75 8.09 4.31 7.58 5 7.58H7.5C7.78 7.58 8.03 7.43 8.16 7.18L9.38 4.88C9.42 4.81 9.51 4.76 9.61 4.76H14.37C14.47 4.76 14.56 4.81 14.6 4.88L15.82 7.18C15.95 7.43 16.2 7.58 16.48 7.58H18.98C19.67 7.58 20.23 8.09 20.23 8.71V18.12H20.25Z" fill="#2C4C1B"/><path d="M18 11.01C18.5523 11.01 19 10.5623 19 10.01C19 9.45772 18.5523 9.01 18 9.01C17.4477 9.01 17 9.45772 17 10.01C17 10.5623 17.4477 11.01 18 11.01Z" fill="#2C4C1B"/></svg>
+    <span class="upload-area-text">Foto maken of toevoegen</span>
+  </div>`;
   document.getElementById('camera-input').value = '';
   document.getElementById('scan-btn').disabled = true;
 }
@@ -705,24 +782,24 @@ function toonControleren(parsed) {
   switchScreen('controleren');
 }
 
+const SPLIT_SVG_DARK = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M21.7661 5.57735L18.4327 2.24399C18.2765 2.08776 18.0645 2 17.8436 2C17.6226 2 17.4107 2.08776 17.2544 2.24399L13.9211 5.57735C13.6994 5.80497 13.6657 6.16953 13.7287 6.49232C13.7706 6.59474 13.8325 6.68778 13.9107 6.76603C14.082 6.90615 14.3966 7.01104 14.5072 7.01008C14.7272 6.98613 14.9306 6.89878 15.0994 6.7557L17.0102 4.84485V8.11904C16.9469 8.77308 16.6955 9.38017 16.2777 9.88739L12.0102 14.1549L7.74274 9.88739C7.32526 9.38004 7.07381 8.773 7.01024 8.11904V4.84485L8.92107 6.7557C9.28874 6.9075 9.72574 6.98959C9.93475 6.9877 10.0893 6.74555 10.3333 6.16353C10.2512 5.73452 10.0994 5.57735L6.76607 2.24399C6.6098 2.08776 6.39788 2 6.17691 2C5.95594 2 5.74401 2.08776 5.58774 2.24399L2.25441 5.57735C2.00099 6.05887 2.02015 6.38991 2.24408 6.76603C2.41536 6.90615 2.72993 7.01104 2.84057 7.01008C3.06057 6.98613 3.26391 6.89878 3.43274 6.7557L5.34357 4.84485V8.11904C5.44934 9.20886 5.86845 10.2204 6.56441 11.0657L11.1769 15.6783V21.1667C11.1769 21.5996 11.421 21.7559 12.0102 22C12.4432 21.9122 12.7558 21.5996 12.8436 21.1667V15.6783L17.4561 11.0657C18.152 10.2204 18.5711 9.20886 18.6769 8.11904V4.84485L20.5877 6.7557C20.9554 6.99149 21.3924 6.9877 21.7559 6.74555C22.0019 5.94503 21.9179 5.73452 21.7661 5.57735Z" fill="#2C4C1B"/></svg>`;
+
 function renderControleren() {
   const el = document.getElementById('controleer-list');
   let html = '';
   for (const item of controleerItems) {
     const perPersoon = item.prijs / item.split_van;
     const isGesplitst = item.split_van > 1;
-    html += `<div class="controleer-item">
-      <div class="controleer-item-left">
-        <div class="controleer-item-naam">${escHtml(item.naam)}</div>
-        ${isGesplitst ? `<div class="controleer-item-sub">Delen door ${item.split_van}</div>` : ''}
+    html += `<div class="controleer-pill" onclick="openSplit('${item.id}')">
+      <div class="controleer-pill-left">
+        <div class="controleer-pill-naam">${escHtml(item.naam)}</div>
+        ${isGesplitst ? `<div class="controleer-pill-sub">Delen door ${item.split_van}</div>` : ''}
       </div>
-      <div class="controleer-item-right">
-        <div class="controleer-item-prijs">${fmt(item.prijs)}</div>
-        ${isGesplitst ? `<div class="controleer-item-pp">${fmt(perPersoon)} p.p.</div>` : ''}
+      <div class="controleer-pill-right">
+        <div class="controleer-pill-prijs">${fmt(item.prijs)}</div>
+        ${isGesplitst ? `<div class="controleer-pill-pp">${fmt(perPersoon)} p.p.</div>` : ''}
       </div>
-      <button class="split-btn ${isGesplitst ? 'active' : ''}" onclick="openSplit('${item.id}')">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21.7661 5.57735L18.4327 2.24399C18.2765 2.08776 18.0645 2 17.8436 2C17.6226 2 17.4107 2.08776 17.2544 2.24399L13.9211 5.57735C13.8415 5.65423 13.778 5.74618 13.7343 5.84785C13.6906 5.94952 13.6677 6.05887 13.6667 6.16953C13.6657 6.28018 13.6868 6.38991 13.7287 6.49232C13.7706 6.59474 13.8325 6.68778 13.9107 6.76603C13.989 6.84427 14.082 6.90615 14.1844 6.94805C14.2869 6.98995 14.3966 7.01104 14.5072 7.01008C14.6179 7.00911 14.7272 6.98613 14.8289 6.94245C14.9306 6.89878 15.0225 6.83529 15.0994 6.7557L17.0102 4.84485V8.11904C17.0112 8.4476 16.9469 8.77308 16.8212 9.07663C16.6955 9.38017 16.5107 9.65575 16.2777 9.88739L12.0102 14.1549L7.74274 9.88739C7.50988 9.65564 7.32526 9.38004 7.19953 9.07652C7.07381 8.773 7.00947 8.44757 7.01024 8.11904V4.84485L8.92107 6.7557C9.07824 6.9075 9.28874 6.99149 9.50724 6.98959C9.72574 6.9877 9.93475 6.90005 10.0893 6.74555C10.2438 6.59104 10.3314 6.38203 10.3333 6.16353C10.3352 5.94503 10.2512 5.73452 10.0994 5.57735L6.76607 2.24399C6.6098 2.08776 6.39788 2 6.17691 2C5.95594 2 5.74401 2.08776 5.58774 2.24399L2.25441 5.57735C2.17482 5.65423 2.11133 5.74618 2.06766 5.84785C2.02398 5.94952 2.00099 6.05887 2.00003 6.16953C1.99907 6.28018 2.02015 6.38991 2.06206 6.49232C2.10396 6.59474 2.16583 6.68778 2.24408 6.76603C2.32232 6.84427 2.41536 6.90615 2.51778 6.94805C2.62019 6.98995 2.72993 7.01104 2.84057 7.01008C2.95122 7.00911 3.06057 6.98613 3.16224 6.94245C3.26391 6.89878 3.35587 6.83529 3.43274 6.7557L5.34357 4.84485V8.11904C5.34216 8.66653 5.44934 9.20886 5.65889 9.71465C5.86845 10.2204 6.17622 10.6797 6.56441 11.0657L11.1769 15.6783V21.1667C11.1769 21.3877 11.2647 21.5996 11.421 21.7559C11.5773 21.9122 11.7892 22 12.0102 22C12.2313 22 12.4432 21.9122 12.5995 21.7559C12.7558 21.5996 12.8436 21.3877 12.8436 21.1667V15.6783L17.4561 11.0657C17.8443 10.6797 18.152 10.2204 18.3616 9.71465C18.5711 9.20886 18.6783 8.66653 18.6769 8.11904V4.84485L20.5877 6.7557C20.7449 6.9075 20.9554 6.99149 21.1739 6.98959C21.3924 6.9877 21.6014 6.90005 21.7559 6.74555C21.9104 6.59104 21.9981 6.38203 22 6.16353C22.0019 5.94503 21.9179 5.73452 21.7661 5.57735Z" fill="${isGesplitst ? '#0a0a0a' : 'white'}"/></svg>
-      </button>
+      <button class="split-icon-btn" onclick="event.stopPropagation(); openSplit('${item.id}')">${SPLIT_SVG_DARK}</button>
     </div>`;
   }
   el.innerHTML = html;
@@ -733,7 +810,7 @@ function openSplit(itemId) {
   const item = controleerItems.find(i => i.id === itemId); if (!item) return;
   document.getElementById('split-titel').textContent = 'Item splitsen';
   document.getElementById('split-omschrijving').innerHTML = `Hoeveel mensen wil je laten meebetalen aan <strong>${escHtml(item.naam)}</strong> van <strong>${fmt(item.prijs)}</strong>?`;
-  document.getElementById('split-input').value = item.split_van > 1 ? item.split_van : '';
+  const inp = document.getElementById('split-input'); inp.value = item.split_van > 1 ? item.split_van : '';
   document.getElementById('split-sheet').classList.add('open');
 }
 
@@ -747,8 +824,7 @@ function bevestigSplit() {
 async function maakRekening() {
   if (!scanData) return;
   const { parsed, naam, deelnemers, betaallink } = scanData;
-  const btn = document.getElementById('maak-rekening-btn');
-  btn.disabled = true;
+  const btn = document.getElementById('maak-rekening-btn'); btn.disabled = true;
   try {
     const fooi = parsed.totaal_betaald > parsed.subtotaal ? parsed.totaal_betaald - parsed.subtotaal : 0;
     const shareId = genShareId();
@@ -756,11 +832,12 @@ async function maakRekening() {
       naam: naam || 'Rekening', uploader_id: gebruikerId, uploader_naam: gebruikerNaam,
       uploader_iban: gebruikerIBAN || null, subtotaal: parsed.subtotaal,
       totaal_betaald: parsed.totaal_betaald, fooi, deelnemers,
-      betaallink: betaallink || null, datum: parsed.datum || null, share_id: shareId
+      betaallink: betaallink || null,
+      datum: new Date().toISOString().split('T')[0],
+      share_id: shareId
     });
     if (!rekRes || !rekRes[0]) throw new Error('Aanmaken mislukt');
     const rekeningId = rekRes[0].id;
-
     for (const item of controleerItems) {
       const n = item.split_van || 1;
       const prijsPerItem = item.prijs / n;
@@ -770,9 +847,7 @@ async function maakRekening() {
     }
     await sb.insert('deelnames', { rekening_id: rekeningId, gebruiker_id: gebruikerId, gebruiker_naam: gebruikerNaam });
     openRekening(rekeningId);
-  } catch(e) {
-    toast('Fout: ' + e.message); btn.disabled = false;
-  }
+  } catch(e) { toast('Fout: ' + e.message); btn.disabled = false; }
 }
 
 async function openRekening(id) {
@@ -799,7 +874,10 @@ async function openRekening(id) {
     const fooi = parseFloat(r.fooi || 0);
     const fooiPP = r.deelnemers > 0 ? fooi / r.deelnemers : 0;
     document.getElementById('fooi-bedrag').textContent = fooi > 0 ? `${fmt(fooiPP)} p.p.` : '—';
-    document.getElementById('betaal-btn').style.display = r.betaallink ? 'flex' : 'none';
+
+    const betaalBtn = document.getElementById('betaal-btn');
+    if (r.betaallink) { betaalBtn.style.display = 'flex'; betaalBtn.textContent = 'Betalen'; }
+    else { betaalBtn.style.display = 'none'; }
 
     const items = await sb.query('items', { select: '*', eq: { rekening_id: id }, order: 'created_at.asc' });
     huidigeItems = items || [];
@@ -816,7 +894,7 @@ function renderItems() {
 
   if (!gefilterd.length) {
     el.innerHTML = huidigSeg === 'mijn'
-      ? `<div style="padding: 32px var(--px); color: var(--text2); font-size: 15px; font-weight: 500; max-width: var(--max-w); margin: 0 auto; width: 100%;">Je hebt nog geen dingen geselecteerd</div>`
+      ? `<div style="padding: 24px var(--px); color: var(--text2); font-size: 16px; font-weight: 500; max-width: var(--max-w); margin: 0 auto; width: 100%;">Je hebt nog geen dingen geselecteerd</div>`
       : `<div class="empty-state"><div class="empty-title">Geen items</div></div>`;
     return;
   }
@@ -838,7 +916,7 @@ function renderItems() {
       <div class="item-right">
         <div class="item-bedrag">${fmt(prijs)}</div>
         <div class="item-check">
-          <svg class="item-check-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          <svg class="item-check-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
         </div>
       </div>
     </div>`;
@@ -871,10 +949,7 @@ async function toggleItem(itemId) {
   renderItems(); herbereken();
   try {
     await sb.update('items', { geselecteerd_door: item.geselecteerd_door, geselecteerd_naam: item.geselecteerd_naam }, { id: itemId });
-  } catch(e) {
-    item.geselecteerd_door = wasGeselecteerd ? gebruikerId : null;
-    renderItems(); herbereken(); toast('Fout bij opslaan');
-  }
+  } catch(e) { item.geselecteerd_door = wasGeselecteerd ? gebruikerId : null; renderItems(); herbereken(); toast('Fout bij opslaan'); }
 }
 
 function betalen() {
@@ -945,8 +1020,8 @@ function editSetting(key) {
   const labels = { naam: 'Naam', iban: 'IBAN' };
   const values = { naam: gebruikerNaam, iban: gebruikerIBAN };
   document.getElementById('settings-sheet-title').textContent = labels[key] + ' bewerken';
+  document.getElementById('settings-edit-label').textContent = labels[key];
   document.getElementById('settings-edit-input').value = values[key] || '';
-  document.getElementById('settings-edit-input').placeholder = key === 'iban' ? 'NL00 BANK 0000 0000 00' : 'Naam';
   document.getElementById('settings-sheet').classList.add('open');
 }
 
