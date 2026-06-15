@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f0f0f">
+<title>Splitsie</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  
+  :root {
+    --bg: #0f0f0f;
+    --bg2: #1a1a1a;
+    --bg3: #242424;
+    --surface: #2a2a2a;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.15);
+    --text: #f0f0f0;
+    --text2: #a0a0a0;
+    --text3: #666;
+    --accent: #c8f564;
+    --accent-dim: rgba(200,245,100,0.12);
+    --accent-text: #0f0f0f;
+    --danger: #ff5e5e;
+    --danger-dim: rgba(255,94,94,0.12);
+    --info: #5eaaff;
+    --info-dim: rgba(94,170,255,0.10);
+    --radius: 12px;
+    --radius-sm: 8px;
+    --bottom-nav: 64px;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    max-width: 430px;
+    margin: 0 auto;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  #app { min-height: 100vh; display: flex; flex-direction: column; }
+
+  .screen { display: none; flex-direction: column; flex: 1; padding-bottom: calc(var(--bottom-nav) + 16px); }
+  .screen.active { display: flex; }
+
+  .topbar {
+    padding: 52px 20px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 10;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .topbar h1 { font-size: 22px; font-weight: 600; letter-spacing: -0.3px; }
+  .topbar-logo { font-size: 20px; font-weight: 700; color: var(--accent); letter-spacing: -0.5px; }
+  .icon-btn {
+    width: 36px; height: 36px;
+    background: var(--bg3);
+    border: 0.5px solid var(--border);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; color: var(--text);
+    font-size: 18px;
+  }
+
+  .bottom-nav {
+    position: fixed;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 430px;
+    height: var(--bottom-nav);
+    background: var(--bg2);
+    border-top: 0.5px solid var(--border);
+    display: flex;
+    z-index: 100;
+  }
+  .nav-item {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 4px; cursor: pointer;
+    color: var(--text3);
+    font-size: 10px; font-weight: 500;
+    transition: color 0.15s;
+    border: none; background: none;
+  }
+  .nav-item .nav-icon { font-size: 22px; line-height: 1; }
+  .nav-item.active { color: var(--accent); }
+  .nav-fab {
+    flex: 1; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; border: none; background: none;
+  }
+  .nav-fab-inner {
+    width: 52px; height: 52px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px; color: var(--accent-text);
+    margin-top: -18px;
+    box-shadow: 0 0 0 4px var(--bg2);
+  }
+
+  .card {
+    background: var(--bg2);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin: 0 16px 12px;
+  }
+  .card-tap { cursor: pointer; transition: background 0.12s; }
+  .card-tap:active { background: var(--bg3); }
+
+  .section-title {
+    font-size: 12px; font-weight: 600;
+    color: var(--text3); text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 16px 20px 8px;
+  }
+
+  .rekening-card { display: flex; flex-direction: column; gap: 8px; }
+  .rekening-header { display: flex; align-items: center; justify-content: space-between; }
+  .rekening-naam { font-size: 15px; font-weight: 600; }
+  .rekening-badge { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 20px; }
+  .badge-open { background: var(--accent-dim); color: var(--accent); }
+  .badge-afgerond { background: var(--bg3); color: var(--text3); }
+  .rekening-meta { font-size: 12px; color: var(--text2); }
+  .rekening-progress { height: 3px; background: var(--bg3); border-radius: 2px; overflow: hidden; margin-top: 4px; }
+  .rekening-progress-bar { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.3s; }
+
+  .empty-state {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 12px; padding: 40px 32px; text-align: center;
+  }
+  .empty-icon { font-size: 48px; opacity: 0.2; }
+  .empty-title { font-size: 17px; font-weight: 600; color: var(--text2); }
+  .empty-sub { font-size: 14px; color: var(--text3); line-height: 1.5; }
+
+  .sheet-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.65);
+    z-index: 200; align-items: flex-end; justify-content: center;
+  }
+  .sheet-overlay.open { display: flex; }
+  .sheet {
+    background: var(--bg2);
+    border-radius: 20px 20px 0 0;
+    width: 100%; max-width: 430px;
+    max-height: 92vh;
+    overflow-y: auto;
+    padding: 8px 0 40px;
+    animation: slideUp 0.25s ease;
+  }
+  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+  .sheet-handle { width: 36px; height: 4px; background: var(--border2); border-radius: 2px; margin: 8px auto 20px; }
+  .sheet-title { font-size: 17px; font-weight: 600; padding: 0 20px 16px; border-bottom: 0.5px solid var(--border); margin-bottom: 16px; }
+  .sheet-section { padding: 0 20px; margin-bottom: 20px; }
+  .sheet-label { font-size: 12px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+
+  input[type="text"], input[type="number"], input[type="tel"] {
+    width: 100%; padding: 13px 14px;
+    background: var(--bg3);
+    border: 0.5px solid var(--border2);
+    border-radius: var(--radius-sm);
+    color: var(--text); font-size: 15px;
+    outline: none; font-family: inherit;
+    transition: border-color 0.15s;
+  }
+  input:focus { border-color: var(--accent); }
+  input::placeholder { color: var(--text3); }
+
+  .btn {
+    width: 100%; padding: 15px;
+    border-radius: var(--radius-sm);
+    border: none; font-size: 15px; font-weight: 600;
+    cursor: pointer; font-family: inherit;
+    transition: opacity 0.15s, transform 0.1s;
+  }
+  .btn:active { transform: scale(0.98); }
+  .btn-primary { background: var(--accent); color: var(--accent-text); }
+  .btn-secondary { background: var(--bg3); color: var(--text); border: 0.5px solid var(--border2); }
+  .btn:disabled { opacity: 0.4; pointer-events: none; }
+
+  .detail-header {
+    padding: 52px 20px 20px;
+    border-bottom: 0.5px solid var(--border);
+    position: sticky; top: 0;
+    background: var(--bg); z-index: 10;
+  }
+  .back-btn {
+    display: flex; align-items: center; gap: 6px;
+    color: var(--accent); font-size: 14px; font-weight: 500;
+    cursor: pointer; margin-bottom: 12px;
+    background: none; border: none; font-family: inherit; padding: 0;
+  }
+  .detail-titel { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+  .detail-meta { font-size: 13px; color: var(--text2); }
+
+  .totaal-bar {
+    margin: 0 16px 12px;
+    background: var(--accent-dim);
+    border: 0.5px solid rgba(200,245,100,0.2);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .totaal-label { font-size: 13px; color: var(--accent); font-weight: 500; }
+  .totaal-bedrag { font-size: 22px; font-weight: 700; color: var(--accent); }
+
+  .item-row {
+    background: var(--bg2);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    margin: 0 16px 8px;
+    padding: 14px;
+    display: flex; align-items: flex-start; gap: 12px;
+    cursor: pointer; transition: background 0.12s;
+  }
+  .item-row:active { background: var(--bg3); }
+  .item-row.geselecteerd { background: var(--accent-dim); border-color: rgba(200,245,100,0.25); }
+  .item-row.van-ander { opacity: 0.5; pointer-events: none; }
+  .item-row.van-ander .item-naam { text-decoration: line-through; }
+
+  .item-check {
+    width: 22px; height: 22px;
+    border: 1.5px solid var(--border2);
+    border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    margin-top: 1px; transition: all 0.15s;
+  }
+  .item-row.geselecteerd .item-check { background: var(--accent); border-color: var(--accent); color: var(--accent-text); font-size: 13px; }
+  .item-info { flex: 1; min-width: 0; }
+  .item-naam { font-size: 14px; font-weight: 500; margin-bottom: 2px; }
+  .item-sub { font-size: 12px; color: var(--text2); }
+  .item-persoon { font-size: 11px; font-weight: 600; color: var(--accent); margin-top: 4px; }
+  .item-bedrag { font-size: 15px; font-weight: 600; flex-shrink: 0; }
+  .item-split-btn {
+    font-size: 11px; color: var(--info);
+    background: var(--info-dim); border: none;
+    border-radius: 4px; padding: 2px 6px;
+    cursor: pointer; margin-top: 4px;
+    font-family: inherit; font-weight: 500;
+  }
+
+  .fooi-bar {
+    margin: 4px 16px 12px;
+    background: var(--bg2); border: 0.5px solid var(--border);
+    border-radius: var(--radius); padding: 12px 16px;
+  }
+  .fooi-row { display: flex; justify-content: space-between; align-items: center; }
+  .fooi-label { font-size: 13px; color: var(--text2); }
+  .fooi-val { font-size: 14px; font-weight: 600; color: var(--text); }
+  .fooi-per { font-size: 12px; color: var(--text3); margin-top: 4px; text-align: right; }
+
+  .samenvatting-item {
+    display: flex; justify-content: space-between;
+    align-items: center; padding: 10px 0;
+    border-bottom: 0.5px solid var(--border);
+    font-size: 14px;
+  }
+  .samenvatting-item:last-child { border-bottom: none; }
+  .samenvatting-naam { color: var(--text2); }
+  .samenvatting-bedrag { font-weight: 600; }
+
+  .settings-section { margin: 0 16px 20px; }
+  .settings-row {
+    background: var(--bg2); border: 0.5px solid var(--border);
+    border-radius: var(--radius-sm); padding: 14px 16px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .settings-row + .settings-row { margin-top: 1px; border-radius: 0; }
+  .settings-row:first-child { border-radius: var(--radius-sm) var(--radius-sm) 0 0; }
+  .settings-row:last-child { border-radius: 0 0 var(--radius-sm) var(--radius-sm); }
+  .settings-row:only-child { border-radius: var(--radius-sm); }
+  .settings-key { font-size: 14px; color: var(--text); }
+  .settings-val { font-size: 14px; color: var(--text3); max-width: 55%; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  .upload-area {
+    margin: 0;
+    background: var(--bg2);
+    border: 1.5px dashed var(--border2);
+    border-radius: var(--radius);
+    padding: 32px 20px;
+    text-align: center; cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .upload-area:active { border-color: var(--accent); background: var(--accent-dim); }
+  .upload-icon { font-size: 36px; margin-bottom: 10px; opacity: 0.5; }
+  .upload-text { font-size: 14px; color: var(--text2); line-height: 1.5; }
+
+  .spinner {
+    width: 24px; height: 24px;
+    border: 2px solid var(--border2);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    margin: 0 auto;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-state { padding: 32px 20px; text-align: center; }
+  .loading-state p { margin-top: 12px; color: var(--text2); font-size: 14px; }
+
+  .naam-setup {
+    position: fixed; inset: 0;
+    background: var(--bg);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 40px 32px; z-index: 999;
+  }
+  .naam-setup h2 { font-size: 26px; font-weight: 700; margin-bottom: 8px; }
+  .naam-setup p { font-size: 15px; color: var(--text2); margin-bottom: 32px; text-align: center; line-height: 1.5; }
+  .logo-big { font-size: 32px; font-weight: 800; color: var(--accent); letter-spacing: -1px; margin-bottom: 24px; }
+
+  .toast {
+    position: fixed; bottom: 80px; left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg3); border: 0.5px solid var(--border2);
+    color: var(--text); padding: 10px 18px;
+    border-radius: 20px; font-size: 13px; font-weight: 500;
+    z-index: 9999; white-space: nowrap;
+    animation: fadeInOut 2.5s ease forwards;
+  }
+  @keyframes fadeInOut {
+    0% { opacity: 0; transform: translateX(-50%) translateY(8px); }
+    15% { opacity: 1; transform: translateX(-50%) translateY(0); }
+    75% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill {
+    padding: 6px 14px; border-radius: 20px;
+    background: var(--bg3); border: 0.5px solid var(--border2);
+    color: var(--text2); font-size: 13px; font-weight: 500;
+    cursor: pointer; font-family: inherit; transition: all 0.12s;
+  }
+  .pill.active { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+
+  #camera-input { display: none; }
+  .gap-8 { display: flex; flex-direction: column; gap: 8px; }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <div class="naam-setup" id="naam-setup">
+    <div class="logo-big">splitsie</div>
+    <h2>Welkom 👋</h2>
+    <p>Hoe wil je dat anderen je zien als je items selecteert?</p>
+    <div style="width:100%; display:flex; flex-direction:column; gap:12px;">
+      <input type="text" id="naam-input" placeholder="Jouw naam" maxlength="30">
+      <button class="btn btn-primary" onclick="slaaNaamOp()">Doorgaan</button>
+    </div>
+  </div>
+
+  <div class="screen active" id="screen-home">
+    <div class="topbar">
+      <div class="topbar-logo">splitsie</div>
+      <div class="icon-btn" onclick="refreshHome()" title="Vernieuwen">↻</div>
+    </div>
+    <div id="home-content">
+      <div class="loading-state"><div class="spinner"></div><p>Rekeningen laden...</p></div>
+    </div>
+  </div>
+
+  <div class="screen" id="screen-detail" style="padding-bottom:0;">
+    <div class="detail-header">
+      <button class="back-btn" onclick="goHome()">← Terug</button>
+      <div class="detail-titel" id="detail-titel">—</div>
+      <div class="detail-meta" id="detail-meta">—</div>
+    </div>
+    <div id="detail-content" style="overflow-y:auto; flex:1; padding-bottom:140px;"></div>
+    <div style="position:fixed; bottom: var(--bottom-nav); left:50%; transform:translateX(-50%); width:100%; max-width:430px; background:var(--bg); border-top:0.5px solid var(--border); padding:12px 16px; z-index:50;">
+      <div id="mijn-totaal-bar" style="display:none; margin-bottom:10px;">
+        <div class="totaal-bar" style="margin:0;">
+          <div>
+            <div class="totaal-label">Jouw totaal</div>
+            <div style="font-size:11px; color:var(--text3);" id="mijn-items-count"></div>
+          </div>
+          <div class="totaal-bedrag" id="mijn-totaal-bedrag">€0,00</div>
+        </div>
+      </div>
+      <button class="btn btn-primary" id="sla-selectie-op-btn" onclick="slaSelectieOp()" style="display:none;">Samenvatting opslaan</button>
+    </div>
+  </div>
+
+  <div class="screen" id="screen-settings">
+    <div class="topbar"><h1>Instellingen</h1></div>
+    <div class="section-title">Profiel</div>
+    <div class="settings-section">
+      <div class="settings-row" onclick="editSetting('naam')" style="cursor:pointer;">
+        <span class="settings-key">Naam</span>
+        <span class="settings-val" id="settings-naam-val">—</span>
+      </div>
+      <div class="settings-row" onclick="editSetting('iban')" style="cursor:pointer;">
+        <span class="settings-key">IBAN</span>
+        <span class="settings-val" id="settings-iban-val">Toevoegen</span>
+      </div>
+    </div>
+    <div class="section-title">Over</div>
+    <div class="settings-section">
+      <div class="settings-row">
+        <span class="settings-key">Versie</span>
+        <span class="settings-val">1.0</span>
+      </div>
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <button class="nav-item active" id="nav-home" onclick="switchTab('home')">
+      <span class="nav-icon">🧾</span>
+      <span>Rekeningen</span>
+    </button>
+    <button class="nav-fab" onclick="openUpload()">
+      <div class="nav-fab-inner">+</div>
+    </button>
+    <button class="nav-item" id="nav-settings" onclick="switchTab('settings')">
+      <span class="nav-icon">⚙️</span>
+      <span>Instellingen</span>
+    </button>
+  </nav>
+</div>
+
+<!-- UPLOAD SHEET -->
+<div class="sheet-overlay" id="upload-sheet">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">Nieuwe rekening</div>
+    <div id="upload-step-1">
+      <div class="sheet-section">
+        <div class="sheet-label">Foto van de bon</div>
+        <div class="upload-area" onclick="document.getElementById('camera-input').click()">
+          <div class="upload-icon">📷</div>
+          <div class="upload-text">Tik om een foto te maken of te kiezen</div>
+        </div>
+        <input type="file" id="camera-input" accept="image/*" capture="environment" onchange="fotoGekozen(event)">
+        <div id="foto-preview" style="display:none; margin-top:12px; text-align:center;">
+          <img id="preview-img" style="max-width:100%; border-radius:8px; max-height:200px; object-fit:contain;">
+          <div style="margin-top:8px; font-size:13px; color:var(--text2);" id="preview-label">—</div>
+        </div>
+      </div>
+      <div class="sheet-section">
+        <div class="sheet-label">Naam van de rekening</div>
+        <input type="text" id="upload-naam" placeholder="bijv. Etentje vrijdag" maxlength="50">
+      </div>
+      <div class="sheet-section">
+        <div class="sheet-label">Aantal deelnemers (voor fooi)</div>
+        <input type="number" id="upload-deelnemers" placeholder="bijv. 4" min="1" max="50" value="2">
+      </div>
+      <div class="sheet-section">
+        <button class="btn btn-primary" id="scan-btn" onclick="scanBon()" disabled>Bon scannen met AI</button>
+      </div>
+    </div>
+    <div id="upload-step-2" style="display:none;">
+      <div class="loading-state" id="scan-loading">
+        <div class="spinner"></div>
+        <p>AI scant je bon...</p>
+      </div>
+      <div id="scan-resultaat" style="display:none;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SPLIT SHEET -->
+<div class="sheet-overlay" id="split-sheet">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title" id="split-sheet-title">Item splitsen</div>
+    <div class="sheet-section">
+      <div class="sheet-label">Over hoeveel personen splitsen?</div>
+      <div class="pill-row" id="split-pills">
+        <button class="pill active" onclick="setSplit(2)">2</button>
+        <button class="pill" onclick="setSplit(3)">3</button>
+        <button class="pill" onclick="setSplit(4)">4</button>
+        <button class="pill" onclick="setSplit(5)">5</button>
+        <button class="pill" onclick="setSplit(6)">6</button>
+      </div>
+    </div>
+    <div class="sheet-section">
+      <div style="font-size:14px; color:var(--text2); margin-bottom:16px;">
+        Jouw deel: <strong id="split-bedrag-preview" style="color:var(--text);">—</strong>
+      </div>
+      <button class="btn btn-primary" onclick="bevestigSplit()">Bevestigen</button>
+      <div style="height:8px;"></div>
+      <button class="btn btn-secondary" onclick="closeSplitSheet()">Annuleren</button>
+    </div>
+  </div>
+</div>
+
+<!-- SAMENVATTING SHEET -->
+<div class="sheet-overlay" id="samenvatting-sheet">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">Jouw samenvatting</div>
+    <div class="sheet-section" id="samenvatting-content"></div>
+    <div class="sheet-section">
+      <button class="btn btn-secondary" onclick="document.getElementById('samenvatting-sheet').classList.remove('open')">Sluiten</button>
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS EDIT SHEET -->
+<div class="sheet-overlay" id="settings-sheet">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title" id="settings-sheet-title">Bewerken</div>
+    <div class="sheet-section">
+      <input type="text" id="settings-edit-input" placeholder="">
+      <div style="height:12px;"></div>
+      <button class="btn btn-primary" onclick="slaSettingOp()">Opslaan</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://lawaeaqiuhklwbhxkkic.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxhd2FlYXFpdWhrbHdiaHhra2ljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE1MDM1NTcsImV4cCI6MjA5NzA3OTU1N30.eM8Rg450B2q-k64CeO38Vo1GegLJLo9qVXt5kIbCyTM';
+
+const sb = {
+  async query(table, opts = {}) {
+    let url = `${SUPABASE_URL}/rest/v1/${table}?`;
+    if (opts.select) url += `select=${opts.select}&`;
+    if (opts.eq) Object.entries(opts.eq).forEach(([k,v]) => url += `${k}=eq.${encodeURIComponent(v)}&`);
+    if (opts.in) Object.entries(opts.in).forEach(([k,v]) => url += `${k}=in.(${v.map(x=>encodeURIComponent(x)).join(',')})&`);
+    if (opts.order) url += `order=${opts.order}&`;
+    const r = await fetch(url, { headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}`, Accept: 'application/json' } });
+    return r.json();
+  },
+  async insert(table, data) {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
+      method: 'POST',
+      headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', Prefer: 'return=representation' },
+      body: JSON.stringify(data)
+    });
+    return r.json();
+  },
+  async update(table, data, eq) {
+    let url = `${SUPABASE_URL}/rest/v1/${table}?`;
+    Object.entries(eq).forEach(([k,v]) => url += `${k}=eq.${encodeURIComponent(v)}&`);
+    const r = await fetch(url, {
+      method: 'PATCH',
+      headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', Prefer: 'return=representation' },
+      body: JSON.stringify(data)
+    });
+    return r.json();
+  },
+  async delete(table, eq) {
+    let url = `${SUPABASE_URL}/rest/v1/${table}?`;
+    Object.entries(eq).forEach(([k,v]) => url += `${k}=eq.${encodeURIComponent(v)}&`);
+    return fetch(url, { method: 'DELETE', headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` } });
+  }
+};
+
+let gebruikerNaam = localStorage.getItem('splitsie_naam') || '';
+let gebruikerIBAN = localStorage.getItem('splitsie_iban') || '';
+let gebruikerId = localStorage.getItem('splitsie_id') || generateId();
+let huidigeFotoBase64 = null;
+let huidigeRekeningId = null;
+let huidigeItems = [];
+let mijnSelecties = {};
+let splitItemId = null;
+let splitAantal = 2;
+let currentEditKey = null;
+let pollingInterval = null;
+let scanData = null;
+
+function generateId() {
+  const id = 'u_' + Math.random().toString(36).substr(2, 9);
+  localStorage.setItem('splitsie_id', id);
+  return id;
+}
+
+function init() {
+  const params = new URLSearchParams(window.location.search);
+  const joinId = params.get('join');
+
+  if (!gebruikerNaam) {
+    document.getElementById('naam-setup').style.display = 'flex';
+    if (joinId) localStorage.setItem('splitsie_pending_join', joinId);
+    return;
+  }
+  document.getElementById('naam-setup').style.display = 'none';
+  updateSettingsDisplay();
+  laadHome();
+
+  if (joinId) {
+    joinRekening(joinId);
+    history.replaceState({}, '', window.location.pathname);
+  }
+}
+
+async function slaaNaamOp() {
+  const val = document.getElementById('naam-input').value.trim();
+  if (!val) return toast('Vul een naam in');
+  gebruikerNaam = val;
+  localStorage.setItem('splitsie_naam', val);
+  document.getElementById('naam-setup').style.display = 'none';
+  const pendingJoin = localStorage.getItem('splitsie_pending_join');
+  if (pendingJoin) {
+    localStorage.removeItem('splitsie_pending_join');
+    await joinRekening(pendingJoin);
+  }
+  updateSettingsDisplay();
+  laadHome();
+}
+
+function updateSettingsDisplay() {
+  document.getElementById('settings-naam-val').textContent = gebruikerNaam || '—';
+  document.getElementById('settings-iban-val').textContent = gebruikerIBAN || 'Toevoegen';
+}
+
+async function laadHome() {
+  const el = document.getElementById('home-content');
+  el.innerHTML = '<div class="loading-state"><div class="spinner"></div><p>Laden...</p></div>';
+  try {
+    const deelnames = await sb.query('deelnames', { select: 'rekening_id', eq: { gebruiker_id: gebruikerId } });
+    const eigen = await sb.query('rekeningen', { select: '*', eq: { uploader_id: gebruikerId }, order: 'created_at.desc' });
+    const deelnameIds = deelnames.map ? deelnames.map(d => d.rekening_id) : [];
+    let andereRekeningen = [];
+    if (deelnameIds.length > 0) {
+      andereRekeningen = await sb.query('rekeningen', { select: '*', in: { id: deelnameIds }, order: 'created_at.desc' });
+    }
+    const eigenIds = eigen.map ? eigen.map(r => r.id) : [];
+    const alle = [
+      ...(eigen.map ? eigen : []),
+      ...(andereRekeningen.map ? andereRekeningen.filter(r => !eigenIds.includes(r.id)) : [])
+    ];
+    if (!alle.length) {
+      el.innerHTML = `<div class="empty-state">
+        <div class="empty-icon">🧾</div>
+        <div class="empty-title">Geen rekeningen</div>
+        <div class="empty-sub">Voeg een bon toe via de + knop, of open een gedeelde link.</div>
+      </div>`;
+      return;
+    }
+    let html = '<div class="section-title">Jouw rekeningen</div>';
+    for (const r of alle) {
+      const items = await sb.query('items', { select: 'prijs,geselecteerd_door', eq: { rekening_id: r.id } });
+      const totaal = items.reduce ? items.reduce((s, i) => s + parseFloat(i.prijs || 0), 0) : 0;
+      const afgevinkt = items.filter ? items.filter(i => i.geselecteerd_door).length : 0;
+      const pct = items.length ? Math.round((afgevinkt / items.length) * 100) : 0;
+      const isEigen = r.uploader_id === gebruikerId;
+      html += `<div class="card card-tap rekening-card" onclick="openRekening('${r.id}')">
+        <div class="rekening-header">
+          <div class="rekening-naam">${escHtml(r.naam)}</div>
+          <div class="rekening-badge ${pct === 100 ? 'badge-afgerond' : 'badge-open'}">${pct === 100 ? 'Afgerond' : 'Open'}</div>
+        </div>
+        <div class="rekening-meta">${isEigen ? '👤 Jij • ' : ''}${items.length || 0} items • €${totaal.toFixed(2).replace('.',',')} • ${afgevinkt}/${items.length || 0} afgevinkt</div>
+        <div class="rekening-progress"><div class="rekening-progress-bar" style="width:${pct}%"></div></div>
+      </div>`;
+    }
+    el.innerHTML = html;
+  } catch(e) {
+    el.innerHTML = `<div class="empty-state"><div class="empty-title">Kon niet laden</div><div class="empty-sub">${e.message}</div></div>`;
+  }
+}
+
+function refreshHome() { laadHome(); }
+
+function switchTab(tab) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('screen-' + tab).classList.add('active');
+  document.getElementById('nav-' + tab)?.classList.add('active');
+}
+
+function openUpload() {
+  document.getElementById('upload-sheet').classList.add('open');
+  document.getElementById('upload-step-1').style.display = 'block';
+  document.getElementById('upload-step-2').style.display = 'none';
+  document.getElementById('foto-preview').style.display = 'none';
+  document.getElementById('upload-naam').value = '';
+  document.getElementById('upload-deelnemers').value = '2';
+  document.getElementById('scan-btn').disabled = true;
+  huidigeFotoBase64 = null;
+  document.getElementById('camera-input').value = '';
+}
+
+function fotoGekozen(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const dataUrl = e.target.result;
+    huidigeFotoBase64 = dataUrl.split(',')[1];
+    document.getElementById('preview-img').src = dataUrl;
+    document.getElementById('foto-preview').style.display = 'block';
+    document.getElementById('preview-label').textContent = file.name;
+    document.getElementById('scan-btn').disabled = false;
+  };
+  reader.readAsDataURL(file);
+}
+
+async function scanBon() {
+  const naam = document.getElementById('upload-naam').value.trim();
+  const deelnemers = parseInt(document.getElementById('upload-deelnemers').value) || 2;
+  if (!naam) return toast('Vul een naam in voor de rekening');
+  if (!huidigeFotoBase64) return toast('Kies eerst een foto');
+
+  document.getElementById('upload-step-1').style.display = 'none';
+  document.getElementById('upload-step-2').style.display = 'block';
+  document.getElementById('scan-loading').style.display = 'block';
+  document.getElementById('scan-resultaat').style.display = 'none';
+
+  const ANTHROPIC_API_KEY = 'placeholder';
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        messages: [{
+          role: 'user',
+          content: [
+            { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: huidigeFotoBase64 } },
+            { type: 'text', text: `Analyseer deze bon/rekening. Geef ALLEEN een JSON object terug, geen uitleg, geen markdown backticks. Formaat:
+{"items":[{"naam":"itemnaam","prijs":0.00,"aantal":1}],"subtotaal":0.00,"totaal_betaald":0.00}
+- items: elk los item met naam, prijs per stuk, en aantal
+- subtotaal: bedrag van de gerechten/producten zelf
+- totaal_betaald: werkelijk betaald bedrag inclusief fooi. Als niet apart vermeld, zet gelijk aan subtotaal
+- Prijzen als getal zonder euroteken
+- Alleen het JSON object, niks anders` }
+          ]
+        }]
+      })
+    });
+    const data = await response.json();
+    if (!data.content || !data.content[0]) throw new Error(JSON.stringify(data));
+    const text = data.content[0].text.trim().replace(/```json|```/g, '').trim();
+    const parsed = JSON.parse(text);
+    document.getElementById('scan-loading').style.display = 'none';
+    toonScanResultaat(parsed, naam, deelnemers);
+  } catch(e) {
+    document.getElementById('scan-loading').style.display = 'none';
+    document.getElementById('scan-resultaat').style.display = 'block';
+    document.getElementById('scan-resultaat').innerHTML = `<div class="sheet-section">
+      <div style="color:var(--danger); margin-bottom:12px;">Kon de bon niet lezen. Probeer een duidelijkere foto.</div>
+      <div style="font-size:12px; color:var(--text3);">${e.message}</div>
+      <div style="height:12px;"></div>
+      <button class="btn btn-secondary" onclick="openUpload()">Opnieuw proberen</button>
+    </div>`;
+  }
+}
+
+function toonScanResultaat(parsed, naam, deelnemers) {
+  scanData = { parsed, naam, deelnemers };
+  const fooi = parsed.totaal_betaald > parsed.subtotaal ? (parsed.totaal_betaald - parsed.subtotaal) : 0;
+  const fooiPP = fooi / deelnemers;
+
+  let html = `<div class="sheet-section">
+    <div class="sheet-label">Gevonden items</div>
+    <div class="gap-8">`;
+  parsed.items.forEach(item => {
+    html += `<div style="display:flex; justify-content:space-between; align-items:center; padding:10px 12px; background:var(--bg3); border-radius:var(--radius-sm);">
+      <div>
+        <div style="font-size:14px; font-weight:500;">${escHtml(item.naam)}</div>
+        ${item.aantal > 1 ? `<div style="font-size:12px; color:var(--text2);">${item.aantal}x €${item.prijs.toFixed(2).replace('.',',')}</div>` : ''}
+      </div>
+      <div style="font-size:14px; font-weight:600;">€${(item.prijs * (item.aantal||1)).toFixed(2).replace('.',',')}</div>
+    </div>`;
+  });
+  html += `</div></div>
+  <div class="sheet-section">
+    <div style="display:flex; justify-content:space-between; font-size:14px; padding:6px 0; color:var(--text2);"><span>Subtotaal</span><span>€${parsed.subtotaal.toFixed(2).replace('.',',')}</span></div>
+    ${fooi > 0 ? `<div style="display:flex; justify-content:space-between; font-size:14px; padding:6px 0; color:var(--text2);"><span>Fooi</span><span>€${fooi.toFixed(2).replace('.',',')} (€${fooiPP.toFixed(2).replace('.',',')} p.p.)</span></div>` : ''}
+    <div style="display:flex; justify-content:space-between; font-size:15px; font-weight:600; padding:8px 0; border-top:0.5px solid var(--border); margin-top:4px;"><span>Betaald</span><span>€${parsed.totaal_betaald.toFixed(2).replace('.',',')}</span></div>
+  </div>
+  <div class="sheet-section">
+    <button class="btn btn-primary" onclick="maakRekening()">Rekening aanmaken</button>
+    <div style="height:8px;"></div>
+    <button class="btn btn-secondary" onclick="openUpload()">Opnieuw</button>
+  </div>`;
+
+  document.getElementById('scan-resultaat').innerHTML = html;
+  document.getElementById('scan-resultaat').style.display = 'block';
+}
+
+async function maakRekening() {
+  if (!scanData) return;
+  const { parsed, naam, deelnemers } = scanData;
+  try {
+    const fooi = parsed.totaal_betaald > parsed.subtotaal ? parsed.totaal_betaald - parsed.subtotaal : 0;
+    const shareId = generateShareId();
+    const rekRes = await sb.insert('rekeningen', {
+      naam, uploader_id: gebruikerId, uploader_naam: gebruikerNaam,
+      uploader_iban: gebruikerIBAN || null,
+      subtotaal: parsed.subtotaal, totaal_betaald: parsed.totaal_betaald,
+      fooi, deelnemers, share_id: shareId
+    });
+    if (!rekRes || !rekRes[0]) throw new Error('Rekening aanmaken mislukt');
+    const rekeningId = rekRes[0].id;
+
+    for (const item of parsed.items) {
+      const n = item.aantal || 1;
+      if (n > 1) {
+        for (let k = 0; k < n; k++) {
+          await sb.insert('items', { rekening_id: rekeningId, naam: item.naam, prijs: item.prijs, split_van: 1 });
+        }
+      } else {
+        await sb.insert('items', { rekening_id: rekeningId, naam: item.naam, prijs: item.prijs, split_van: 1 });
+      }
+    }
+    await sb.insert('deelnames', { rekening_id: rekeningId, gebruiker_id: gebruikerId, gebruiker_naam: gebruikerNaam });
+    document.getElementById('upload-sheet').classList.remove('open');
+
+    const shareUrl = `${window.location.origin}${window.location.pathname}?join=${shareId}`;
+    if (navigator.share) {
+      navigator.share({ title: naam, text: `Splitsie: ${naam}`, url: shareUrl }).catch(() => {});
+    } else {
+      navigator.clipboard?.writeText(shareUrl).then(() => toast('Deellink gekopieerd!')).catch(() => alert(`Deellink:\n${shareUrl}`));
+    }
+    laadHome();
+    openRekening(rekeningId);
+  } catch(e) {
+    toast('Fout: ' + e.message);
+  }
+}
+
+function generateShareId() {
+  return Math.random().toString(36).substr(2, 8).toUpperCase();
+}
+
+async function joinRekening(shareId) {
+  try {
+    const results = await sb.query('rekeningen', { select: '*', eq: { share_id: shareId } });
+    if (!results || !results[0]) return toast('Rekening niet gevonden');
+    const rek = results[0];
+    const bestaand = await sb.query('deelnames', { select: 'id', eq: { rekening_id: rek.id, gebruiker_id: gebruikerId } });
+    if (!bestaand || !bestaand[0]) {
+      await sb.insert('deelnames', { rekening_id: rek.id, gebruiker_id: gebruikerId, gebruiker_naam: gebruikerNaam });
+    }
+    history.replaceState({}, '', window.location.pathname);
+    await laadHome();
+    openRekening(rek.id);
+  } catch(e) {
+    toast('Kon niet joinen: ' + e.message);
+  }
+}
+
+async function openRekening(id) {
+  huidigeRekeningId = id;
+  mijnSelecties = {};
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-detail').classList.add('active');
+  document.getElementById('detail-content').innerHTML = '<div class="loading-state"><div class="spinner"></div></div>';
+  document.getElementById('mijn-totaal-bar').style.display = 'none';
+  document.getElementById('sla-selectie-op-btn').style.display = 'none';
+
+  try {
+    const rekeningen = await sb.query('rekeningen', { select: '*', eq: { id } });
+    const rek = rekeningen[0];
+    if (!rek) { toast('Niet gevonden'); goHome(); return; }
+
+    document.getElementById('detail-titel').textContent = rek.naam;
+    document.getElementById('detail-meta').textContent = `Door ${rek.uploader_naam} • ${rek.deelnemers} deelnemers`;
+
+    const items = await sb.query('items', { select: '*', eq: { rekening_id: id }, order: 'created_at.asc' });
+    huidigeItems = items || [];
+    const isUploader = rek.uploader_id === gebruikerId;
+    const fooi = parseFloat(rek.fooi || 0);
+    const fooiPP = rek.deelnemers > 0 ? fooi / rek.deelnemers : 0;
+
+    let html = '';
+    if (fooi > 0) {
+      html += `<div class="fooi-bar" style="margin-top:12px;">
+        <div class="fooi-row"><span class="fooi-label">Fooi betaald</span><span class="fooi-val">€${fooi.toFixed(2).replace('.',',')}</span></div>
+        <div class="fooi-per">€${fooiPP.toFixed(2).replace('.',',')} per persoon (${rek.deelnemers} deelnemers)</div>
+      </div>`;
+    }
+    html += '<div style="padding: 12px 16px 8px; font-size:12px; color:var(--text3);">Tik op een item om het te selecteren</div>';
+
+    for (const item of huidigeItems) {
+      const isVanMij = item.geselecteerd_door === gebruikerId;
+      const isVanAnder = item.geselecteerd_door && item.geselecteerd_door !== gebruikerId;
+      const prijsPerDeel = parseFloat(item.prijs) / (item.split_van || 1);
+      let clss = 'item-row';
+      if (isVanMij) { clss += ' geselecteerd'; mijnSelecties[item.id] = true; }
+      if (isVanAnder) clss += ' van-ander';
+
+      html += `<div class="${clss}" id="item-${item.id}" onclick="toggleItem('${item.id}')">
+        <div class="item-check">${isVanMij ? '✓' : ''}</div>
+        <div class="item-info">
+          <div class="item-naam">${escHtml(item.naam)}</div>
+          ${item.split_van > 1 ? `<div class="item-sub">Gesplitst over ${item.split_van} personen</div>` : ''}
+          ${isVanAnder ? `<div class="item-persoon">● ${escHtml(item.geselecteerd_naam || 'Iemand anders')}</div>` : ''}
+          ${isUploader && !item.geselecteerd_door ? `<button class="item-split-btn" onclick="event.stopPropagation(); openSplit('${item.id}')">Splitsen</button>` : ''}
+        </div>
+        <div class="item-bedrag">€${prijsPerDeel.toFixed(2).replace('.',',')}</div>
+      </div>`;
+    }
+
+    if (isUploader) {
+      html += `<div style="padding: 12px 16px;">
+        <button class="btn btn-secondary" onclick="deelLink('${rek.share_id}', '${escHtml(rek.naam)}')">🔗 Deellink kopiëren</button>
+      </div>`;
+    }
+
+    document.getElementById('detail-content').innerHTML = html;
+    herbereken();
+    startPolling(id);
+  } catch(e) {
+    document.getElementById('detail-content').innerHTML = `<div class="empty-state"><div class="empty-title">Fout</div><div class="empty-sub">${e.message}</div></div>`;
+  }
+}
+
+function startPolling(id) {
+  if (pollingInterval) clearInterval(pollingInterval);
+  pollingInterval = setInterval(async () => {
+    if (huidigeRekeningId !== id) { clearInterval(pollingInterval); return; }
+    try {
+      const items = await sb.query('items', { select: '*', eq: { rekening_id: id }, order: 'created_at.asc' });
+      if (!items) return;
+      let changed = false;
+      if (items.length !== huidigeItems.length) { changed = true; }
+      else {
+        for (const item of items) {
+          const old = huidigeItems.find(i => i.id === item.id);
+          if (!old || old.geselecteerd_door !== item.geselecteerd_door || old.split_van !== item.split_van) { changed = true; break; }
+        }
+      }
+      if (changed) { huidigeItems = items; updateItemsUI(); }
+    } catch(e) {}
+  }, 4000);
+}
+
+function updateItemsUI() {
+  for (const item of huidigeItems) {
+    const el = document.getElementById('item-' + item.id);
+    if (!el) continue;
+    const isVanMij = item.geselecteerd_door === gebruikerId;
+    const isVanAnder = item.geselecteerd_door && item.geselecteerd_door !== gebruikerId;
+    const prijsPerDeel = parseFloat(item.prijs) / (item.split_van || 1);
+    el.className = 'item-row' + (isVanMij ? ' geselecteerd' : '') + (isVanAnder ? ' van-ander' : '');
+    const check = el.querySelector('.item-check');
+    if (check) check.innerHTML = isVanMij ? '✓' : '';
+    const persoonEl = el.querySelector('.item-persoon');
+    if (isVanAnder) {
+      if (persoonEl) persoonEl.textContent = '● ' + (item.geselecteerd_naam || 'Iemand anders');
+      else { const info = el.querySelector('.item-info'); const p = document.createElement('div'); p.className = 'item-persoon'; p.textContent = '● ' + (item.geselecteerd_naam || 'Iemand anders'); info.appendChild(p); }
+    } else if (persoonEl) persoonEl.remove();
+    const bedragEl = el.querySelector('.item-bedrag');
+    if (bedragEl) bedragEl.textContent = `€${prijsPerDeel.toFixed(2).replace('.',',')}`;
+  }
+  herbereken();
+}
+
+async function toggleItem(itemId) {
+  const item = huidigeItems.find(i => i.id === itemId);
+  if (!item) return;
+  if (item.geselecteerd_door && item.geselecteerd_door !== gebruikerId) return;
+  const wasGeselecteerd = item.geselecteerd_door === gebruikerId;
+  const nieuweWaarde = wasGeselecteerd ? null : gebruikerId;
+  const nieuweNaam = wasGeselecteerd ? null : gebruikerNaam;
+  item.geselecteerd_door = nieuweWaarde;
+  item.geselecteerd_naam = nieuweNaam;
+  updateItemsUI();
+  try {
+    await sb.update('items', { geselecteerd_door: nieuweWaarde, geselecteerd_naam: nieuweNaam }, { id: itemId });
+  } catch(e) {
+    item.geselecteerd_door = wasGeselecteerd ? gebruikerId : null;
+    updateItemsUI();
+    toast('Fout bij opslaan');
+  }
+}
+
+function herbereken() {
+  let totaal = 0; let count = 0;
+  for (const item of huidigeItems) {
+    if (item.geselecteerd_door === gebruikerId) {
+      totaal += parseFloat(item.prijs) / (item.split_van || 1);
+      count++;
+    }
+  }
+  const bar = document.getElementById('mijn-totaal-bar');
+  const btn = document.getElementById('sla-selectie-op-btn');
+  if (count > 0) {
+    bar.style.display = 'block'; btn.style.display = 'block';
+    document.getElementById('mijn-totaal-bedrag').textContent = `€${totaal.toFixed(2).replace('.',',')}`;
+    document.getElementById('mijn-items-count').textContent = `${count} item${count !== 1 ? 's' : ''} geselecteerd`;
+  } else {
+    bar.style.display = 'none'; btn.style.display = 'none';
+  }
+}
+
+function openSplit(itemId) {
+  splitItemId = itemId; splitAantal = 2;
+  const item = huidigeItems.find(i => i.id === itemId);
+  document.getElementById('split-sheet-title').textContent = item ? escHtml(item.naam) + ' splitsen' : 'Item splitsen';
+  document.querySelectorAll('#split-pills .pill').forEach((p,i) => p.classList.toggle('active', i === 0));
+  updateSplitPreview();
+  document.getElementById('split-sheet').classList.add('open');
+}
+
+function setSplit(n) {
+  splitAantal = n;
+  document.querySelectorAll('#split-pills .pill').forEach(p => p.classList.toggle('active', parseInt(p.textContent) === n));
+  updateSplitPreview();
+}
+
+function updateSplitPreview() {
+  const item = huidigeItems.find(i => i.id === splitItemId);
+  if (!item) return;
+  document.getElementById('split-bedrag-preview').textContent = `€${(parseFloat(item.prijs) / splitAantal).toFixed(2).replace('.',',')}`;
+}
+
+async function bevestigSplit() {
+  if (!splitItemId) return;
+  const item = huidigeItems.find(i => i.id === splitItemId);
+  if (!item) return;
+  closeSplitSheet();
+  try {
+    const origPrijs = parseFloat(item.prijs);
+    const rekeningId = item.rekening_id;
+    await sb.delete('items', { id: splitItemId });
+    for (let k = 0; k < splitAantal; k++) {
+      await sb.insert('items', { rekening_id: rekeningId, naam: item.naam, prijs: origPrijs / splitAantal, split_van: splitAantal });
+    }
+    openRekening(rekeningId);
+  } catch(e) {
+    toast('Splitsen mislukt: ' + e.message);
+  }
+}
+
+function closeSplitSheet() {
+  document.getElementById('split-sheet').classList.remove('open');
+  splitItemId = null;
+}
+
+function slaSelectieOp() {
+  const geselecteerd = huidigeItems.filter(i => i.geselecteerd_door === gebruikerId);
+  if (!geselecteerd.length) return;
+  let totaal = 0;
+  let html = '<div class="gap-8">';
+  for (const item of geselecteerd) {
+    const prijs = parseFloat(item.prijs) / (item.split_van || 1);
+    totaal += prijs;
+    html += `<div class="samenvatting-item">
+      <span class="samenvatting-naam">${escHtml(item.naam)}${item.split_van > 1 ? ` (1/${item.split_van})` : ''}</span>
+      <span class="samenvatting-bedrag">€${prijs.toFixed(2).replace('.',',')}</span>
+    </div>`;
+  }
+  html += `</div>
+  <div style="margin-top:16px; padding-top:12px; border-top:0.5px solid var(--border);">
+    <div style="display:flex; justify-content:space-between; font-size:16px; font-weight:700;"><span>Totaal</span><span>€${totaal.toFixed(2).replace('.',',')}</span></div>
+    <div style="margin-top:16px;"><button class="btn btn-secondary" onclick="kopieerSamenvatting()">📋 Kopiëren voor betaalverzoek</button></div>
+  </div>`;
+  document.getElementById('samenvatting-content').innerHTML = html;
+  document.getElementById('samenvatting-sheet').classList.add('open');
+}
+
+function kopieerSamenvatting() {
+  const geselecteerd = huidigeItems.filter(i => i.geselecteerd_door === gebruikerId);
+  let tekst = `Splitsie - ${gebruikerNaam}\n\n`;
+  let totaal = 0;
+  for (const item of geselecteerd) {
+    const prijs = parseFloat(item.prijs) / (item.split_van || 1);
+    totaal += prijs;
+    tekst += `${item.naam}${item.split_van > 1 ? ` (1/${item.split_van})` : ''}: €${prijs.toFixed(2).replace('.',',')}\n`;
+  }
+  tekst += `\nTotaal: €${totaal.toFixed(2).replace('.',',')}`;
+  navigator.clipboard?.writeText(tekst).then(() => toast('Gekopieerd!')).catch(() => alert(tekst));
+}
+
+async function deelLink(shareId, naam) {
+  const shareUrl = `${window.location.origin}${window.location.pathname}?join=${shareId}`;
+  if (navigator.share) {
+    navigator.share({ title: naam, url: shareUrl }).catch(() => {});
+  } else {
+    await navigator.clipboard?.writeText(shareUrl);
+    toast('Link gekopieerd!');
+  }
+}
+
+function editSetting(key) {
+  currentEditKey = key;
+  const labels = { naam: 'Naam', iban: 'IBAN rekeningnummer' };
+  const values = { naam: gebruikerNaam, iban: gebruikerIBAN };
+  document.getElementById('settings-sheet-title').textContent = labels[key] + ' bewerken';
+  document.getElementById('settings-edit-input').value = values[key] || '';
+  document.getElementById('settings-edit-input').placeholder = key === 'iban' ? 'NL00 BANK 0000 0000 00' : 'Jouw naam';
+  document.getElementById('settings-sheet').classList.add('open');
+}
+
+function slaSettingOp() {
+  const val = document.getElementById('settings-edit-input').value.trim();
+  if (currentEditKey === 'naam') {
+    if (!val) return toast('Naam mag niet leeg zijn');
+    gebruikerNaam = val;
+    localStorage.setItem('splitsie_naam', val);
+  } else if (currentEditKey === 'iban') {
+    gebruikerIBAN = val;
+    localStorage.setItem('splitsie_iban', val);
+  }
+  updateSettingsDisplay();
+  document.getElementById('settings-sheet').classList.remove('open');
+  toast('Opgeslagen');
+}
+
+function goHome() {
+  if (pollingInterval) { clearInterval(pollingInterval); pollingInterval = null; }
+  huidigeRekeningId = null;
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-home').classList.add('active');
+  document.getElementById('nav-home').classList.add('active');
+  laadHome();
+}
+
+function escHtml(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function toast(msg) {
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 2600);
+}
+
+document.querySelectorAll('.sheet-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('open'); });
+});
+
+init();
+</script>
+</body>
+</html>
